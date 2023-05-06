@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Join from './Join'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const Modal = () => {
   const [form, setForm] = useState({
@@ -10,10 +12,11 @@ const Modal = () => {
     email: '',
     github: '',
     description: '',
+    // ! 이미지 일단 default값으로 진행
   })
 
   // TODO 입력값 유효성 검증
-  // * id : 영어 소문자 또는 숫자 중 6~12자 이하 문자열
+  // * id : 영어 소문자 1개 이상 필수 및 숫자 포함해 6~12자 이하 문자열
   // * pwd : 6자 이상 ~ 12자 이하 영어 + 숫자 + 특문 최소 1개
   // * email : 이메일 형식 맞는지 검증
   // * github : github 아이디 입력 시 github 주소로 데이터 만들어서 보내기
@@ -30,7 +33,9 @@ const Modal = () => {
             <PopupText>환영합니다!</PopupText>
           </ImageDiv>
           <InfoDiv>
-            <InfoCloseP>X</InfoCloseP>
+            <InfoCloseP>
+              <FontAwesomeIcon icon={faXmark} />
+            </InfoCloseP>
             // TODO : 로그인 여부 파악해서 Join, Login으로 분기 처리
             <Join />
             {/* <Login /> */}
@@ -90,6 +95,7 @@ const InfoDiv = styled.div`
 
 const InfoCloseP = styled.p`
   position: relative;
+  top: 10px;
   left: 515px;
   font-size: 18px;
   font-weight: bold;
