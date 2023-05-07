@@ -23,6 +23,8 @@ const Button = ({ color, shape, children }) => {
         return 'background-color: #F2F2F2; border: none;'
       case 'mint':
         return 'background-color: #96F2D7; border: none;'
+      case 'grey':
+        return 'background-color: #1E1E1E; color: #96F2D7; border: none;'
       case 'transparent':
         return 'background-color: transparent; border: 1px solid #F2F2F2; color: #F2F2F2;'
       default:
