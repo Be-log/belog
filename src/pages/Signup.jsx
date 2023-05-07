@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 
 import styled from 'styled-components'
 import Button from '../components/Button'
@@ -22,13 +22,7 @@ const Signup = () => {
     description: '',
   })
 
-  // 검증되지 않은 값이 있으면 회원가입 버튼 비활성화
-  // useEffect(() => {
-  //   console.log(guideText)
-  //   if(guideText !== '') {
-  //     setSubmitState(true)
-  //   }
-  // }, [guideText])
+  const passwordRef = useRef(null)
 
   const inputChangeHandler = (e) => {
     setSignupForm({
@@ -61,6 +55,7 @@ const Signup = () => {
       setGuideText('')
       setSubmitState(true)
     }
+    passwordRef.current.focus()
   }
 
   const passwordCheckBlurHandler = (e) => {
@@ -150,7 +145,7 @@ const Signup = () => {
           </Button>
         </InputWrapper>
         <MiddleInput
-          type={'password'}
+          // type={'password'}
           name={'password'}
           size={'medium'}
           value={signupForm.password}
@@ -159,12 +154,13 @@ const Signup = () => {
           placeholder={'비밀번호를 입력하세요.'}
         />
         <MiddleInput
-          type={'password'}
+          // type={'password'}
           name={'passwordCheck'}
           size={'medium'}
           value={signupForm.passwordCheck}
           onBlur={passwordCheckBlurHandler}
           onChange={inputChangeHandler}
+          ref={passwordRef}
           placeholder={'비밀번호를 다시 입력해주세요.'}
         />
         <MiddleInput
