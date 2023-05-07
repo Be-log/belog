@@ -4,13 +4,17 @@ import Button from '../components/Button'
 import Image from '../components/Image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom'
+import Modal from './Modal'
 
-const Header = () => {
-  const [toggle, setToggle] = useState(false);
+const Navbar = () => {
+  const [showModal, setShowModal] = useState(false)
+  const [menuToggle, setMenuToggle] = useState(false)
+  const navigate = useNavigate()
 
-  const toggleClickHandler = () => {
-    setToggle(!toggle)
-  }
+  const loginModalClickHandler = () => setShowModal(!showModal)
+  const closeModalHandler = () => setShowModal(false)
+  const toggleClickHandler = () => setMenuToggle(!menuToggle)
 
   // TODO
   // 1. 로고 클릭 시 메인화면으로 이동
@@ -22,19 +26,29 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderContentLeft>
-        <HeaderLogo>belog</HeaderLogo>
+        <HeaderLogo
+          onClick={() => navigate('/')}
+        >
+          belog
+        </HeaderLogo>
         {/* 상세페이지일 경우 nickname.log로 변경 */}
         {/* <HeaderLogo>username123.log</HeaderLogo> */}
       </HeaderContentLeft>
       <HeaderContentRight>
         <Button
           shape={'circle'}
+          onClick={loginModalClickHandler}
         >
           로그인
         </Button>
+        {
+          showModal &&
+          <Modal closeModalHandler={closeModalHandler}/>
+        }
         <Button
           shape={'circle'}
           color={'transparent'}
+          onClick={() => navigate('/write')}
         >
           새 글 작성
         </Button>
@@ -49,7 +63,7 @@ const Header = () => {
           <SetFontAwesome icon={faCaretDown} />
         </HeaderToggleDiv>
         {
-          toggle &&
+          menuToggle &&
           <HeaderUl>
             <HeaderLi>내 비로그</HeaderLi>
             <HeaderLi>프로필 설정</HeaderLi>
@@ -61,7 +75,7 @@ const Header = () => {
   )
 }
 
-export default Header
+export default Navbar
 
 const HeaderContainer = styled.nav`
   background-color: #121212;
@@ -82,6 +96,7 @@ const HeaderLogo = styled.p`
   font-weight: bold;
   color: white;
   font-family: 'Source Code Pro', monospace;
+  cursor: pointer;
 `
 
 const HeaderContentRight = styled.div`
