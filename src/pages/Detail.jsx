@@ -18,9 +18,15 @@ const Detail = () => {
             <ContentTop>
               <ContentTitle>개발자가 ChatGPT 사용하는 법 등등 게시글 제목 작성</ContentTitle>
               <ContentWriter>
-                <WriterSpan>username12</WriterSpan>
-                <span>·</span>
-                <span>2022년 05월 06일</span>
+                <div>
+                  <WriterSpan>username12</WriterSpan>
+                  <span>·</span>
+                  <span>2022년 05월 06일</span>
+                </div>
+                <EditDiv>
+                  <EditSpan>수정</EditSpan>
+                  <EditSpan>삭제</EditSpan>
+                </EditDiv>
               </ContentWriter>
               <ContentTags>
                 <Button color={'grey'} shape={'circle'}>ChatGPT</Button>
@@ -87,8 +93,14 @@ const Detail = () => {
                     height={'65'}
                   />
                   <ReplyWriterInfo>
-                    <ReplyNameP>usernickname</ReplyNameP>
-                    <ReplyDescP>2023년 4월 28일</ReplyDescP>
+                    <div>
+                      <ReplyNameP>usernickname</ReplyNameP>
+                      <ReplyDescP>2023년 4월 28일</ReplyDescP>
+                    </div>
+                    <EditReplyDiv>
+                      <EditReplySpan>수정</EditReplySpan>
+                      <EditReplySpan>삭제</EditReplySpan>
+                    </EditReplyDiv>
                   </ReplyWriterInfo>
                 </ReplyInfo>
                 <ReplyContent>
@@ -139,11 +151,21 @@ const ContentWriter = styled.div`
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  justify-content: space-between;
 `
 
 const WriterSpan = styled.span`
   font-weight: bold;
+  border-right: 10px;
+`
+
+const EditDiv = styled.div`
+  display: flex;
+  gap: 15px;
+`
+
+const EditSpan = styled.span`
+  cursor: pointer;
 `
 
 const ContentTags = styled.div`
@@ -275,7 +297,11 @@ const ReplyInfo = styled.div`
 `
 
 const ReplyWriterInfo = styled.div`
+  width: 100%;
   margin-left: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 const ReplyNameP = styled.p`
@@ -288,6 +314,17 @@ const ReplyDescP = styled.p`
   margin-top: 3px;
   font-size: 14px;
   color: #797979;
+`
+
+const EditReplyDiv = styled.div`
+  margin-top: 3px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+`
+
+const EditReplySpan = styled.span`
+  cursor: pointer;
 `
 
  const ReplyContent = styled.div`
