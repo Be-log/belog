@@ -99,3 +99,118 @@ export const MypageContainer = styled.div`
   align-items: center;
   
 `
+
+
+//ProfileEdit.jsx
+export const ProfileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+`
+
+export const ProfileImg = styled.div`
+  padding-right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+`
+
+export const ProfileContainerHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`
+
+export const ProfileContainerBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+export const ProfileContainerBodyMenu = styled.div`
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #444444;
+    margin-bottom: 12px;
+  }
+
+  button {
+    padding: 10px;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+  }
+`
+
+//Write.js
+export const WriteBtnSection = styled.div`
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 4rem;
+  width: 700px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: 10px;
+`
+
+export const WriteExitBtn = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+`;
+
+export const WriteSaveBtn = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #43a047;
+  }
+`
+export const WriteTitleInput = styled.input`
+  width: 700px;
+  padding: 8px;
+  font-size: 24px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 16px;
+`
