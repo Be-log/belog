@@ -73,3 +73,10 @@ export const GuideTextP = styled.p`
   margin-top: 20px;
   color: red;
 `
+
+export const ButtonDiv = styled.div`
+margin-top: 25px;
+display: flex;
+justify-content: center;
+gap: 10px;
+`

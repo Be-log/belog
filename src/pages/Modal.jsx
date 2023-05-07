@@ -1,9 +1,9 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import Button from '../components/Button'
 import Login from './Login'
+import Signup from './Signup'
+import styled from 'styled-components'
 import {
   BackgroundDiv,
   ImageDiv,
@@ -13,11 +13,10 @@ import {
   PopupImage,
   PopupText,
 } from './ModalStyle'
-import Signup from './Signup'
 
 const Modal = ({ closeModalHandler }) => {
   const [page, setPage] = useState(false)
-  const leftButtonClickHandler = () => setPage(true)
+  const signupBtnClickHandler = () => setPage(true)
 
   return (
     <BackgroundDiv>
@@ -33,21 +32,20 @@ const Modal = ({ closeModalHandler }) => {
               onClick={closeModalHandler}
             />
           </InfoCloseP>
-          {!page ? <Login /> : <Signup />}
-          <ButtonDiv>
-            <Button
-              type={'reset'}
-              color={'white'}
-              onClick={leftButtonClickHandler}
-              >
-              {!page ? '회원가입' : '초기화'}
-            </Button>
-            <Button
-              color={'mint'}
-            >
-              {!page ? '로그인' : '회원가입'}
-            </Button>
-          </ButtonDiv>
+          { !page ? <Login /> : <Signup />}
+          { !page ?
+            <SignupDiv>
+              <SignupP>
+                아직 회원이 아니신가요?
+                <SignupStrong
+                  onClick={signupBtnClickHandler}
+                >
+                  회원가입
+                </SignupStrong>
+              </SignupP>
+            </SignupDiv>
+            : ''
+          }
         </InfoDiv>
       </MainSection>
     </BackgroundDiv>
@@ -56,9 +54,18 @@ const Modal = ({ closeModalHandler }) => {
 
 export default Modal
 
-const ButtonDiv = styled.div`
-  margin-top: 25px;
+const SignupDiv = styled.div`
+  margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+`
+
+const SignupP = styled.p`
+  color: white;
+`
+
+const SignupStrong = styled.strong`
+  margin-left: 10px;
+  color: #96F2D7;
+  cursor: pointer;
 `
