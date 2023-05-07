@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Input from '../components/Input'
 import {
-  InfoH1,
   Form,
-  GuideTextP
+  GuideTextP,
+  InfoH1
 } from './ModalStyle'
 
 const Login = () => {

@@ -1,10 +1,10 @@
+import { faCircleLeft, faCircleRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import styled from 'styled-components'
-import Navbar from './Navbar'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleLeft, faCircleRight } from '@fortawesome/free-solid-svg-icons'
 import Button from '../components/Button'
 import Image from '../components/Image'
+import Navbar from './Navbar'
 
 const Detail = () => {
   return (

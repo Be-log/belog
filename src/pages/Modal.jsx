@@ -1,19 +1,19 @@
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import Button from '../components/Button'
 import Login from './Login'
-import Signup from './Signup'
-import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import {
   BackgroundDiv,
-  MainSection,
   ImageDiv,
+  InfoCloseP,
+  InfoDiv,
+  MainSection,
   PopupImage,
   PopupText,
-  InfoDiv,
-  InfoCloseP,
 } from './ModalStyle'
+import Signup from './Signup'
 
 const Modal = ({ closeModalHandler }) => {
   const [page, setPage] = useState(false)
