@@ -1,20 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
+
+const PropsImage = styled.img`
+  ${({ width, height }) => `width: ${width}px; height: ${height}px; border-radius: 50%;`}
+`;
 
 const Image = ({ width, height, src, alt }) => {
-  const PropsImage = styled.img`
-    ${() => sizeHandler(width, height)};
-  `
-  const sizeHandler = (width, height) => {
-    return `width: ${width}px; height: ${height}px; border-radius: 50%;`
-  }
-
   return (
     <PropsImage
+      width={width}
+      height={height}
       src={src}
       alt={alt}
     />
-  )
-}
+  );
+};
 
-export default Image
+export default Image;
