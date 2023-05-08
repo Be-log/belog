@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react'
-
-import styled from 'styled-components'
+import React, { useState, useRef, useEffect } from 'react'
+import { useMutation } from 'react-query'
 import Button from '../components/Button'
+import { addUsers } from '../api/users'
+import styled from 'styled-components'
 import {
   Form,
   GuideTextP,
@@ -9,9 +10,12 @@ import {
   ButtonDiv
 } from './ModalStyle'
 
-const Signup = () => {
+const Signup = ({ closeModalHandler }) => {
   const [guideText, setGuideText] = useState('');
-  const [idChkBtnState, setidChkBtnState] = useState(false)
+  const [idChkState, setIdChkState] = useState({
+    isIdCorrect: false,
+    isIdDoubleChk: false,
+  })
   const [submitState, setSubmitState] = useState(false)
   const [signupForm, setSignupForm] = useState({
     nickname: '',
@@ -21,9 +25,16 @@ const Signup = () => {
     github: '',
     description: '',
   })
-
   const passwordRef = useRef(null)
 
+  // * guideText가 ''이면 (유효성 검증이 되면) 회원가입 버튼 활성화
+  useEffect(() => {
+    if (guideText === '') {
+      setSubmitState(true)
+    }
+  }, [guideText]);
+
+  // * input value onChange Handler
   const inputChangeHandler = (e) => {
     setSignupForm({
       ...signupForm,
@@ -35,12 +46,11 @@ const Signup = () => {
   const nicknameBlurHandler = (e) => {
     if (!(/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g).test(e.target.value)) {
       setGuideText(`영어 소문자 + 숫자로만 구성된 6~12자 이내 문자여야 합니다.`)
-      setidChkBtnState(false)
+      setIdChkState({ isIdCorrect: false })
       setSubmitState(false)
     } else {
       setGuideText('');
-      setidChkBtnState(true)
-      setSubmitState(true)
+      setIdChkState({ isIdCorrect: true })
     }
   }
 
@@ -53,7 +63,6 @@ const Signup = () => {
       setSubmitState(false)
     } else {
       setGuideText('')
-      setSubmitState(true)
     }
     passwordRef.current.focus()
   }
@@ -64,7 +73,6 @@ const Signup = () => {
       setSubmitState(false)
     } else {
       setGuideText('')
-      setSubmitState(true)
     }
   }
 
@@ -75,18 +83,15 @@ const Signup = () => {
       setSubmitState(false)
     } else {
       setGuideText('')
-      setSubmitState(true)
     }
   }
 
   const githubBlurHandler = (e) => {
-    // 특수문자가 포함되지 않은 6~20자 이내 문자열 검증
     if (!(/^[a-zA-Z0-9]{6,20}$/g).test(e.target.value)) {
       setGuideText(`github 아이디가 형식에 맞지 않습니다.`)
       setSubmitState(false)
     } else {
       setGuideText('')
-      setSubmitState(true)
     }
   }
 
@@ -96,21 +101,44 @@ const Signup = () => {
       setSubmitState(false)
     } else {
       setGuideText('')
-      setSubmitState(true)
     }
   }
 
+  // * 아이디 중복확인 버튼 click
+  const idDoubleChkHandler = (e) => {
+    e.preventDefault();
+    // 일단 test로 true되도록 set
+    setIdChkState({ isIdDoubleChk: true })
+
+    // TODO
+    // 중복된 값이 있으면 idChkState.isIdDoubleChk false 처리
+    // 중복된 값 없으면 alert처리? (이 부분은 고민해볼 것)
+    // guideText에 중복된 아이디 있음 안내
+    // setSubmitState(false) 처리
+  }
+
+  // * 회원가입 유저 추가 useMutation
+  const addUsersMutation = useMutation(addUsers, {
+    onSuccess: (response) => {
+      console.log('onSuccess 유저 등록 성공', response)
+      alert('회원가입이 성공적으로 완료되었습니다!')
+      closeModalHandler()
+    }
+  })
+
+  // * 회원가입 버튼 click
   const submitClickHandler = (e) => {
     e.preventDefault();
-    if (signupForm.nickname !== '' && signupForm.password !== '' && signupForm.password !== '' &&
-        signupForm.passwordCheck !== '' && signupForm.email !== '' && signupForm.github !== '' &&
-        signupForm.description !== '' && guideText !== '') {
+    if (signupForm.nickname === '' || signupForm.password === '' || signupForm.password === '' ||
+        signupForm.passwordCheck === '' || signupForm.email === '' || signupForm.github === '' ||
+        signupForm.description === '' || guideText !== '') {
       setGuideText(`회원가입 입력 양식이 맞지 않습니다.`)
-      setSubmitState(true)
+      setSubmitState(false)
       return
-    } else {
-      setGuideText('')
-      setSubmitState(true)
+    } else if (!idChkState.isIdDoubleChk) {
+      setGuideText(`아이디 중복확인을 진행해주세요.`)
+      setSubmitState(false)
+      return
     }
 
     const newUser = {
@@ -121,7 +149,8 @@ const Signup = () => {
       github: `https://github.com/${signupForm.github}`,
       description: signupForm.description,
     }
-    // TODO 여기에 mutate붙여서 newUser 보내기
+
+    addUsersMutation.mutate(newUser)
   }
 
   return (
@@ -139,13 +168,14 @@ const Signup = () => {
           />
           <Button
             color={'mint'}
-            disabled={idChkBtnState ? false : true}
+            onClick={idDoubleChkHandler}
+            disabled={idChkState.isIdCorrect ? false : true}
           >
             중복확인
           </Button>
         </InputWrapper>
         <MiddleInput
-          // type={'password'}
+          type={'password'}
           name={'password'}
           size={'medium'}
           value={signupForm.password}
@@ -154,7 +184,7 @@ const Signup = () => {
           placeholder={'비밀번호를 입력하세요.'}
         />
         <MiddleInput
-          // type={'password'}
+          type={'password'}
           name={'passwordCheck'}
           size={'medium'}
           value={signupForm.passwordCheck}
