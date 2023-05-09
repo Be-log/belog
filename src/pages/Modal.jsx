@@ -32,7 +32,9 @@ const Modal = ({ closeModalHandler }) => {
               onClick={closeModalHandler}
             />
           </InfoCloseP>
-          { !page ? <Login /> : <Signup />}
+          { !page ?
+              <Login closeModalHandler={closeModalHandler} />
+              : <Signup closeModalHandler={closeModalHandler} />}
           { !page ?
             <SignupDiv>
               <SignupP>

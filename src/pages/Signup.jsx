@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useMutation } from 'react-query'
+import { idDoubleChk, addUsers } from '../api/users'
 import Button from '../components/Button'
-import { addUsers } from '../api/users'
 import styled from 'styled-components'
 import {
   Form,
@@ -104,10 +104,22 @@ const Signup = ({ closeModalHandler }) => {
     }
   }
 
+  // * 아이디 중복확인 useMutation
+  const idDoubleChkMutation = useMutation(idDoubleChk, {
+    onSuccess: (response) => {
+      console.log('id 중복체크', response)
+    }
+  })
+
   // * 아이디 중복확인 버튼 click
   const idDoubleChkHandler = (e) => {
-    e.preventDefault();
-    // 일단 test로 true되도록 set
+    e.preventDefault()
+    // const newNickname = {
+    //   nickname: signupForm.nickname
+    // }
+    // idDoubleChkMutation.mutate(newNickname)
+
+    // ! 23-05-09 22:03 일단 test로 true되도록 set
     setIdChkState({ isIdDoubleChk: true })
 
     // TODO
@@ -128,7 +140,7 @@ const Signup = ({ closeModalHandler }) => {
 
   // * 회원가입 버튼 click
   const submitClickHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (signupForm.nickname === '' || signupForm.password === '' || signupForm.password === '' ||
         signupForm.passwordCheck === '' || signupForm.email === '' || signupForm.github === '' ||
         signupForm.description === '' || guideText !== '') {
