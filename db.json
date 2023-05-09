@@ -1,0 +1,19 @@
+{
+  "posts": [
+    {
+      "userId": 1,
+      "nickname": "nickname",
+      "title": "title",
+      "content": "content",
+      "createdAt": "2023-05-08T10:30:00Z"
+    },
+    {
+      "userId": 2,
+      "nickname": "nickname2",
+      "title": "title2",
+      "content": "content2",
+      "createdAt": "2023-05-08T11:00:00Z"
+    }
+  ]
+}
+

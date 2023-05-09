@@ -7,6 +7,7 @@ import Button from '../components/Button'
 import Image from '../components/Image'
 import Modal from './Modal'
 
+
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false)
   const [menuToggle, setMenuToggle] = useState(false)
@@ -23,14 +24,15 @@ const Navbar = () => {
   // 4. 로그인 하고 나면 이 페이지에서 state 관리해서 뿌려줘야 할듯
   // 5. location이 상세페이지일 경우 로고 변경 처리
 
+
   return (
     <HeaderContainer>
       <HeaderContentLeft>
-        <HeaderLogo
-          onClick={() => navigate('/')}
-        >
-          belog
-        </HeaderLogo>
+
+        <HeaderLogo onClick={() => {
+          navigate('/')
+        }}>belog</HeaderLogo>
+
         {/* 상세페이지일 경우 nickname.log로 변경 */}
         {/* <HeaderLogo>username123.log</HeaderLogo> */}
       </HeaderContentLeft>
@@ -43,12 +45,15 @@ const Navbar = () => {
         </Button>
         {
           showModal &&
-          <Modal closeModalHandler={closeModalHandler}/>
+          <Modal closeModalHandler={closeModalHandler} />
         }
         <Button
           shape={'circle'}
           color={'transparent'}
-          onClick={() => navigate('/write')}
+
+          onClick={() => {
+            navigate('/write')
+          }}
         >
           새 글 작성
         </Button>
@@ -65,8 +70,12 @@ const Navbar = () => {
         {
           menuToggle &&
           <HeaderUl>
-            <HeaderLi>내 비로그</HeaderLi>
-            <HeaderLi>프로필 설정</HeaderLi>
+            <HeaderLi onClick={() => {
+              navigate('/mypage')
+            }}>내 비로그</HeaderLi>
+            <HeaderLi onClick={() => {
+              navigate('/profile')
+            }}>프로필 설정</HeaderLi>
             <HeaderLi>로그아웃</HeaderLi>
           </HeaderUl>
         }

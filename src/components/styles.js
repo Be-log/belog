@@ -107,6 +107,7 @@ export const ProfileContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column; 
+  margin-top: 50px;
 `
 
 export const ProfileImg = styled.div`

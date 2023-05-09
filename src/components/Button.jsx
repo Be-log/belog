@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-
 const StyledButton = styled.button`
   ${props => colorHandler(props.color)};
   ${props => shapeHandler(props.shape)};
@@ -15,7 +14,6 @@ const StyledButton = styled.button`
     filter: brightness(80%);
   }
 `
-
 const colorHandler = (color) => {
   switch (color) {
     case 'white':
@@ -30,7 +28,6 @@ const colorHandler = (color) => {
       return '';
   }
 }
-
 const shapeHandler = (shape) => {
   switch (shape) {
     case 'circle':
@@ -39,7 +36,6 @@ const shapeHandler = (shape) => {
       return 'border-radius: 3px; height: 45px;';
   }
 }
-
 const Button = ({ color, shape, onClick, disabled, children }) => {
   return (
     <>
@@ -54,5 +50,4 @@ const Button = ({ color, shape, onClick, disabled, children }) => {
     </>
   )
 }
-
 export default Button

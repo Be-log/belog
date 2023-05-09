@@ -11,6 +11,7 @@ import {
   BoxFooter,
   MypageContainer
 } from '../components/styles'
+import Header from './Navbar'
 
 
 function Mypage() {
@@ -19,6 +20,7 @@ function Mypage() {
 
   return (
     <div>
+      <Header />
       <MypageHeader>
         <MypageHeaderImg src="https://velog.velcdn.com/images/heelieben/post/87bbb462-dbd5-49a5-a9e9-70ed2007cdaf/image.png" alt="" />
         <MypageHeaderTextContainer>

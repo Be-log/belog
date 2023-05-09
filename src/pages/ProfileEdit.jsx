@@ -9,6 +9,7 @@ import {
   ProfileContainerBody,
   ProfileContainerBodyMenu
 } from '../components/styles'
+import Header from './Navbar'
 
 function ProfileEdit() {
   const [image, setImage] = useState(null)
@@ -37,6 +38,7 @@ function ProfileEdit() {
 
   return (
     <>
+      <Header />
       <ProfileContainer>
         <ProfileContainerHeader>
           <ProfileImg>
