@@ -5,6 +5,11 @@ import Main from './pages/Main'
 import Mypage from './pages/Mypage'
 import Write from './pages/Write'
 import ProfileEdit from './pages/ProfileEdit'
+import Navbar from './pages/Navbar'
+import Detail from './pages/Detail'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
+import Test from './pages/Test'
 
 const queryClient = new QueryClient()
 
@@ -17,6 +22,11 @@ const App = () => {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/write" element={<Write />} />
           <Route path="/profile" element={<ProfileEdit />} />
+          <Route path="/navbar" element={<Navbar />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/detail" element={<Detail />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
