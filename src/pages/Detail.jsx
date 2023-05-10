@@ -23,8 +23,11 @@ const Detail = () => {
   const { postComment, ...post } = location.state.post.post
   console.log(postComment)
 
-  const deletePage = () => {
+  const deletePage = async () => {
+    if (window.confirm('게시글을 삭제하시겠습니까?')) {
+      await axios.patch(`http://3.34.52.229/api/posts/${postId}`)
 
+    }
   }
 
   // * reply onChange
@@ -69,7 +72,6 @@ const Detail = () => {
       })
     }
   }
-
   return (
     <>
       <Navbar />

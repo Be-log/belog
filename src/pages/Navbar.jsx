@@ -9,7 +9,6 @@ import Button from '../components/Button'
 import Image from '../components/Image'
 import Modal from './Modal'
 
-
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false)
   const [menuToggle, setMenuToggle] = useState(false)
@@ -28,6 +27,11 @@ const Navbar = () => {
     setMenuToggle(false)
     dispatch(setLogoutUser(getLoginInfo.nickname))
     navigate('/')
+  }
+
+  // 프로필 설정 페이지로 데이터 가져가기
+  const profilePageClick = () => {
+    navigate('/profile', { state: { loginInfo: getLoginInfo } });
   }
 
   return (
@@ -66,12 +70,12 @@ const Navbar = () => {
         }
         {
           !getLoginInfo.nickname &&
-            <Button
-              shape={'circle'}
-              onClick={loginModalClickHandler}
-            >
-              로그인
-            </Button>
+          <Button
+            shape={'circle'}
+            onClick={loginModalClickHandler}
+          >
+            로그인
+          </Button>
         }
         {
           showModal &&
@@ -83,7 +87,7 @@ const Navbar = () => {
             <HeaderLi onClick={() => navigate('/mypage')}>
               내 비로그
             </HeaderLi>
-            <HeaderLi onClick={() => navigate('/profile')}>
+            <HeaderLi onClick={profilePageClick}>
               프로필 설정
             </HeaderLi>
             <HeaderLi

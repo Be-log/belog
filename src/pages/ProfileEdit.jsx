@@ -10,13 +10,18 @@ import {
   ProfileContainerBodyMenu
 } from '../components/styles'
 import Header from './Navbar'
+import { useLocation } from 'react-router'
 
 function ProfileEdit() {
-  const [image, setImage] = useState(null)
 
+  const location = useLocation()
+
+  const myProfileInfo = location.state.loginInfo
+
+  const [image, setImage] = useState(null)
   const [pageTitle, newTitle, handleTitleChange, handleTitleEdit] = useInputState("내 벨로그 제목")
-  const [email, newEmail, handleEmailChange, handleEmailEdit] = useInputState("myemail@gmail.com")
-  const [github, newGitHub, handleGitHubChange, handleGitHubEdit] = useInputState("https://github.com/mygithub")
+  const [email, newEmail, handleEmailChange, handleEmailEdit] = useInputState(myProfileInfo.email)
+  const [github, newGitHub, handleGitHubChange, handleGitHubEdit] = useInputState(myProfileInfo.github)
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0]
@@ -27,13 +32,14 @@ function ProfileEdit() {
     }
 
     if (file) {
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
     }
   }
 
   const handleImageRemove = () => {
-    setImage(null)
+    setImage(null);
   }
+
 
 
   return (
@@ -47,8 +53,8 @@ function ProfileEdit() {
             <button onClick={handleImageRemove}>이미지 제거</button>
           </ProfileImg>
           <div>
-            <h1>내 이름</h1>
-            <span>한줄 자기 소개</span>
+            <h1>{myProfileInfo.nickname}</h1>
+            <span>{myProfileInfo.description}</span>
           </div>
         </ProfileContainerHeader>
 
