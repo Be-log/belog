@@ -1,22 +1,24 @@
 import { faCircleLeft, faCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSelector } from 'react-redux'
 import React from 'react'
 import styled from 'styled-components'
 import Button from '../components/Button'
 import Image from '../components/Image'
 import Navbar from './Navbar'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 
 const Detail = () => {
   const location = useLocation()
-  const { post } = location.state
-  console.log('디테일 : ', post)
+  const getLoginInfo = useSelector((state) => state.loginUser)
 
+  const { postComment, ...post } = location.state.post.post
+  console.log('post', post)
+  console.log('postComment', postComment)
 
   const deletePage = () => {
 
   }
-
 
   return (
     <>
@@ -27,26 +29,39 @@ const Detail = () => {
           <div>
             {/* 글 정보 (제목, 작성일, 태그) */}
             <ContentTop>
-              <ContentTitle>{post.post.title}</ContentTitle>
+              <ContentTitle>{post.title}</ContentTitle>
               <ContentWriter>
                 <div>
-                  <WriterSpan>{post.post.nickname}</WriterSpan>
+                  <WriterSpan>{post.nickname}</WriterSpan>
                   <span>·</span>
-                  <span>2022년 05월 06일</span>
+                  <span>
+                    {
+                      `${post.createdAt.slice(0, 4)}년
+                       ${post.createdAt.slice(5, 7)}월
+                       ${post.createdAt.slice(8, 10)}일
+                      `
+                    }
+                  </span>
                 </div>
                 <EditDiv>
-                  <EditSpan>수정</EditSpan>
-                  <EditSpan onClick={deletePage}>삭제</EditSpan>
+                  {
+                    getLoginInfo.nickname === post.nickname &&
+                    <>
+                      <EditSpan>수정</EditSpan>
+                      <EditSpan onClick={deletePage}>삭제</EditSpan>
+                    </>
+                  }
                 </EditDiv>
               </ContentWriter>
               <ContentTags>
+                {/* TODO 글 작성 시 tag 추가하면 문자열 끊고 map으로 작업 */}
                 <Button color={'grey'} shape={'circle'}>ChatGPT</Button>
                 <Button color={'grey'} shape={'circle'}>AI</Button>
               </ContentTags>
             </ContentTop>
             {/* 본문 */}
             <ContentMiddle>
-              {post.post.content}
+              {post.content}
             </ContentMiddle>
           </div>
           {/* 글 작성자 정보 */}
@@ -57,26 +72,32 @@ const Detail = () => {
               height={'100'}
             />
             <UserPDiv>
-              <WriterNameP>username12</WriterNameP>
-              <WriterDescP>TIL을 열심히 쓰려고 노력하고 있습니다</WriterDescP>
+              <WriterNameP>{post.nickname}</WriterNameP>
+              <WriterDescP>들어오는 데이터 따로 없음</WriterDescP>
             </UserPDiv>
           </UserDiv>
           {/* 이전 포스트, 다음 포스트 */}
           <MovementDiv>
-            <MovementLeft>
-              <SetFontAwsomeLeft icon={faCircleLeft} />
-              <MovementSpanDiv>
-                <AnotherPost>이전 포스트</AnotherPost>
-                <AnotherPostTitle>게시글 제목 어쩌고 저쩌고</AnotherPostTitle>
-              </MovementSpanDiv>
-            </MovementLeft>
-            <MovementRight>
-              <MovementSpanDiv>
-                <AnotherPost>다음 포스트</AnotherPost>
-                <AnotherPostTitle>게시글 제목 어쩌고 저쩌고</AnotherPostTitle>
-              </MovementSpanDiv>
-              <SetFontAwsomeRight icon={faCircleRight} />
-            </MovementRight>
+            {
+              post.prevPostId !== '' &&
+              <MovementLeft>
+                <SetFontAwsomeLeft icon={faCircleLeft} />
+                <MovementSpanDiv>
+                  <AnotherPost>이전 포스트</AnotherPost>
+                  <AnotherPostTitle>{post.prevPostTitle}</AnotherPostTitle>
+                </MovementSpanDiv>
+              </MovementLeft>
+            }
+            {
+              post.nextPostId !== '' &&
+              <MovementRight>
+                <MovementSpanDiv>
+                  <AnotherPost>다음 포스트</AnotherPost>
+                  <AnotherPostTitle>{post.nextPostTitle}</AnotherPostTitle>
+                </MovementSpanDiv>
+                <SetFontAwsomeRight icon={faCircleRight} />
+              </MovementRight>
+            }
           </MovementDiv>
           {/* 댓글 */}
           <div>

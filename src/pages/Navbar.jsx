@@ -1,6 +1,6 @@
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setLogoutUser } from '../redux/modules/login'
@@ -18,9 +18,6 @@ const Navbar = () => {
 
   // * 로그인 여부 확인
   const getLoginInfo = useSelector((state) => state.loginUser)
-  useEffect(() => {
-    console.log('현재 로그인 여부', !!getLoginInfo.nickname)
-  }, [getLoginInfo])
 
   const loginModalClickHandler = () => setShowModal(!showModal)
   const closeModalHandler = () => setShowModal(false)
@@ -30,25 +27,17 @@ const Navbar = () => {
   const logoutClickHandler = () => {
     setMenuToggle(false)
     dispatch(setLogoutUser(getLoginInfo.nickname))
+    navigate('/')
   }
-
-  // TODO
-  // 2. 로그인 했을 경우 & 안했을 경우에 따라 보이는 요소 달라야 함
-  // 3. 토글했을 때 어떤 메뉴 보여줄지 & 기능 구현
-  // 4. 로그인 하고 나면 이 페이지에서 state 관리해서 뿌려줘야 할듯
-  // 5. location이 상세페이지일 경우 로고 변경 처리
-
 
   return (
     <HeaderContainer>
       <HeaderContentLeft>
-
         <HeaderLogo onClick={() => {
           navigate('/')
-        }}>belog</HeaderLogo>
-
-        {/* 상세페이지일 경우 nickname.log로 변경 */}
-        {/* <HeaderLogo>username123.log</HeaderLogo> */}
+        }}>
+          belog
+        </HeaderLogo>
       </HeaderContentLeft>
       <HeaderContentRight>
         {
