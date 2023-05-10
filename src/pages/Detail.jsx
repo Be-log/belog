@@ -5,8 +5,19 @@ import styled from 'styled-components'
 import Button from '../components/Button'
 import Image from '../components/Image'
 import Navbar from './Navbar'
+import { useLocation } from 'react-router'
 
 const Detail = () => {
+  const location = useLocation()
+  const { post } = location.state
+  console.log('디테일 : ', post)
+
+
+  const deletePage = () => {
+
+  }
+
+
   return (
     <>
       <Navbar />
@@ -16,16 +27,16 @@ const Detail = () => {
           <div>
             {/* 글 정보 (제목, 작성일, 태그) */}
             <ContentTop>
-              <ContentTitle>개발자가 ChatGPT 사용하는 법 등등 게시글 제목 작성</ContentTitle>
+              <ContentTitle>{post.post.title}</ContentTitle>
               <ContentWriter>
                 <div>
-                  <WriterSpan>username12</WriterSpan>
+                  <WriterSpan>{post.post.nickname}</WriterSpan>
                   <span>·</span>
                   <span>2022년 05월 06일</span>
                 </div>
                 <EditDiv>
                   <EditSpan>수정</EditSpan>
-                  <EditSpan>삭제</EditSpan>
+                  <EditSpan onClick={deletePage}>삭제</EditSpan>
                 </EditDiv>
               </ContentWriter>
               <ContentTags>
@@ -35,13 +46,7 @@ const Detail = () => {
             </ContentTop>
             {/* 본문 */}
             <ContentMiddle>
-              여기는 본문 내용이 들어갈 예정 <br />
-              여기는 본문 내용이 들어갈 예정 <br />
-              여기는 본문 내용이 들어갈 예정 <br />
-              여기는 본문 내용이 들어갈 예정 <br />
-              여기는 본문 내용이 들어갈 예정 <br />
-              여기는 본문 내용이 들어갈 예정 <br />
-              여기는 본문 내용이 들어갈 예정 <br />
+              {post.post.content}
             </ContentMiddle>
           </div>
           {/* 글 작성자 정보 */}
@@ -327,7 +332,7 @@ const EditReplySpan = styled.span`
   cursor: pointer;
 `
 
- const ReplyContent = styled.div`
+const ReplyContent = styled.div`
   margin-top: 30px;
   font-size: 18px;
 `
