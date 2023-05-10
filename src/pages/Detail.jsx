@@ -69,7 +69,6 @@ const Detail = () => {
       })
     }
   }
-
   return (
     <>
       <Navbar />
