@@ -87,6 +87,15 @@ const Login = ({ closeModalHandler }) => {
     loginUsersMutation.mutate(loginUser)
   }
 
+  // * 초기화 버튼 click
+  const resetBtnClickHandler = (e) => {
+    e.preventDefault()
+    setLoginForm({
+      nickname: '',
+      password: '',
+    })
+  }
+
   return (
     <>
       <FormDiv>
@@ -115,6 +124,7 @@ const Login = ({ closeModalHandler }) => {
           <Button
             type={'reset'}
             color={'white'}
+            onClick={resetBtnClickHandler}
           >
             초기화
           </Button>
