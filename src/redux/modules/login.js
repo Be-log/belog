@@ -1,4 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Cookies } from 'react-cookie'
+
+const cookies = new Cookies()
+
 
 const initialState = {
   nickname: '',
@@ -20,7 +24,11 @@ const loginSlice = createSlice({
     },
     setLogoutUser: (state, action) => {
       if(state.nickname === action.payload){
+        // * 브라우저 쿠키에 세팅된 토큰값 지우기
+        cookies.remove('accesstoken', {path: '/'})
+        cookies.remove('refreshtoken', {path: '/'})
         alert('로그아웃 되었습니다.')
+        // * 로그인 시 세팅된 상태값 초기화
         return initialState
       }
     }

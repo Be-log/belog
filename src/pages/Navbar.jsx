@@ -19,7 +19,7 @@ const Navbar = () => {
   // * 로그인 여부 확인
   const getLoginInfo = useSelector((state) => state.loginUser)
   useEffect(() => {
-    console.log(getLoginInfo)
+    console.log('현재 로그인 여부', !!getLoginInfo.nickname)
   }, [getLoginInfo])
 
   const loginModalClickHandler = () => setShowModal(!showModal)
@@ -28,6 +28,7 @@ const Navbar = () => {
 
   // * 로그아웃
   const logoutClickHandler = () => {
+    setMenuToggle(false)
     dispatch(setLogoutUser(getLoginInfo.nickname))
   }
 
@@ -50,35 +51,43 @@ const Navbar = () => {
         {/* <HeaderLogo>username123.log</HeaderLogo> */}
       </HeaderContentLeft>
       <HeaderContentRight>
-        <Button
-          shape={'circle'}
-          onClick={loginModalClickHandler}
-        >
-          로그인
-        </Button>
+        {
+          !!getLoginInfo.nickname &&
+          <>
+            <Button
+              shape={'circle'}
+              color={'transparent'}
+              onClick={() => {
+                navigate('/write')
+              }}
+            >
+              새 글 작성
+            </Button>
+            <HeaderToggleDiv
+              onClick={toggleClickHandler}
+            >
+              <Image
+                src={`${process.env.PUBLIC_URL}/images/default_profile.png`}
+                width={'40'}
+                height={'40'}
+              />
+              <SetFontAwesome icon={faCaretDown} />
+            </HeaderToggleDiv>
+          </>
+        }
+        {
+          !getLoginInfo.nickname &&
+            <Button
+              shape={'circle'}
+              onClick={loginModalClickHandler}
+            >
+              로그인
+            </Button>
+        }
         {
           showModal &&
           <Modal closeModalHandler={closeModalHandler} />
         }
-        <Button
-          shape={'circle'}
-          color={'transparent'}
-          onClick={() => {
-            navigate('/write')
-          }}
-        >
-          새 글 작성
-        </Button>
-        <HeaderToggleDiv
-          onClick={toggleClickHandler}
-        >
-          <Image
-            src={`${process.env.PUBLIC_URL}/images/default_profile.png`}
-            width={'40'}
-            height={'40'}
-          />
-          <SetFontAwesome icon={faCaretDown} />
-        </HeaderToggleDiv>
         {
           menuToggle &&
           <HeaderUl>

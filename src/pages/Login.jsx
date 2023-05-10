@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Cookies } from 'react-cookie'
 import { loginUsers } from '../api/users'
 import { setLoginUser } from '../redux/modules/login'
@@ -12,7 +12,6 @@ import {
   InfoH1,
   ButtonDiv
 } from './ModalStyle'
-import { useEffect } from 'react'
 
 const Login = ({ closeModalHandler }) => {
   const [guideText, setGuideText] = useState('')
@@ -20,11 +19,6 @@ const Login = ({ closeModalHandler }) => {
     nickname: '',
     password: '',
   })
-
-  const getLoginInfo = useSelector((state) => state.loginUser[0]);
-  useEffect(() => {
-    console.log(getLoginInfo)
-  }, [getLoginInfo])
 
   // * react-cookie
   const cookies = new Cookies()
@@ -62,11 +56,16 @@ const Login = ({ closeModalHandler }) => {
   // * 로그인 useMutation
   const loginUsersMutation = useMutation(loginUsers, {
     onSuccess: (response) => {
-      cookies.set('loginToken', response.getAccesstoken)
-      // * 로그인 유저 데이터 전역 관리
-      dispatch(setLoginUser(response.userInfo))
-      alert(`${loginForm.nickname}님 환영합니다!`)
-      closeModalHandler()
+      if (response.getAccesstoken !== '' && response.getRefreshtoken !== '') {
+        cookies.set('accesstoken', response.getAccesstoken)
+        cookies.set('refreshtoken', response.getRefreshtoken)
+        // * 로그인 유저 데이터 전역 관리
+        dispatch(setLoginUser(response.userInfo))
+        alert(`${loginForm.nickname}님 환영합니다!`)
+        closeModalHandler()
+      } else {
+        console.error('데이터가 존재하지 않습니다.')
+      }
     }
   })
 
