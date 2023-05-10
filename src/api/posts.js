@@ -1,3 +1,22 @@
 import axios from 'axios'
 
-// * 파일 명은 수정해서 작업하셔도 됩니다!
+// * 댓글 작성
+const addReplys = async (replyInfo) => {
+  const { postId, comment, accesstoken, refreshtoken } = replyInfo
+  await axios.post(`http://3.34.52.229/api/posts/${postId}/comments`, {
+    comment
+  }, {
+    headers: {
+      accesstoken: `Bearer ${accesstoken}`,
+      refreshtoken: `Bearer ${refreshtoken}`,
+    }
+  })
+  .then(response => {
+    console.log(response)
+  })
+  .catch(error => {
+    console.log(error.response)
+  })
+}
+
+export { addReplys } 
