@@ -165,6 +165,19 @@ const Signup = ({ closeModalHandler }) => {
     addUsersMutation.mutate(newUser)
   }
 
+  // * 초기화 버튼 click
+  const resetBtnClickHandler = (e) => {
+    e.preventDefault()
+    setSignupForm({
+      nickname: '',
+      password: '',
+      passwordCheck: '',
+      email: '',
+      github: '',
+      description: '',
+    })
+  }
+
   return (
     <FormDiv>
       <InfoH1>회원가입</InfoH1>
@@ -235,6 +248,7 @@ const Signup = ({ closeModalHandler }) => {
         <Button
           type={'reset'}
           color={'white'}
+          onClick={resetBtnClickHandler}
           >
           초기화
         </Button>
