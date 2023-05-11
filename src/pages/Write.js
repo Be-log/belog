@@ -3,16 +3,21 @@ import { Editor } from '@toast-ui/react-editor'
 import React, { useRef, useCallback } from 'react'
 import { Cookies } from 'react-cookie'
 import {
+  MainWidthDiv,
+  MainContainer,
   WriteBtnSection,
-  WriteExitBtn,
-  WriteSaveBtn,
+  TitleInput,
   WriteTitleInput,
+  EditorContainer,
 } from '../components/styles'
+import Button from '../components/Button'
 import Header from './Navbar'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 import axios from 'axios'
 
 function Write() {
+  const navigate = useNavigate()
   const contentRef = useRef(null);
   const handleFocus = useCallback(() => {
   }, [])
@@ -40,43 +45,68 @@ function Write() {
           refreshtoken: `Bearer ${refreshtoken}`
         }
       })
-      console.log('제출되었습니다.')
+      alert('제출되었습니다.')
+      navigate('/')
     } catch (error) {
       console.error('에러난다 :', error)
     }
   }
 
+  // * 초기화 버튼 click
+  const resetBtnClickHandler = (e) => {
+    e.preventDefault()
+    setTitle('')
+    // postData.content = ''
+  }
 
   return (
     <>
       <Header />
-      <form onSubmit={onSubmitHandler}>
-        <div>
-          <WriteTitleInput
-            type="text"
-            placeholder="제목을 입력하세요"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
-        </div>
+      <MainContainer>
+        <MainWidthDiv>
+          <form onSubmit={onSubmitHandler}>
+            <TitleInput>
+              <WriteTitleInput
+                type="text"
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </TitleInput>
+            <EditorContainer>
+              <Editor
+                previewStyle="vertical"
+                height="600px"
+                initialEditType="markdown"
+                ref={contentRef}
+                onFocus={handleFocus}
+                bodyStyle={{
+                  backgroundColor: "white",
+                  color: "#000",
+                  fontFamily: "'Noto Sans KR', sans-serif",
+                }}
+              />
+            </EditorContainer>
 
-        <Editor
-          previewStyle="vertical"
-          height="600px"
-          initialEditType="markdown"
-          initialValue="나는 여기 데이터를 가져오고싶다.. "
-          ref={contentRef}
-          onFocus={handleFocus}
-        />
-
-
-        <WriteBtnSection>
-          <WriteExitBtn>나가기</WriteExitBtn>
-          <WriteSaveBtn type="submit">출간하기</WriteSaveBtn>
-        </WriteBtnSection>
-      </form>
+            <WriteBtnSection>
+              <Button
+                color={'white'}
+                onClick={resetBtnClickHandler}
+              >
+                초기화
+              </Button>
+              <Button
+                color={'mint'}
+                onClick={onSubmitHandler}
+              >
+                작성하기
+              </Button>
+            </WriteBtnSection>
+          </form>
+        </MainWidthDiv>
+      </MainContainer>
     </>
   )
 }

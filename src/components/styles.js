@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 // Main.jsx
 export const MainContainer = styled.main`
-  height: 100vh;
+  /* height: 200vh; */
   background-color: #121212;
+  padding-bottom: 50px;
 `
 
 export const WrapContainer = styled.div`
@@ -178,17 +179,22 @@ export const ProfileContainerBodyMenu = styled.div`
 
 //Write.js
 export const WriteBtnSection = styled.div`
-  padding-left: 1rem;
-  padding-right: 1rem;
-  height: 4rem;
-  width: 700px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
   display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-  margin: 10px;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+`
+
+export const MainWidthDiv = styled.div`
+  width: 1200px;
+  margin: auto;
+`
+
+export const TitleInput = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
 `
 
 export const WriteExitBtn = styled.button`
@@ -200,7 +206,6 @@ export const WriteExitBtn = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
     background-color: #d32f2f;
   }
@@ -220,11 +225,23 @@ export const WriteSaveBtn = styled.button`
     background-color: #43a047;
   }
 `
+
 export const WriteTitleInput = styled.input`
   width: 700px;
   padding: 8px;
   font-size: 24px;
-  border: 1px solid #ccc;
   border-radius: 4px;
   margin: 16px;
+  padding: 10px 20px;
+  background-color: transparent;
+  border-bottom: 1px solid #797979;
+  color: white;
+  &:focus {
+    outline: none;
+  }
+`
+
+export const EditorContainer = styled.div`
+  background-color: white;
+  position: relative;
 `
