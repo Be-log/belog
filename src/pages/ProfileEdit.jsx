@@ -13,21 +13,17 @@ import Header from './Navbar'
 import { useLocation } from 'react-router'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
-import { updateProfile } from '../redux/modules/login'
+import { setLoginUser } from '../redux/modules/login'
 
 function ProfileEdit() {
   const location = useLocation()
-  const myProfileInfo = useSelector((state) => {
-    // console.log(state)
-    return state.loginUser
-  })
+  const myProfileInfo = location.state.loginInfo
   const dispatch = useDispatch()
 
   const [image, setImage] = useState(null)
 
   const [email, newEmail, handleEmailChange, handleEmailEdit] = useInputState(myProfileInfo.email)
   const [github, newGitHub, handleGitHubChange, handleGitHubEdit] = useInputState(myProfileInfo.github)
-
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0]
@@ -52,7 +48,8 @@ function ProfileEdit() {
   const profileEdit = async (field, value) => {
     try {
       const { data } = await axios.put(
-        'http://15.164.232.59/api/auth/profile', { [field]: value },
+        'http://15.164.232.59/api/auth/profile',
+        { [field]: value },
         {
           headers: {
             accesstoken: `Bearer ${accesstoken}`,
@@ -60,12 +57,12 @@ function ProfileEdit() {
           }
         }
       )
-      console.log('put : ', data)
       newProfile()
     } catch (error) {
       console.error('에러 발생:', error)
     }
   }
+
 
   const newProfile = async () => {
     try {
@@ -75,16 +72,29 @@ function ProfileEdit() {
           refreshtoken: `Bearer ${refreshtoken}`,
         },
       })
-      console.log('get : ', data)
-      dispatch(updateProfile({ loginUser: data.userInfo }))
+      const { userInfo } = data
+      dispatch(setLoginUser(userInfo))
     } catch (error) {
       console.error('에러 발생:', error)
     }
   }
-
   useEffect(() => {
     newProfile()
-  }, [])
+  }, [myProfileInfo])
+
+
+  useEffect(() => {
+    if (email !== myProfileInfo.email) {
+      profileEdit('email', email)
+    }
+  }, [email, myProfileInfo.email])
+
+  useEffect(() => {
+    if (github !== myProfileInfo.github) {
+      profileEdit('github', github)
+    }
+  }, [github, myProfileInfo.github])
+
 
   return (
     <>
