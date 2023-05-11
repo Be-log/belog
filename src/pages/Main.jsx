@@ -28,7 +28,6 @@ const Main = () => {
       const response = await axios.get(`http://3.34.52.229/api/posts/${postId}`)
       const post = response.data;
       navigate(`/detail/${postId}`, { state: { post } })
-      console.log('클릭 시 데이터:', post)
     } catch (error) {
       console.error('API 호출 에러:', error)
     }

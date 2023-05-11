@@ -84,16 +84,23 @@ export const MypageHeaderTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: white;
+  margin-left: 20px;
 `
 
-export const MypageHeaderLine = styled.div`
-  background: black;
+export const MypageH2 = styled.h2`
+  font-size: 35px;
+`
+
+export const MypageSpan = styled.span`
+  margin-top: 5px;
+  font-size: 18px;
+`
+
+export const MypageHeaderLine = styled.hr`
   width: 1200px;
-  height: 1px;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
-  display: block;
-  margin: 0 auto;
+  border: 1px solid #797979;
+  margin-top: 20px;
 `
 
 export const MypageContainer = styled.div`
@@ -104,7 +111,6 @@ export const MypageContainer = styled.div`
   gap: 20px;
   justify-content: center;
   align-items: center;
-  
 `
 
 
