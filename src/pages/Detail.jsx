@@ -116,11 +116,11 @@ const Detail = () => {
     if (!!deleteChk) {
       await axios.delete(`http://3.34.52.229/api/posts/${currentPostId}/comments/${commentId}`, {
         headers: {
-          accesstoken: cookies.get('accesstoken'),
-          refreshtoken: cookies.get('refreshtoken'),
+          accesstoken: `Bearer ${cookies.get('accesstoken')}`,
+          refreshtoken: `Bearer ${cookies.get('refreshtoken')}`,
         }
       })
-      .then(response => {
+      .then(() => {
         alert(`댓글이 삭제되었습니다.`)
         queryClient.invalidateQueries('getCommentList')
       })
