@@ -179,9 +179,7 @@ const Detail = () => {
                 </EditDiv>
               </ContentWriter>
               <ContentTags>
-                {/* TODO 글 작성 시 tag 추가하면 문자열 끊고 map으로 작업 */}
-                <Button color={'grey'} shape={'circle'}>ChatGPT</Button>
-                <Button color={'grey'} shape={'circle'}>AI</Button>
+                {/* <Button color={'grey'} shape={'circle'}>TIL</Button> */}
               </ContentTags>
             </ContentTop>
             {/* 본문 */}
@@ -197,8 +195,8 @@ const Detail = () => {
               height={'100'}
             />
             <UserPDiv>
-              <WriterNameP>{post.nickname}</WriterNameP>
-              <WriterDescP>들어오는 데이터 따로 없음</WriterDescP>
+              <WriterNameP>@{post.nickname}</WriterNameP>
+              <WriterDescP>{getLoginInfo.github}</WriterDescP>
             </UserPDiv>
           </UserDiv>
           {/* 이전 포스트, 다음 포스트 */}
@@ -399,7 +397,9 @@ const WriterNameP = styled.p`
 `
 
 const WriterDescP = styled.p`
-  margin-top: 5px;
+  margin-top: 7px;
+  color: lightgrey;
+  font-size: 14px;
 `
 
 // * Movement
