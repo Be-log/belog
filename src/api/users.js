@@ -3,7 +3,7 @@ import axios from 'axios'
 // * 회원가입 ID 중복체크
 const idDoubleChk = async (newNickname) => {
   try {
-    const response = await axios.post(`http://3.34.52.229/api/auth/isNickname`, newNickname)
+    const response = await axios.get(`http://3.34.52.229/api/auth/checkNickname`, newNickname)
     return response.data
   } catch (error) {
     console.error('axios idDoubleChk Error', error)
@@ -30,7 +30,6 @@ const loginUsers = async (loginUser) => {
 
     await axios.post(`http://3.34.52.229/api/auth/login`, loginUser)
     .then(response => {
-      console.log(response);
       setResponse.getAccesstoken = response.data.accesstoken
       setResponse.getRefreshtoken = response.data.refreshtoken
     })

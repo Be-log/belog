@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 // Main.jsx
 export const MainContainer = styled.main`
-  /* height: 200vh; */
   background-color: #121212;
   padding-bottom: 50px;
+  height: 150vh;
 `
 
 export const WrapContainer = styled.div`
@@ -78,7 +78,6 @@ export const MypageHeaderImg = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 1px solid #ddd;
 `
 
 export const MypageHeaderTextContainer = styled.div`
@@ -121,7 +120,7 @@ export const ProfileContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column; 
-  margin-top: 50px;
+  padding-top: 50px;
 `
 
 export const ProfileImg = styled.div`
@@ -137,43 +136,31 @@ export const ProfileContainerHeader = styled.div`
 `
 
 export const ProfileContainerBody = styled.div`
+  width: 900px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `
 
 export const ProfileContainerBodyMenu = styled.div`
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #e1e1e1;
+  margin-top: 40px;
+  padding: 30px 50px;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #1E1E1E;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
-
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
+    margin: 10px 0;
+    font-size: 28px;
   }
-
   p {
     font-size: 16px;
-    color: #444444;
     margin-bottom: 12px;
-  }
-
-  button {
-    padding: 10px;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 8px;
-    color: #ffffff;
-    font-weight: bold;
-    cursor: pointer;
   }
 `
 
@@ -220,7 +207,6 @@ export const WriteSaveBtn = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
     background-color: #43a047;
   }

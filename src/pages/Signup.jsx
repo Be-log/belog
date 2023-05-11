@@ -107,7 +107,8 @@ const Signup = ({ closeModalHandler }) => {
   // * 아이디 중복확인 useMutation
   const idDoubleChkMutation = useMutation(idDoubleChk, {
     onSuccess: (response) => {
-      console.log('id 중복체크', response)
+      // console.log('id 중복체크', response)
+      // console.log('id 중복체크', response.data)
     }
   })
 
@@ -115,7 +116,7 @@ const Signup = ({ closeModalHandler }) => {
   const idDoubleChkHandler = (e) => {
     e.preventDefault()
     // const newNickname = {
-    //   nickname: signupForm.nickname
+      // nickname: signupForm.nickname
     // }
     // idDoubleChkMutation.mutate(newNickname)
 

@@ -82,6 +82,7 @@ function Write() {
                 initialEditType="markdown"
                 ref={contentRef}
                 onFocus={handleFocus}
+                placeholder="내용을 입력해주세요."
                 bodyStyle={{
                   backgroundColor: "white",
                   color: "#000",
