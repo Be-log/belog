@@ -1,10 +1,12 @@
 import React from 'react'
 import {
   MainContainer,
+  WrapContainer,
   Box,
   Boximg,
-  BoxContent,
-  BoxFooter
+  BoxHeader,
+  BoxNickname,
+  BoxFooter,
 } from '../components/styles'
 import Header from './Navbar'
 import axios from 'axios'
@@ -36,13 +38,28 @@ const Main = () => {
     <>
       <Header />
       <MainContainer>
-        {data && data.posts && data.posts.map((box) => (
-          <Box key={box.postId} onClick={() => openDetail(box.postId)}>
-            <Boximg src="https://velog.velcdn.com/images/heelieben/post/c3dce497-2507-4097-8538-9e3d37cc4933/image.png" />
-            <BoxContent>{box.title}</BoxContent>
-            <BoxFooter>생성일자[{box.createdAt}]</BoxFooter>
-          </Box>
-        ))}
+        <WrapContainer>
+          {data && data.posts && data.posts.map((box) => (
+            <Box key={box.postId} onClick={() => openDetail(box.postId)}>
+              <Boximg src={`${process.env.PUBLIC_URL}/images/test_thumbnail.png`} />
+              <BoxHeader>{box.title}</BoxHeader>
+              <BoxNickname>@{box.nickname}</BoxNickname>
+              <BoxFooter>
+                {
+                  `
+                  ${box.createdAt.slice(0, 4)}년
+                  ${box.createdAt.slice(5, 7)}월
+                  ${box.createdAt.slice(8, 10)}일
+
+                  ${box.createdAt.slice(11, 13)}:
+                  ${box.createdAt.slice(14, 16)}:
+                  ${box.createdAt.slice(17,19)}
+                  `
+                }
+              </BoxFooter>
+            </Box>
+          ))}
+        </WrapContainer>
       </MainContainer>
     </>
   )

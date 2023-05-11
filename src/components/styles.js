@@ -1,57 +1,64 @@
 import styled from "styled-components";
 
 // Main.jsx
-export const MainContainer = styled.div`
-  width: 100%;
-  padding: 50px;
+export const MainContainer = styled.main`
+  height: 100vh;
+  background-color: #121212;
+`
+
+export const WrapContainer = styled.div`
+  padding-top: 40px;
   display: grid;
-  grid-template-columns: repeat(4, 300px);
-  gap: 20px;
+  grid-template-columns: repeat(5, 270px);
+  gap: 60px;
   justify-content: center;
   align-items: center;
-  
 `
+
 export const Box = styled.div`
-  border: 0.5px solid black;
-  width: 250px;
+  background-color: #1E1E1E;
+  width: 300px;
   height: 300px;
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: transform 0.2s ease-out;
-
   &:hover {
     transform: translateY(-10px);
   }
-`;
-
-
-export const Boximg = styled.img`
-  width: 100%;
-  height: 150px;
-  border-radius: 10px;
-
 `
 
 export const BoxContent = styled.div`
   padding: 1rem;
-  display: flex;
-  flex: 1 1 0%;
-  flex-direction: column;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
 `
 
-export const BoxFooter = styled.div`
-  padding: 0.625rem 1rem;
-  border-top: 1px solid var(--border4);
-  display: flex;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
+export const Boximg = styled.img`
+  width: 100%;
+  height: 150px;
+  border-radius: 3px;
+`
+
+export const BoxHeader = styled.p`
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  padding: 23px 0 13px 20px;
+  `
+
+export const BoxNickname = styled.p`
+  color: white;
+  font-size: 15px;
+  padding: 0 0 10px 20px;
+`
+
+export const BoxFooter = styled.p`
+  color: white;
+  font-size: 12px;
+  padding: 0 0 10px 20px;
 `
 
 
