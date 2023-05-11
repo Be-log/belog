@@ -15,14 +15,17 @@ import {
   MypageContainer
 } from '../components/styles'
 import Header from './Navbar'
+
 import axios from 'axios'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
+
 function Mypage() {
   const navigate = useNavigate()
   const getLoginInfo = useSelector((state) => state.loginUser)
+
 
   // * 내 게시글 조회
   const { data } = useQuery('getMyList', async () => {
@@ -32,10 +35,14 @@ function Mypage() {
 
   // * 게시글 클릭 시 상세 게시글 조회
   const openDetail = async (postId) => {
+
     try {
       const response = await axios.get(`http://3.34.52.229/api/posts/${postId}`)
       const post = response.data;
       navigate(`/detail/${postId}`, { state: { post } })
+
+
+
     } catch (error) {
       console.error('API 호출 에러:', error)
     }
@@ -70,9 +77,10 @@ function Mypage() {
                   ${box.createdAt.slice(5, 7)}월
                   ${box.createdAt.slice(8, 10)}일
 
+
                   ${box.createdAt.slice(11, 13)}:
                   ${box.createdAt.slice(14, 16)}:
-                  ${box.createdAt.slice(17,19)}
+                  ${box.createdAt.slice(17, 19)}
                   `
                 }
               </BoxFooter>

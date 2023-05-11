@@ -29,9 +29,23 @@ const Navbar = () => {
     navigate('/')
   }
 
+
+
+  // TODO
+  // 2. 로그인 했을 경우 & 안했을 경우에 따라 보이는 요소 달라야 함
+  // 3. 토글했을 때 어떤 메뉴 보여줄지 & 기능 구현
+  // 4. 로그인 하고 나면 이 페이지에서 state 관리해서 뿌려줘야 할듯
+  // 5. location이 상세페이지일 경우 로고 변경 처리
+
+
   // 프로필 설정 페이지로 데이터 가져가기
   const profilePageClick = () => {
     navigate('/profile', { state: { loginInfo: getLoginInfo } });
+  }
+
+
+  const myPageClick = () => {
+    navigate('/mypage', { state: { loginInfo: getLoginInfo } });
   }
 
   return (
@@ -84,7 +98,7 @@ const Navbar = () => {
         {
           menuToggle &&
           <HeaderUl>
-            <HeaderLi onClick={() => navigate('/mypage')}>
+            <HeaderLi onClick={myPageClick}>
               내 비로그
             </HeaderLi>
             <HeaderLi onClick={profilePageClick}>

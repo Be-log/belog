@@ -12,7 +12,9 @@ import { addReplys, editReplys } from '../api/posts'
 import Button from '../components/Button'
 import Image from '../components/Image'
 import Navbar from './Navbar'
+
 import { useRef } from 'react'
+import EditerView from '../components/EditerView'
 
 const Detail = () => {
   const [replyComment, setReplyComment] = useState('')
@@ -38,9 +40,9 @@ const Detail = () => {
   const deletePage = async () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
       await axios.patch(`http://3.34.52.229/api/posts/${currentPostId}`)
-      .then(() => {
-        queryClient.invalidateQueries('getCommentList')
-      })
+        .then(() => {
+          queryClient.invalidateQueries('getCommentList')
+        })
     }
   }
 
@@ -109,7 +111,7 @@ const Detail = () => {
       editReplyMutation.mutate(editReplyInfo)
     }
   }
-  
+
   // * 댓글 삭제 click
   const deleteReplyHandler = async (commentId) => {
     let deleteChk = window.confirm(`댓글을 삭제하시겠습니까?`);
@@ -120,13 +122,15 @@ const Detail = () => {
           refreshtoken: `Bearer ${cookies.get('refreshtoken')}`,
         }
       })
-      .then(() => {
-        alert(`댓글이 삭제되었습니다.`)
-        queryClient.invalidateQueries('getCommentList')
-      })
-      .catch(error => {
-        console.error('axios deleteReply Error', error);
-      })
+
+        .then(() => {
+          alert(`댓글이 삭제되었습니다.`)
+          queryClient.invalidateQueries('getCommentList')
+        })
+        .catch(error => {
+          console.error('axios deleteReply Error', error);
+        })
+
     }
   }
 
@@ -136,12 +140,13 @@ const Detail = () => {
       alert('작성된 글이 없습니다.')
     } else {
       await axios.get(`http://3.34.52.229/api/posts/${movementPostId}`)
-      .then(response => {
-        navigate(`/detail/${movementPostId}`, { state: { post: response.data } })
-      })
-      .catch(error => {
-        console.error('axios pageMovementClick Error', error);
-      })
+        .then(response => {
+          navigate(`/detail/${movementPostId}`, { state: { post: response.data } })
+        })
+        .catch(error => {
+          console.error('axios pageMovementClick Error', error);
+        })
+
     }
   }
 
@@ -169,6 +174,8 @@ const Detail = () => {
                   </span>
                 </div>
                 <EditDiv>
+
+
                   {
                     getLoginInfo.nickname === post.nickname &&
                     <>
@@ -176,6 +183,7 @@ const Detail = () => {
                       <EditSpan onClick={deletePage}>삭제</EditSpan>
                     </>
                   }
+
                 </EditDiv>
               </ContentWriter>
               <ContentTags>
@@ -184,13 +192,13 @@ const Detail = () => {
             </ContentTop>
             {/* 본문 */}
             <ContentMiddle>
-              {post.content}
+              <EditerView markdown={post.content} />
             </ContentMiddle>
           </div>
           {/* 글 작성자 정보 */}
           <UserDiv>
             <Image
-              src={`${process.env.PUBLIC_URL}/images/default_profile.png`}
+              // src={`${process.env.PUBLIC_URL}/images/default_profile.png`}
               width={'100'}
               height={'100'}
             />
@@ -207,7 +215,7 @@ const Detail = () => {
               <SetFontAwsomeLeft icon={faCircleLeft} />
               <MovementSpanDiv>
                 <AnotherPost>이전 포스트</AnotherPost>
-                { post.prevPostId !== '' ?
+                {post.prevPostId !== '' ?
                   <AnotherPostTitle>{post.prevPostTitle}</AnotherPostTitle>
                   : <PostTitleNone>이전 글이 없습니다.</PostTitleNone>
                 }
@@ -220,8 +228,8 @@ const Detail = () => {
                 <AnotherPost>다음 포스트</AnotherPost>
                 {
                   post.nextPostId !== '' ?
-                  <AnotherPostTitle>{post.nextPostTitle}</AnotherPostTitle>
-                  : <PostTitleNone>다음 글이 없습니다.</PostTitleNone>
+                    <AnotherPostTitle>{post.nextPostTitle}</AnotherPostTitle>
+                    : <PostTitleNone>다음 글이 없습니다.</PostTitleNone>
                 }
               </MovementSpanDiv>
               <SetFontAwsomeRight icon={faCircleRight} />

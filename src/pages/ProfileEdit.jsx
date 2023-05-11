@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { MypageHeaderImg } from '../components/styles'
 import useInputState from '../hook/useInputState'
-
 import {
   ProfileContainer,
   ProfileImg,
@@ -11,17 +11,23 @@ import {
 } from '../components/styles'
 import Header from './Navbar'
 import { useLocation } from 'react-router'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+import { updateProfile } from '../redux/modules/login'
 
 function ProfileEdit() {
-
   const location = useLocation()
-
-  const myProfileInfo = location.state.loginInfo
+  const myProfileInfo = useSelector((state) => {
+    // console.log(state)
+    return state.loginUser
+  })
+  const dispatch = useDispatch()
 
   const [image, setImage] = useState(null)
-  const [pageTitle, newTitle, handleTitleChange, handleTitleEdit] = useInputState("내 벨로그 제목")
+
   const [email, newEmail, handleEmailChange, handleEmailEdit] = useInputState(myProfileInfo.email)
   const [github, newGitHub, handleGitHubChange, handleGitHubEdit] = useInputState(myProfileInfo.github)
+
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0]
@@ -30,7 +36,6 @@ function ProfileEdit() {
     reader.onload = () => {
       setImage(reader.result)
     }
-
     if (file) {
       reader.readAsDataURL(file)
     }
@@ -40,7 +45,46 @@ function ProfileEdit() {
     setImage(null);
   }
 
+  const cookies = new Cookies()
+  const accesstoken = cookies.get('accesstoken')
+  const refreshtoken = cookies.get('refreshtoken')
 
+  const profileEdit = async (field, value) => {
+    try {
+      const { data } = await axios.put(
+        'http://15.164.232.59/api/auth/profile', { [field]: value },
+        {
+          headers: {
+            accesstoken: `Bearer ${accesstoken}`,
+            refreshtoken: `Bearer ${refreshtoken}`
+          }
+        }
+      )
+      console.log('put : ', data)
+      newProfile()
+    } catch (error) {
+      console.error('에러 발생:', error)
+    }
+  }
+
+  const newProfile = async () => {
+    try {
+      const { data } = await axios.get('http://15.164.232.59/api/auth/profile', {
+        headers: {
+          accesstoken: `Bearer ${accesstoken}`,
+          refreshtoken: `Bearer ${refreshtoken}`,
+        },
+      })
+      console.log('get : ', data)
+      dispatch(updateProfile({ loginUser: data.userInfo }))
+    } catch (error) {
+      console.error('에러 발생:', error)
+    }
+  }
+
+  useEffect(() => {
+    newProfile()
+  }, [])
 
   return (
     <>
@@ -59,7 +103,7 @@ function ProfileEdit() {
         </ProfileContainerHeader>
 
         <ProfileContainerBody>
-          <ProfileContainerBodyMenu>
+          {/* <ProfileContainerBodyMenu>
             <div>
               <h2>벨로그 제목</h2>
               <p>{pageTitle}</p>
@@ -70,8 +114,15 @@ function ProfileEdit() {
               onChange={handleTitleChange}
               placeholder="새로운 제목을 입력하세요"
             />
-            <button onClick={() => handleTitleEdit(`벨로그 제목을 [${newTitle}]으로 바꿀까요?`)}>수정</button>
-          </ProfileContainerBodyMenu>
+            <button
+              onClick={() => {
+                handleTitleEdit(`벨로그 제목을 [${newTitle}]으로 바꿀까요?`);
+                profileEdit('title', newTitle);
+              }}
+            >
+              수정
+            </button>
+          </ProfileContainerBodyMenu> */}
 
           <ProfileContainerBodyMenu>
             <div>
@@ -84,7 +135,14 @@ function ProfileEdit() {
               onChange={handleEmailChange}
               placeholder="새로운 이메일을 입력하세요"
             />
-            <button onClick={() => handleEmailEdit(`Email을 [${newEmail}]으로 바꿀까요?`)}>수정</button>
+            <button
+              onClick={() => {
+                handleEmailEdit(`Email을 [${newEmail}]으로 바꿀까요?`)
+                profileEdit('email', newEmail)
+              }}
+            >
+              수정
+            </button>
           </ProfileContainerBodyMenu>
 
           <ProfileContainerBodyMenu>
@@ -98,7 +156,14 @@ function ProfileEdit() {
               onChange={handleGitHubChange}
               placeholder="새로운 GitHub 주소를 입력하세요"
             />
-            <button onClick={() => handleGitHubEdit(`GitHub 주소를 [${newGitHub}]로 바꿀까요?`)}>수정</button>
+            <button
+              onClick={() => {
+                handleGitHubEdit(`GitHub 주소를 [${newGitHub}]로 바꿀까요?`)
+                profileEdit('github', newGitHub)
+              }}
+            >
+              수정
+            </button>
           </ProfileContainerBodyMenu>
         </ProfileContainerBody>
       </ProfileContainer>

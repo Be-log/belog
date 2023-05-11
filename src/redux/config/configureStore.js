@@ -8,6 +8,7 @@ const reducers = combineReducers({
   loginUser: loginUser,
 })
 
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -21,3 +22,4 @@ const store = configureStore({
 })
 
 export default store
+
