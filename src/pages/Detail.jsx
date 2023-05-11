@@ -1,5 +1,6 @@
 import { faCircleLeft, faCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+<<<<<<< HEAD
 import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { Cookies } from 'react-cookie'
@@ -7,6 +8,16 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { useLocation } from 'react-router-dom'
+=======
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { useMutation } from 'react-query'
+import { useLocation } from 'react-router-dom'
+import { Cookies } from 'react-cookie'
+import React, { useState } from 'react'
+import { addReplys } from '../api/posts'
+import axios from 'axios'
+>>>>>>> 64f27e9d9b0539f91795eb55d0055d8d1c928ede
 import styled from 'styled-components'
 import { addReplys, editReplys } from '../api/posts'
 import Button from '../components/Button'
@@ -25,7 +36,11 @@ const Detail = () => {
   const cookies = new Cookies()
 
   const { postComment, ...post } = location.state.post.post
+<<<<<<< HEAD
   const currentPostId = location.pathname.slice(8)
+=======
+  console.log(postComment)
+>>>>>>> 64f27e9d9b0539f91795eb55d0055d8d1c928ede
 
   // * 해당 게시글의 댓글 리스트 비동기 조회
   const { data } = useQuery('getCommentList', async () => {
@@ -143,7 +158,7 @@ const Detail = () => {
       })
     }
   }
-
+  
   return (
     <>
       <Navbar />
