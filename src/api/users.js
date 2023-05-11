@@ -30,8 +30,9 @@ const loginUsers = async (loginUser) => {
 
     await axios.post(`http://3.34.52.229/api/auth/login`, loginUser)
     .then(response => {
-      setResponse.getAccesstoken = response.data.accessToken
-      setResponse.getRefreshtoken = response.data.refreshToken
+      console.log(response);
+      setResponse.getAccesstoken = response.data.accesstoken
+      setResponse.getRefreshtoken = response.data.refreshtoken
     })
     .catch(error => {
       console.error(error.response)
