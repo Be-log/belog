@@ -52,6 +52,9 @@ const loginUsers = async (loginUser) => {
       .catch(error => {
         console.error(error.response)
       })
+    } else if (setResponse.getAccesstoken === '' || setResponse.getAccesstoken === null) {
+      alert('로그인 중 오류가 발생했습니다.')
+      return
     }
 
     return setResponse
