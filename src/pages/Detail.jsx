@@ -1,18 +1,18 @@
 import { faCircleLeft, faCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Cookies } from 'react-cookie'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { useMutation } from 'react-query'
 import { useLocation } from 'react-router-dom'
-import { Cookies } from 'react-cookie'
-import React, { useState } from 'react'
-import { addReplys } from '../api/posts'
-import axios from 'axios'
 import styled from 'styled-components'
 import { addReplys, editReplys } from '../api/posts'
 import Button from '../components/Button'
 import Image from '../components/Image'
 import Navbar from './Navbar'
+import { useRef } from 'react'
 
 const Detail = () => {
   const [replyComment, setReplyComment] = useState('')
