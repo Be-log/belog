@@ -58,9 +58,9 @@ const Main = () => {
       <Header />
       <MainContainer>
         <WrapContainer>
-          {data && data.posts && data.posts.map((box) => (
+          {data && data.posts && data.posts.map((box, idx) => (
             <Box key={box.postId} onClick={() => openDetail(box.postId)}>
-              <Boximg src={`${process.env.PUBLIC_URL}/images/test_thumbnail.png`} />
+              <Boximg src={`${process.env.PUBLIC_URL}/images/thumbnail/thn_${idx}.png`} />
               <BoxHeader>{box.title}</BoxHeader>
               <BoxNickname>@{box.nickname}</BoxNickname>
               <BoxFooter>
