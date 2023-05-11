@@ -7,31 +7,21 @@ import {
   BoxFooter
 } from '../components/styles'
 import Header from './Navbar'
-import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router'
 
 const Main = () => {
-  const [boxes, setBoxes] = useState([])
-
-  const fetchBoxes = async () => {
-    try {
-      const { data } = await axios.get('http://3.34.52.229/api/posts/main')
-      setBoxes(data.posts)
-      console.log("메인페이지 데이터 : ", data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    fetchBoxes()
-  }, [])
-
   const navigate = useNavigate()
 
-  const openDetail = async (postId) => {
+  // * 메인페이지 조회
+  const { data } = useQuery('getMainList', async () => {
+    const mainList = await axios.get(`http://3.34.52.229/api/posts/main`)
+    return mainList.data
+  })
 
+  // * 상세 게시글 조회
+  const openDetail = async (postId) => {
     try {
       const response = await axios.get(`http://3.34.52.229/api/posts/${postId}`)
       const post = response.data;
@@ -46,7 +36,7 @@ const Main = () => {
     <>
       <Header />
       <MainContainer>
-        {boxes.map((box) => (
+        {data && data.posts && data.posts.map((box) => (
           <Box key={box.postId} onClick={() => openDetail(box.postId)}>
             <Boximg src="https://velog.velcdn.com/images/heelieben/post/c3dce497-2507-4097-8538-9e3d37cc4933/image.png" />
             <BoxContent>{box.title}</BoxContent>
