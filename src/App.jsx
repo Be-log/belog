@@ -5,12 +5,10 @@ import Main from './pages/Main'
 import Mypage from './pages/Mypage'
 import Write from './pages/Write'
 import ProfileEdit from './pages/ProfileEdit'
-
 import Navbar from './pages/Navbar'
 import Detail from './pages/Detail'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
-
 
 const queryClient = new QueryClient()
 
@@ -27,7 +25,6 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/detail/:id" element={<Detail />} />
-
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

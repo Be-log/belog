@@ -11,6 +11,22 @@ const addReplys = async (replyInfo) => {
       refreshtoken: `Bearer ${refreshtoken}`,
     }
   })
+  .catch(error => {
+    console.log(error.response)
+  })
+}
+
+// * 댓글 수정
+const editReplys = async (editReplyInfo) => {
+  const { postId, commentId, comment, accesstoken, refreshtoken } = editReplyInfo
+  await axios.put(`http://3.34.52.229/api/posts/${postId}/comments/${commentId}`, {
+    comment
+  }, {
+    headers: {
+      accesstoken: `Bearer ${accesstoken}`,
+      refreshtoken: `Bearer ${refreshtoken}`,
+    }
+  })
   .then(response => {
     console.log(response)
   })
@@ -19,4 +35,4 @@ const addReplys = async (replyInfo) => {
   })
 }
 
-export { addReplys } 
+export { addReplys, editReplys } 

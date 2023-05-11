@@ -132,7 +132,6 @@ const Signup = ({ closeModalHandler }) => {
   // * 회원가입 유저 추가 useMutation
   const addUsersMutation = useMutation(addUsers, {
     onSuccess: (response) => {
-      console.log('onSuccess 유저 등록 성공', response)
       alert('회원가입이 성공적으로 완료되었습니다!')
       closeModalHandler()
     }
