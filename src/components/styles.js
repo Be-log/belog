@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 // Main.jsx
 export const MainContainer = styled.main`
   background-color: #121212;
   padding-bottom: 50px;
   height: 150vh;
-`
+`;
 
 export const WrapContainer = styled.div`
   padding-top: 40px;
@@ -14,10 +14,10 @@ export const WrapContainer = styled.div`
   gap: 60px;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const Box = styled.div`
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   width: 300px;
   height: 300px;
   border-radius: 3px;
@@ -28,43 +28,40 @@ export const Box = styled.div`
   &:hover {
     transform: translateY(-10px);
   }
-`
+`;
 
 export const BoxContent = styled.div`
   padding: 1rem;
   color: white;
   font-weight: bold;
   font-size: 16px;
-`
+`;
 
 export const Boximg = styled.img`
   width: 100%;
   height: 150px;
   border-radius: 3px;
-`
+`;
 
 export const BoxHeader = styled.p`
   color: white;
   font-weight: bold;
   font-size: 22px;
   padding: 23px 0 13px 20px;
-  `
+`;
 
 export const BoxNickname = styled.p`
   color: white;
   font-size: 15px;
   padding: 0 0 10px 20px;
-`
+`;
 
 export const BoxFooter = styled.p`
   color: white;
   font-size: 12px;
   padding: 0 0 10px 20px;
-`
+`;
 
-
-
-//Mypage.jsx
 export const MypageHeader = styled.div`
   width: 1000px;
   height: 200px;
@@ -72,13 +69,13 @@ export const MypageHeader = styled.div`
   margin: 0 auto;
   display: flex;
   gap: 10px;
-`
+`;
 
 export const MypageHeaderImg = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
-`
+`;
 
 export const MypageHeaderTextContainer = styled.div`
   display: flex;
@@ -86,22 +83,22 @@ export const MypageHeaderTextContainer = styled.div`
   justify-content: center;
   color: white;
   margin-left: 20px;
-`
+`;
 
 export const MypageH2 = styled.h2`
   font-size: 35px;
-`
+`;
 
 export const MypageSpan = styled.span`
   margin-top: 5px;
   font-size: 18px;
-`
+`;
 
 export const MypageHeaderLine = styled.hr`
   width: 1200px;
   border: 1px solid #797979;
   margin-top: 20px;
-`
+`;
 
 export const MypageContainer = styled.div`
   width: 100%;
@@ -111,29 +108,27 @@ export const MypageContainer = styled.div`
   gap: 20px;
   justify-content: center;
   align-items: center;
-`
+`;
 
-
-//ProfileEdit.jsx
 export const ProfileContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; 
+  flex-direction: column;
   padding-top: 50px;
-`
+`;
 
 export const ProfileImg = styled.div`
   padding-right: 1.5rem;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const ProfileContainerHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-`
+`;
 
 export const ProfileContainerBody = styled.div`
   width: 900px;
@@ -141,13 +136,13 @@ export const ProfileContainerBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 export const ProfileContainerBodyMenu = styled.div`
   margin-top: 40px;
   padding: 30px 50px;
   border-radius: 8px;
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   color: white;
@@ -162,27 +157,26 @@ export const ProfileContainerBodyMenu = styled.div`
     font-size: 16px;
     margin-bottom: 12px;
   }
-`
+`;
 
-//Write.js
 export const WriteBtnSection = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
   justify-content: center;
   margin-top: 30px;
-`
+`;
 
 export const MainWidthDiv = styled.div`
   width: 1200px;
   margin: auto;
-`
+`;
 
 export const TitleInput = styled.div`
   display: flex;
   justify-content: center;
   padding: 30px 0;
-`
+`;
 
 export const WriteExitBtn = styled.button`
   padding: 0.5rem 1rem;
@@ -210,7 +204,7 @@ export const WriteSaveBtn = styled.button`
   &:hover {
     background-color: #43a047;
   }
-`
+`;
 
 export const WriteTitleInput = styled.input`
   width: 700px;
@@ -225,9 +219,9 @@ export const WriteTitleInput = styled.input`
   &:focus {
     outline: none;
   }
-`
+`;
 
 export const EditorContainer = styled.div`
   background-color: white;
   position: relative;
-`
+`;

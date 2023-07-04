@@ -1,123 +1,101 @@
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { setLogoutUser } from '../redux/modules/login'
-import styled from 'styled-components'
-import Button from '../components/Button'
-import Image from '../components/Image'
-import Modal from './Modal'
+import styled from 'styled-components';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setLogoutUser } from '../redux/modules/login';
+import Button from '../components/Button';
+import Image from '../components/Image';
+import Modal from './Modal';
 
 const Navbar = () => {
-  const [showModal, setShowModal] = useState(false)
-  const [menuToggle, setMenuToggle] = useState(false)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const [showModal, setShowModal] = useState(false);
+  const [menuToggle, setMenuToggle] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // * 로그인 여부 확인
-  const getLoginInfo = useSelector((state) => state.loginUser)
+  const getLoginInfo = useSelector((state) => state.loginUser);
 
-  const loginModalClickHandler = () => setShowModal(!showModal)
-  const closeModalHandler = () => setShowModal(false)
-  const toggleClickHandler = () => setMenuToggle(!menuToggle)
+  const loginModalClickHandler = () => setShowModal(!showModal);
+  const closeModalHandler = () => setShowModal(false);
+  const toggleClickHandler = () => setMenuToggle(!menuToggle);
 
   // * 로그아웃
   const logoutClickHandler = () => {
-    setMenuToggle(false)
-    dispatch(setLogoutUser(getLoginInfo.nickname))
-    navigate('/')
-  }
+    setMenuToggle(false);
+    dispatch(setLogoutUser(getLoginInfo.nickname));
+    navigate('/');
+  };
 
   const profilePageClick = () => {
     navigate('/profile', { state: { loginInfo: getLoginInfo } });
-  }
-
+  };
 
   const myPageClick = () => {
     navigate('/mypage', { state: { loginInfo: getLoginInfo } });
-  }
+  };
 
   return (
     <HeaderContainer>
       <HeaderContentLeft>
-        <HeaderLogo onClick={() => {
-          navigate('/')
-        }}>
+        <HeaderLogo
+          onClick={() => {
+            navigate('/');
+          }}
+        >
           belog
         </HeaderLogo>
       </HeaderContentLeft>
       <HeaderContentRight>
-        {
-          !!getLoginInfo.nickname &&
+        {!!getLoginInfo.nickname && (
           <>
             <Button
               shape={'circle'}
               color={'transparent'}
               onClick={() => {
-                navigate('/write')
+                navigate('/write');
               }}
             >
               새 글 작성
             </Button>
-            <HeaderToggleDiv
-              onClick={toggleClickHandler}
-            >
-              <Image
-                src={`${process.env.PUBLIC_URL}/images/default_profile.png`}
-                width={'40'}
-                height={'40'}
-              />
+            <HeaderToggleDiv onClick={toggleClickHandler}>
+              <Image src={`${process.env.PUBLIC_URL}/images/default_profile.png`} width={'40'} height={'40'} />
               <SetFontAwesome icon={faCaretDown} />
             </HeaderToggleDiv>
           </>
-        }
-        {
-          !getLoginInfo.nickname &&
-          <Button
-            shape={'circle'}
-            onClick={loginModalClickHandler}
-          >
+        )}
+        {!getLoginInfo.nickname && (
+          <Button shape={'circle'} onClick={loginModalClickHandler}>
             로그인
           </Button>
-        }
-        {
-          showModal &&
-          <Modal closeModalHandler={closeModalHandler} />
-        }
-        {
-          menuToggle &&
+        )}
+        {showModal && <Modal closeModalHandler={closeModalHandler} />}
+        {menuToggle && (
           <HeaderUl>
-            <HeaderLi onClick={myPageClick}>
-              내 비로그
-            </HeaderLi>
-            <HeaderLi onClick={profilePageClick}>
-              프로필 설정
-            </HeaderLi>
-            <HeaderLi
-              onClick={logoutClickHandler}
-            >
-              로그아웃
-            </HeaderLi>
+            <HeaderLi onClick={myPageClick}>내 비로그</HeaderLi>
+            <HeaderLi onClick={profilePageClick}>프로필 설정</HeaderLi>
+            <HeaderLi onClick={logoutClickHandler}>로그아웃</HeaderLi>
           </HeaderUl>
-        }
+        )}
       </HeaderContentRight>
     </HeaderContainer>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
 
 const HeaderContainer = styled.nav`
   background-color: #121212;
   display: flex;
   justify-content: space-around;
   align-items: center;
-`
+`;
 
 const HeaderContentLeft = styled.div`
   width: 10%;
-`
+`;
 
 const HeaderLogo = styled.p`
   height: 70px;
@@ -128,39 +106,39 @@ const HeaderLogo = styled.p`
   color: white;
   font-family: 'Source Code Pro', monospace;
   cursor: pointer;
-`
+`;
 
 const HeaderContentRight = styled.div`
   width: 55%;
   display: flex;
   justify-content: flex-end;
   gap: 20px;
-`
+`;
 
 const HeaderToggleDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-`
+`;
 
 const SetFontAwesome = styled(FontAwesomeIcon)`
   color: white;
-`
+`;
 
 const HeaderUl = styled.ul`
   position: fixed;
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   color: white;
   top: 75px;
   right: 160px;
   border-radius: 3px;
   cursor: pointer;
   z-index: 1;
-`
+`;
 
 const HeaderLi = styled.li`
   width: 160px;
   height: 25px;
   padding: 10px 0 10px 30px;
-`
+`;

@@ -1,22 +1,14 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
-import Login from './Login'
-import Signup from './Signup'
-import styled from 'styled-components'
-import {
-  BackgroundDiv,
-  ImageDiv,
-  InfoCloseP,
-  InfoDiv,
-  MainSection,
-  PopupImage,
-  PopupText,
-} from './ModalStyle'
+import styled from 'styled-components';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import Login from './Login';
+import Signup from './Signup';
+import { BackgroundDiv, ImageDiv, InfoCloseP, InfoDiv, MainSection, PopupImage, PopupText } from './ModalStyle';
 
 const Modal = ({ closeModalHandler }) => {
-  const [page, setPage] = useState(false)
-  const signupBtnClickHandler = () => setPage(true)
+  const [page, setPage] = useState(false);
+  const signupBtnClickHandler = () => setPage(true);
 
   return (
     <BackgroundDiv>
@@ -27,47 +19,39 @@ const Modal = ({ closeModalHandler }) => {
         </ImageDiv>
         <InfoDiv>
           <InfoCloseP>
-            <FontAwesomeIcon
-              icon={faXmark}
-              onClick={closeModalHandler}
-            />
+            <FontAwesomeIcon icon={faXmark} onClick={closeModalHandler} />
           </InfoCloseP>
-          { !page ?
-              <Login closeModalHandler={closeModalHandler} />
-              : <Signup closeModalHandler={closeModalHandler} />}
-          { !page ?
+          {!page ? <Login closeModalHandler={closeModalHandler} /> : <Signup closeModalHandler={closeModalHandler} />}
+          {!page ? (
             <SignupDiv>
               <SignupP>
                 아직 회원이 아니신가요?
-                <SignupStrong
-                  onClick={signupBtnClickHandler}
-                >
-                  회원가입
-                </SignupStrong>
+                <SignupStrong onClick={signupBtnClickHandler}>회원가입</SignupStrong>
               </SignupP>
             </SignupDiv>
-            : ''
-          }
+          ) : (
+            ''
+          )}
         </InfoDiv>
       </MainSection>
     </BackgroundDiv>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;
 
 const SignupDiv = styled.div`
   margin-top: 30px;
   display: flex;
   justify-content: center;
-`
+`;
 
 const SignupP = styled.p`
   color: white;
-`
+`;
 
 const SignupStrong = styled.strong`
   margin-left: 10px;
-  color: #96F2D7;
+  color: #96f2d7;
   cursor: pointer;
-`
+`;

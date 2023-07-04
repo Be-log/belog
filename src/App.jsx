@@ -1,17 +1,17 @@
-import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Main from './pages/Main'
-import Mypage from './pages/Mypage'
-import Write from './pages/Write'
-import ProfileEdit from './pages/ProfileEdit'
-import Navbar from './pages/Navbar'
-import Detail from './pages/Detail'
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-import Edit from './pages/Edit'
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Main from './pages/Main';
+import Mypage from './pages/Mypage';
+import Write from './pages/Write';
+import ProfileEdit from './pages/ProfileEdit';
+import Navbar from './pages/Navbar';
+import Detail from './pages/Detail';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Edit from './pages/Edit';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
@@ -30,7 +30,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
