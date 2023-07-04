@@ -3,26 +3,22 @@ import axios from 'axios';
 // * 회원가입 ID 중복체크
 const idDoubleChk = async (newNickname) => {
   try {
-    const response = await axios.get(
-      `http://13.125.98.73:3000/api/auth/checkNickname`,
-      newNickname
-    );
+    const response = await axios.get(`http://13.125.98.73:3000/api/auth/checkNickname`, newNickname);
     return response.data;
   } catch (error) {
     console.error('axios idDoubleChk Error', error);
+    throw error;
   }
 };
 
 // * 회원가입
 const addUsers = async (newUser) => {
   try {
-    const response = await axios.post(
-      `http://13.125.98.73:3000/api/auth/signup`,
-      newUser
-    );
+    const response = await axios.post(`http://13.125.98.73:3000/api/auth/signup`, newUser);
     return response.data;
   } catch (error) {
     console.error('axios addUsers Error', error);
+    throw error;
   }
 };
 
@@ -44,7 +40,7 @@ const loginUsers = async (loginUser) => {
         console.error(error.response);
       });
 
-    if (!!setResponse.getAccesstoken) {
+    if (setResponse.getAccesstoken) {
       const loginToken = {
         headers: {
           accesstoken: `Bearer ${setResponse.getAccesstoken}`,
@@ -63,17 +59,15 @@ const loginUsers = async (loginUser) => {
         .catch((error) => {
           console.error(error.response);
         });
-    } else if (
-      setResponse.getAccesstoken === '' ||
-      setResponse.getAccesstoken === null
-    ) {
+    } else if (setResponse.getAccesstoken === '' || setResponse.getAccesstoken === null) {
       alert('로그인 중 오류가 발생했습니다.');
-      return;
+      return null; // 로그인 중 오류가 발생한 경우 null을 반환합니다.
     }
 
     return setResponse;
   } catch (error) {
     console.error('axios loginUsers Error', error);
+    throw error; // 예외를 다시 던져서 처리할 수 있도록 합니다.
   }
 };
 

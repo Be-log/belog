@@ -15,7 +15,7 @@ const addReplys = async (replyInfo) => {
           accesstoken: `Bearer ${accesstoken}`,
           refreshtoken: `Bearer ${refreshtoken}`,
         },
-      }
+      },
     )
     .catch((error) => {
       console.log(error.response);
@@ -24,8 +24,7 @@ const addReplys = async (replyInfo) => {
 
 // * 댓글 수정
 const editReplys = async (editReplyInfo) => {
-  const { postId, commentId, comment, accesstoken, refreshtoken } =
-    editReplyInfo;
+  const { postId, commentId, comment, accesstoken, refreshtoken } = editReplyInfo;
   await axios
     .put(
       `http://13.125.98.73:3000/api/posts/${postId}/comments/${commentId}`,
@@ -37,7 +36,7 @@ const editReplys = async (editReplyInfo) => {
           accesstoken: `Bearer ${accesstoken}`,
           refreshtoken: `Bearer ${refreshtoken}`,
         },
-      }
+      },
     )
     .then((response) => {
       console.log(response);

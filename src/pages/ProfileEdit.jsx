@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 import useInputState from '../utils/useInputState';
 import Header from './Navbar';
 import { setLoginUser } from '../redux/modules/login';
 import Button from '../components/Button';
-import Cookies from 'universal-cookie';
 import {
   MainContainer,
   MypageHeader,
@@ -16,8 +16,6 @@ import {
   MypageH2,
   MypageSpan,
   ProfileContainer,
-  ProfileImg,
-  ProfileContainerHeader,
   ProfileContainerBody,
   ProfileContainerBodyMenu,
   MypageHeaderImg,
@@ -36,10 +34,7 @@ function ProfileEdit() {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
-    reader.onload = () => {
-      setImage(reader.result);
-    };
+    reader.onload = () => setImage(reader.result);
     if (file) {
       reader.readAsDataURL(file);
     }
@@ -52,6 +47,22 @@ function ProfileEdit() {
   const cookies = new Cookies();
   const accesstoken = cookies.get('accesstoken');
   const refreshtoken = cookies.get('refreshtoken');
+
+  const newProfile = async () => {
+    try {
+      // const { data } = await axios.get('http://15.164.232.59/api/auth/profile', {
+      const { data } = await axios.get('http://13.125.98.73:3000/api/auth/profile', {
+        headers: {
+          accesstoken: `Bearer ${accesstoken}`,
+          refreshtoken: `Bearer ${refreshtoken}`,
+        },
+      });
+      const { userInfo } = data;
+      dispatch(setLoginUser(userInfo));
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+  };
 
   const profileEdit = async (field, value) => {
     try {
@@ -72,21 +83,6 @@ function ProfileEdit() {
     }
   };
 
-  const newProfile = async () => {
-    try {
-      // const { data } = await axios.get('http://15.164.232.59/api/auth/profile', {
-      const { data } = await axios.get('http://13.125.98.73:3000/api/auth/profile', {
-        headers: {
-          accesstoken: `Bearer ${accesstoken}`,
-          refreshtoken: `Bearer ${refreshtoken}`,
-        },
-      });
-      const { userInfo } = data;
-      dispatch(setLoginUser(userInfo));
-    } catch (error) {
-      console.error('에러 발생:', error);
-    }
-  };
   useEffect(() => {
     newProfile();
   }, [myProfileInfo]);
