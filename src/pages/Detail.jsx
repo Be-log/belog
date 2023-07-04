@@ -32,7 +32,9 @@ const Detail = () => {
     return replyList.data;
   });
 
-  // * 게시글 삭제 click (테스트 필요)
+  const accesstoken = cookies.get('accesstoken');
+  const refreshtoken = cookies.get('refreshtoken');
+
   const deletePage = async () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
       await axios.patch(`http://13.125.98.73:3000/api/posts/${currentPostId}`).then(() => {
@@ -145,6 +147,10 @@ const Detail = () => {
     }
   };
 
+  const editDetailpage = (postId) => {
+    navigate('/edit', { state: { post: location.state.post, postId } });
+  };
+
   return (
     <>
       <Navbar />
@@ -169,7 +175,7 @@ const Detail = () => {
                 <EditDiv>
                   {getLoginInfo.nickname === post.nickname && (
                     <>
-                      <EditSpan>수정</EditSpan>
+                      <EditSpan onClick={() => editDetailpage(currentPostId)}>수정</EditSpan>
                       <EditSpan onClick={deletePage}>삭제</EditSpan>
                     </>
                   )}
