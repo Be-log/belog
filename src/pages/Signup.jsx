@@ -1,22 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useMutation } from 'react-query'
-import { idDoubleChk, addUsers } from '../api/users'
-import Button from '../components/Button'
-import styled from 'styled-components'
-import {
-  Form,
-  GuideTextP,
-  InfoH1,
-  ButtonDiv
-} from './ModalStyle'
+import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { useMutation } from 'react-query';
+import { idDoubleChk, addUsers } from '../api/users';
+import Button from '../components/Button';
+import { Form, GuideTextP, InfoH1, ButtonDiv } from './ModalStyle';
 
 const Signup = ({ closeModalHandler }) => {
   const [guideText, setGuideText] = useState('');
   const [idChkState, setIdChkState] = useState({
     isIdCorrect: false,
     isIdDoubleChk: false,
-  })
-  const [submitState, setSubmitState] = useState(false)
+  });
+  const [submitState, setSubmitState] = useState(false);
   const [signupForm, setSignupForm] = useState({
     nickname: '',
     password: '',
@@ -24,13 +19,13 @@ const Signup = ({ closeModalHandler }) => {
     email: '',
     github: '',
     description: '',
-  })
-  const passwordRef = useRef(null)
+  });
+  const passwordRef = useRef(null);
 
   // * guideText가 ''이면 (유효성 검증이 되면) 회원가입 버튼 활성화
   useEffect(() => {
     if (guideText === '') {
-      setSubmitState(true)
+      setSubmitState(true);
     }
   }, [guideText]);
 
@@ -39,118 +34,123 @@ const Signup = ({ closeModalHandler }) => {
     setSignupForm({
       ...signupForm,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   // * 회원가입 입력값 유효성 검증
   const nicknameBlurHandler = (e) => {
-    if (!(/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g).test(e.target.value)) {
-      setGuideText(`영어 소문자 + 숫자로만 구성된 6~12자 이내 문자여야 합니다.`)
-      setIdChkState({ isIdCorrect: false })
-      setSubmitState(false)
+    if (!/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{6,12}$/g.test(e.target.value)) {
+      setGuideText(`영어 소문자 + 숫자로만 구성된 6~12자 이내 문자여야 합니다.`);
+      setIdChkState({ isIdCorrect: false });
+      setSubmitState(false);
     } else {
       setGuideText('');
-      setIdChkState({ isIdCorrect: true })
+      setIdChkState({ isIdCorrect: true });
     }
-  }
+  };
 
   const passwordBlurHandler = (e) => {
     if (e.target.value.includes(`${signupForm.nickname}`)) {
-      setGuideText(`비밀번호에는 아이디를 포함할 수 없습니다.`)
-      setSubmitState(false)
-    } else if (!(/^(?=.*[a-z])(?=.*[0-9])(?=.*[\W])[a-z\d\W]{6,12}$/g).test(e.target.value)) {
-      setGuideText(`영어 소문자 + 숫자 + 특수문자로만 구성된 6~12자 이내 문자여야 합니다.`)
-      setSubmitState(false)
+      setGuideText(`비밀번호에는 아이디를 포함할 수 없습니다.`);
+      setSubmitState(false);
+    } else if (!/^(?=.*[a-z])(?=.*[0-9])(?=.*[\W])[a-z\d\W]{6,12}$/g.test(e.target.value)) {
+      setGuideText(`영어 소문자 + 숫자 + 특수문자로만 구성된 6~12자 이내 문자여야 합니다.`);
+      setSubmitState(false);
     } else {
-      setGuideText('')
+      setGuideText('');
     }
-    passwordRef.current.focus()
-  }
+    passwordRef.current.focus();
+  };
 
   const passwordCheckBlurHandler = (e) => {
     if (signupForm.password !== e.target.value) {
-      setGuideText(`작성한 비밀번호가 일치하지 않습니다.`)
-      setSubmitState(false)
+      setGuideText(`작성한 비밀번호가 일치하지 않습니다.`);
+      setSubmitState(false);
     } else {
-      setGuideText('')
+      setGuideText('');
     }
-  }
+  };
 
   const emailBlurHandler = (e) => {
-    const regex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
+    const regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     if (!regex.test(e.target.value)) {
-      setGuideText(`이메일이 형식에 맞지 않습니다.`)
-      setSubmitState(false)
+      setGuideText(`이메일이 형식에 맞지 않습니다.`);
+      setSubmitState(false);
     } else {
-      setGuideText('')
+      setGuideText('');
     }
-  }
+  };
 
   const githubBlurHandler = (e) => {
-    if (!(/^[a-zA-Z0-9]{6,20}$/g).test(e.target.value)) {
-      setGuideText(`github 아이디가 형식에 맞지 않습니다.`)
-      setSubmitState(false)
+    if (!/^[a-zA-Z0-9]{6,20}$/g.test(e.target.value)) {
+      setGuideText(`github 아이디가 형식에 맞지 않습니다.`);
+      setSubmitState(false);
     } else {
-      setGuideText('')
+      setGuideText('');
     }
-  }
+  };
 
   const descriptionBlurHandler = (e) => {
-    if (!(/^.{1,50}$/g).test(e.target.value)) {
-      setGuideText(`블로그 소개는 1자 이상 50자 이내여야 합니다.`)
-      setSubmitState(false)
+    if (!/^.{1,50}$/g.test(e.target.value)) {
+      setGuideText(`블로그 소개는 1자 이상 50자 이내여야 합니다.`);
+      setSubmitState(false);
     } else {
-      setGuideText('')
+      setGuideText('');
     }
-  }
+  };
 
   // * 아이디 중복확인 useMutation
   const idDoubleChkMutation = useMutation(idDoubleChk, {
     onSuccess: (response) => {
       // console.log('id 중복체크', response)
       // console.log('id 중복체크', response.data)
-    }
-  })
+    },
+  });
 
   // * 아이디 중복확인 버튼 click
   const idDoubleChkHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // const newNickname = {
-      // nickname: signupForm.nickname
+    // nickname: signupForm.nickname
     // }
     // idDoubleChkMutation.mutate(newNickname)
 
     // ! 23-05-09 22:03 일단 test로 true되도록 set
-    setIdChkState({ isIdDoubleChk: true })
+    setIdChkState({ isIdDoubleChk: true });
 
     // TODO
     // 중복된 값이 있으면 idChkState.isIdDoubleChk false 처리
     // 중복된 값 없으면 alert처리? (이 부분은 고민해볼 것)
     // guideText에 중복된 아이디 있음 안내
     // setSubmitState(false) 처리
-  }
+  };
 
   // * 회원가입 유저 추가 useMutation
   const addUsersMutation = useMutation(addUsers, {
     onSuccess: (response) => {
-      alert('회원가입이 성공적으로 완료되었습니다!')
-      closeModalHandler()
-    }
-  })
+      alert('회원가입이 성공적으로 완료되었습니다!');
+      closeModalHandler();
+    },
+  });
 
   // * 회원가입 버튼 click
   const submitClickHandler = (e) => {
-    e.preventDefault()
-    if (signupForm.nickname === '' || signupForm.password === '' || signupForm.password === '' ||
-        signupForm.passwordCheck === '' || signupForm.email === '' || signupForm.github === '' ||
-        signupForm.description === '' || guideText !== '') {
-      setGuideText(`회원가입 입력 양식이 맞지 않습니다.`)
-      setSubmitState(false)
-      return
+    e.preventDefault();
+    if (
+      signupForm.nickname === '' ||
+      signupForm.password === '' ||
+      signupForm.password === '' ||
+      signupForm.passwordCheck === '' ||
+      signupForm.email === '' ||
+      signupForm.github === '' ||
+      signupForm.description === '' ||
+      guideText !== ''
+    ) {
+      setGuideText(`회원가입 입력 양식이 맞지 않습니다.`);
+      setSubmitState(false);
     } else if (!idChkState.isIdDoubleChk) {
-      setGuideText(`아이디 중복확인을 진행해주세요.`)
-      setSubmitState(false)
-      return
+      setGuideText(`아이디 중복확인을 진행해주세요.`);
+      setSubmitState(false);
     }
 
     const newUser = {
@@ -160,14 +160,14 @@ const Signup = ({ closeModalHandler }) => {
       email: signupForm.email,
       github: `https://github.com/${signupForm.github}`,
       description: signupForm.description,
-    }
+    };
 
-    addUsersMutation.mutate(newUser)
-  }
+    addUsersMutation.mutate(newUser);
+  };
 
   // * 초기화 버튼 click
   const resetBtnClickHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setSignupForm({
       nickname: '',
       password: '',
@@ -175,8 +175,8 @@ const Signup = ({ closeModalHandler }) => {
       email: '',
       github: '',
       description: '',
-    })
-  }
+    });
+  };
 
   return (
     <FormDiv>
@@ -191,11 +191,7 @@ const Signup = ({ closeModalHandler }) => {
             onChange={inputChangeHandler}
             placeholder={'아이디를 입력하세요.'}
           />
-          <Button
-            color={'mint'}
-            onClick={idDoubleChkHandler}
-            disabled={idChkState.isIdCorrect ? false : true}
-          >
+          <Button color="mint" onClick={idDoubleChkHandler} disabled={!idChkState.isIdCorrect}>
             중복확인
           </Button>
         </InputWrapper>
@@ -245,26 +241,18 @@ const Signup = ({ closeModalHandler }) => {
       </Form>
       <GuideTextP>{guideText}</GuideTextP>
       <ButtonDiv>
-        <Button
-          type={'reset'}
-          color={'white'}
-          onClick={resetBtnClickHandler}
-          >
+        <Button type={'reset'} color={'white'} onClick={resetBtnClickHandler}>
           초기화
         </Button>
-        <Button
-          color={'mint'}
-          disabled={submitState ? false : true}
-          onClick={submitClickHandler}
-        >
+        <Button color={'mint'} disabled={!submitState} onClick={submitClickHandler}>
           회원가입
         </Button>
       </ButtonDiv>
     </FormDiv>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;
 
 const FormDiv = styled.div`
   display: flex;
@@ -272,12 +260,12 @@ const FormDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const SmallInput = styled.input`
   width: 200px;
@@ -285,32 +273,32 @@ const SmallInput = styled.input`
   margin-right: 10px;
   padding: 0px 10px;
   float: left;
-  background-color: #1E1E1E;
-  border: 1px solid #4D4D4D;
+  background-color: #1e1e1e;
+  border: 1px solid #4d4d4d;
   border-radius: 3px;
   color: white;
   &:hover {
-    border: 1px solid #96F2D7;
+    border: 1px solid #96f2d7;
   }
   &:focus {
     outline: none;
-    border: 1px solid #96F2D7;
+    border: 1px solid #96f2d7;
   }
-`
+`;
 
 const MiddleInput = styled.input`
   width: 300px;
   height: 45px;
   padding: 0px 10px;
-  background-color: #1E1E1E;
-  border: 1px solid #4D4D4D;
+  background-color: #1e1e1e;
+  border: 1px solid #4d4d4d;
   border-radius: 3px;
   color: white;
   &:hover {
-    border: 1px solid #96F2D7;
+    border: 1px solid #96f2d7;
   }
   &:focus {
     outline: none;
-    border: 1px solid #96F2D7;
+    border: 1px solid #96f2d7;
   }
-`
+`;

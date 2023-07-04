@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { Cookies } from 'react-cookie'
+import { createSlice } from '@reduxjs/toolkit';
+import { Cookies } from 'react-cookie';
 
-const cookies = new Cookies()
+const cookies = new Cookies();
 
 const initialState = {
   nickname: '',
@@ -9,7 +9,7 @@ const initialState = {
   userImage: '',
   github: '',
   description: '',
-}
+};
 
 const loginSlice = createSlice({
   // * 모듈의 이름
@@ -19,26 +19,28 @@ const loginSlice = createSlice({
   // * 모듈의 Reducer 로직
   reducers: {
     setLoginUser: (state, action) => {
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload };
     },
     setLogoutUser: (state, action) => {
       if (state.nickname === action.payload) {
         // * 브라우저 쿠키에 세팅된 토큰값 지우기
-        cookies.remove('accesstoken', { path: '/' })
-        cookies.remove('refreshtoken', { path: '/' })
-        alert('로그아웃 되었습니다.')
+        cookies.remove('accesstoken', { path: '/' });
+        cookies.remove('refreshtoken', { path: '/' });
+        alert('로그아웃 되었습니다.');
         // * 로그인 시 세팅된 상태값 초기화
-        return initialState
+        return initialState;
       }
 
+      // 조건을 충족하지 않는 경우 기본 값을 반환
+      return state;
     },
+
     updateProfile: (state, action) => {
-      const { field, value } = action.payload
-      return { ...state, [field]: value }
+      const { field, value } = action.payload;
+      return { ...state, [field]: value };
     },
   },
-})
+});
 
-export const { setLoginUser, setLogoutUser, updateProfile } = loginSlice.actions
-export default loginSlice.reducer
-
+export const { setLoginUser, setLogoutUser, updateProfile } = loginSlice.actions;
+export default loginSlice.reducer;

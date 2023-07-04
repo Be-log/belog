@@ -6,14 +6,7 @@ const PropsImage = styled.img`
 `;
 
 const Image = ({ width, height, src, alt }) => {
-  return (
-    <PropsImage
-      width={width}
-      height={height}
-      src={src}
-      alt={alt}
-    />
-  );
+  return <PropsImage width={width} height={height} src={src} alt={alt} />;
 };
 
 export default Image;

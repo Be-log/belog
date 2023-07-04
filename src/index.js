@@ -1,15 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+import reportWebVitals from './reportWebVitals';
+import './reset.css';
+import store from './redux/config/configureStore';
 import App from './App';
-import reportWebVitals from './reportWebVitals'
-import './reset.css'
-import { Provider } from 'react-redux'
-import store from './redux/config/configureStore'
 
-import { PersistGate } from 'redux-persist/integration/react'
-import { persistStore } from 'redux-persist'
-
-export let persistor = persistStore(store)
+export const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +16,9 @@ root.render(
     <PersistGate loading={null} persistor={persistor}>
       <App />
     </PersistGate>
-  </Provider>
+  </Provider>,
 );
 
 reportWebVitals();
+
+export default persistor;
