@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setLogoutUser } from '../redux/modules/login';
-import Button from '../components/Button';
-import Image from '../components/Image';
-import Modal from './Modal';
+import Button from './Button';
+import Image from './Image';
+import Modal from '../pages/Modal';
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
