@@ -61,3 +61,23 @@ export const setCommentEdit = async (commentInfo) => {
       throw error;
     });
 };
+
+// * 댓글 삭제
+export const setCommentDelete = async (commentId) => {
+  return api
+    .patch(`/api/comments/${commentId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+// * 이전글, 다음글 조회
+export const getOtherBoard = async (otherBoardId) => {
+  return api
+    .get(`api/posts/${otherBoardId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};

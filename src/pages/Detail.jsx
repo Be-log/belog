@@ -7,10 +7,17 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { addReplys, editReplys } from '../api/posts';
+import {
+  setComment,
+  setCommentEdit,
+  getCommentList,
+  setBoardDelete,
+  setCommentDelete,
+  getOtherBoard,
+} from '../api/posts';
 import Button from '../components/Button';
 import Image from '../components/Image';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 
 const Detail = () => {
   const [replyComment, setReplyComment] = useState('');
@@ -27,19 +34,25 @@ const Detail = () => {
   const currentPostId = location.pathname.slice(8);
 
   // * 해당 게시글의 댓글 리스트 비동기 조회
-  const { data } = useQuery('getCommentList', async () => {
-    const replyList = await axios.get(`http://13.125.98.73:3000/api/posts/${currentPostId}/comments`);
-    return replyList.data;
+  const { data } = useQuery(['getCommentList', currentPostId], async () => {
+    try {
+      const replyList = await getCommentList(currentPostId);
+      return replyList;
+    } catch (error) {
+      console.error('댓글 리스트 조회 중 오류 발생:', error);
+      throw error;
+    }
   });
 
-  const accesstoken = cookies.get('accesstoken');
-  const refreshtoken = cookies.get('refreshtoken');
-
+  // * 게시글 삭제
   const deletePage = async () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
-      await axios.patch(`http://13.125.98.73:3000/api/posts/${currentPostId}`).then(() => {
+      try {
+        await setBoardDelete(currentPostId);
         queryClient.invalidateQueries('getCommentList');
-      });
+      } catch (error) {
+        console.error('Delete post error:', error);
+      }
     }
   };
 
@@ -49,8 +62,8 @@ const Detail = () => {
   };
 
   // * 댓글 등록 useMutation
-  const addReplyMutation = useMutation(addReplys, {
-    onSuccess: (response) => {
+  const addReplyMutation = useMutation(setComment, {
+    onSuccess: () => {
       setReplyComment('');
       queryClient.invalidateQueries('getCommentList');
     },
@@ -81,8 +94,8 @@ const Detail = () => {
   };
 
   // * 댓글 수정 useMutation
-  const editReplyMutation = useMutation(editReplys, {
-    onSuccess: (response) => {
+  const editReplyMutation = useMutation(setCommentEdit, {
+    onSuccess: () => {
       setEditReplyComment(false);
       setReplyComment('');
       queryClient.invalidateQueries('getCommentList');
@@ -111,21 +124,13 @@ const Detail = () => {
   const deleteReplyHandler = async (commentId) => {
     const deleteChk = window.confirm(`댓글을 삭제하시겠습니까?`);
     if (deleteChk) {
-      await axios
-        .delete(`http://13.125.98.73:3000/api/posts/${currentPostId}/comments/${commentId}`, {
-          headers: {
-            accesstoken: `Bearer ${cookies.get('accesstoken')}`,
-            refreshtoken: `Bearer ${cookies.get('refreshtoken')}`,
-          },
-        })
-
-        .then(() => {
-          alert(`댓글이 삭제되었습니다.`);
-          queryClient.invalidateQueries('getCommentList');
-        })
-        .catch((error) => {
-          console.error('axios deleteReply Error', error);
-        });
+      try {
+        await setCommentDelete(commentId);
+        alert(`댓글이 삭제되었습니다.`);
+        queryClient.invalidateQueries('getCommentList');
+      } catch (error) {
+        console.error('Delete comment error:', error);
+      }
     }
   };
 
@@ -134,16 +139,14 @@ const Detail = () => {
     if (!movementPostId) {
       alert('작성된 글이 없습니다.');
     } else {
-      await axios
-        .get(`http://13.125.98.73:3000/api/posts/${movementPostId}`)
-        .then((response) => {
-          navigate(`/detail/${movementPostId}`, {
-            state: { post: response.data },
-          });
-        })
-        .catch((error) => {
-          console.error('axios pageMovementClick Error', error);
+      try {
+        const response = await getOtherBoard(movementPostId);
+        navigate(`/detail/${movementPostId}`, {
+          state: { post: response },
         });
+      } catch (error) {
+        console.error('axios pageMovementClick Error', error);
+      }
     }
   };
 
