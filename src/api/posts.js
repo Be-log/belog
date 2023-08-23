@@ -1,49 +1,83 @@
-import axios from 'axios';
+import api from './interceptor';
+
+// * 게시글 리스트 조회
+export const getBoardList = () => {
+  return api
+    .get(`/api/posts/main`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+// * 게시글 디테일 조회
+export const getBoardDetail = (postId) => {
+  return api
+    .get(`/api/posts/${postId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+// * 게시글 삭제
+export const setBoardDelete = (postId) => {
+  return api
+    .patch(`/api/posts/${postId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+// * 게시글 댓글 조회
+export const getCommentList = (postId) => {
+  return api
+    .get(`/api/posts/${postId}/comments`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
 
 // * 댓글 작성
-const addReplys = async (replyInfo) => {
-  const { postId, comment, accesstoken, refreshtoken } = replyInfo;
-  // await axios.post(`http://3.34.52.229/api/posts/${postId}/comments`, {
-  await axios
-    .post(
-      `http://13.125.98.73:3000/api/posts/${postId}/comments`,
-      {
-        comment,
-      },
-      {
-        headers: {
-          accesstoken: `Bearer ${accesstoken}`,
-          refreshtoken: `Bearer ${refreshtoken}`,
-        },
-      },
-    )
+export const setComment = (commentInfo) => {
+  const { postId, comment } = commentInfo;
+  return api
+    .post(`/api/posts/${postId}/comments`, comment)
+    .then((response) => response.data)
     .catch((error) => {
-      console.log(error.response);
+      throw error;
     });
 };
 
 // * 댓글 수정
-const editReplys = async (editReplyInfo) => {
-  const { postId, commentId, comment, accesstoken, refreshtoken } = editReplyInfo;
-  await axios
-    .put(
-      `http://13.125.98.73:3000/api/posts/${postId}/comments/${commentId}`,
-      {
-        comment,
-      },
-      {
-        headers: {
-          accesstoken: `Bearer ${accesstoken}`,
-          refreshtoken: `Bearer ${refreshtoken}`,
-        },
-      },
-    )
-    .then((response) => {
-      console.log(response);
-    })
+export const setCommentEdit = async (commentInfo) => {
+  const { postId, commentId, comment } = commentInfo;
+  return api
+    .post(`/api/posts/${postId}/comments/${commentId}`, comment)
+    .then((response) => response.data)
     .catch((error) => {
-      console.log(error.response);
+      throw error;
     });
 };
 
-export { addReplys, editReplys };
+// * 댓글 삭제
+export const setCommentDelete = async (commentId) => {
+  return api
+    .patch(`/api/comments/${commentId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+// * 이전글, 다음글 조회
+export const getOtherBoard = async (otherBoardId) => {
+  return api
+    .get(`api/posts/${otherBoardId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+};

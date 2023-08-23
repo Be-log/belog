@@ -13,7 +13,7 @@ import {
   EditorContainer,
 } from '../components/styles';
 import Button from '../components/Button';
-import Header from './Navbar';
+import Header from '../components/Navbar';
 
 function Write() {
   const navigate = useNavigate();

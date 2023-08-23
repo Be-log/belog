@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 // Main.jsx
 export const MainContainer = styled.main`
+  height: 100%;
+  width: 100%;
   background-color: #121212;
   padding-bottom: 50px;
-  height: 150vh;
 `;
 
 export const WrapContainer = styled.div`
