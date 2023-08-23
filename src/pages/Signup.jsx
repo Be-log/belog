@@ -101,33 +101,20 @@ const Signup = ({ closeModalHandler }) => {
 
   // * 아이디 중복확인 useMutation
   const idDoubleChkMutation = useMutation(idDoubleChk, {
-    onSuccess: (response) => {
-      // console.log('id 중복체크', response)
-      // console.log('id 중복체크', response.data)
+    onSuccess: () => {
+      setIdChkState({ isIdDoubleChk: true });
     },
   });
 
   // * 아이디 중복확인 버튼 click
   const idDoubleChkHandler = (e) => {
     e.preventDefault();
-    // const newNickname = {
-    // nickname: signupForm.nickname
-    // }
-    // idDoubleChkMutation.mutate(newNickname)
-
-    // ! 23-05-09 22:03 일단 test로 true되도록 set
-    setIdChkState({ isIdDoubleChk: true });
-
-    // TODO
-    // 중복된 값이 있으면 idChkState.isIdDoubleChk false 처리
-    // 중복된 값 없으면 alert처리? (이 부분은 고민해볼 것)
-    // guideText에 중복된 아이디 있음 안내
-    // setSubmitState(false) 처리
+    idDoubleChkMutation.mutate(signupForm.nickname);
   };
 
   // * 회원가입 유저 추가 useMutation
   const addUsersMutation = useMutation(addUsers, {
-    onSuccess: (response) => {
+    onSuccess: () => {
       alert('회원가입이 성공적으로 완료되었습니다!');
       closeModalHandler();
     },
@@ -180,7 +167,7 @@ const Signup = ({ closeModalHandler }) => {
 
   return (
     <FormDiv>
-      <InfoH1>회원가입</InfoH1>
+      <InfoH1>{'회원가입'}</InfoH1>
       <Form>
         <InputWrapper>
           <SmallInput
@@ -192,7 +179,7 @@ const Signup = ({ closeModalHandler }) => {
             placeholder={'아이디를 입력하세요.'}
           />
           <Button color="mint" onClick={idDoubleChkHandler} disabled={!idChkState.isIdCorrect}>
-            중복확인
+            {'중복확인'}
           </Button>
         </InputWrapper>
         <MiddleInput
@@ -242,10 +229,10 @@ const Signup = ({ closeModalHandler }) => {
       <GuideTextP>{guideText}</GuideTextP>
       <ButtonDiv>
         <Button type={'reset'} color={'white'} onClick={resetBtnClickHandler}>
-          초기화
+          {'초기화'}
         </Button>
         <Button color={'mint'} disabled={!submitState} onClick={submitClickHandler}>
-          회원가입
+          {'회원가입'}
         </Button>
       </ButtonDiv>
     </FormDiv>

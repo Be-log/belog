@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import useInputState from '../utils/useInputState';
-import Header from './Navbar';
+import Header from '../components/Navbar';
 import { setLoginUser } from '../redux/modules/login';
 import Button from '../components/Button';
 import {

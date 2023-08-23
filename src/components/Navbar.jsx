@@ -45,7 +45,7 @@ const Navbar = () => {
             navigate('/');
           }}
         >
-          belog
+          {'belog'}
         </HeaderLogo>
       </HeaderContentLeft>
       <HeaderContentRight>
@@ -58,7 +58,7 @@ const Navbar = () => {
                 navigate('/write');
               }}
             >
-              새 글 작성
+              {'새 글 작성'}
             </Button>
             <HeaderToggleDiv onClick={toggleClickHandler}>
               <Image src={`${process.env.PUBLIC_URL}/images/default_profile.png`} width={'40'} height={'40'} />
@@ -68,15 +68,15 @@ const Navbar = () => {
         )}
         {!getLoginInfo.nickname && (
           <Button shape={'circle'} onClick={loginModalClickHandler}>
-            로그인
+            {'로그인'}
           </Button>
         )}
         {showModal && <Modal closeModalHandler={closeModalHandler} />}
         {menuToggle && (
           <HeaderUl>
-            <HeaderLi onClick={myPageClick}>내 비로그</HeaderLi>
-            <HeaderLi onClick={profilePageClick}>프로필 설정</HeaderLi>
-            <HeaderLi onClick={logoutClickHandler}>로그아웃</HeaderLi>
+            <HeaderLi onClick={myPageClick}>{'내 비로그'}</HeaderLi>
+            <HeaderLi onClick={profilePageClick}>{'프로필 설정'}</HeaderLi>
+            <HeaderLi onClick={logoutClickHandler}>{'로그아웃'}</HeaderLi>
           </HeaderUl>
         )}
       </HeaderContentRight>
