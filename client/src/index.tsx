@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from 'styled-components'
-import { GlobalStyle, Theme } from './styles'
+import { GlobalStyle, Color } from './styles'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={Theme}>
+    <ThemeProvider theme={Color}>
       <GlobalStyle />
       <App />
     </ThemeProvider>

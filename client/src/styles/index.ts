@@ -1,4 +1,4 @@
 import { GlobalStyle } from './GlobalStyle'
-import { Theme } from './Theme'
+import { Color } from './Color'
 
-export { GlobalStyle, Theme }
+export { GlobalStyle, Color }
