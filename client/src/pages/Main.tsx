@@ -1,12 +1,15 @@
+import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { Image } from '../components/common'
 import { profile, thumbnail } from '../assets'
 
 const Main = () => {
+  const navigate = useNavigate()
+
   return (
     <WrapMain>
-      <BoxDiv>
-        <Image height={150} $border={3} src={thumbnail} />
+      <BoxDiv onClick={() => navigate('/post')}>
+        <Image $height={150} $border={3} src={thumbnail} />
         <BoardDiv>
           <h1>{'한글 Lorem Ipsum'}</h1>
           <h2>
@@ -17,7 +20,7 @@ const Main = () => {
           <span>{'2023년 8월 17일'}</span>
         </BoardDiv>
         <NicknameDiv>
-          <Image width={24} height={24} $border={50} src={profile} />
+          <Image $width={24} $height={24} $border={50} src={profile} />
           <span>{'by'}</span>
           <h3>{'olivia-kim'}</h3>
         </NicknameDiv>
@@ -86,5 +89,5 @@ const NicknameDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  border-top: 1px solid #2a2a2a;
+  border-top: 1px solid ${({ theme }) => theme.deepGray};
 `

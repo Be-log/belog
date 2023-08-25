@@ -1,7 +1,7 @@
 // Image.tsx
 export interface ImgProps {
-  width?: number
-  height?: number
+  $width?: number
+  $height?: number
   $border?: number
   src: string
   alt?: string
