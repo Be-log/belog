@@ -1,5 +1,6 @@
 import { styled } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import Button from './Button'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -12,7 +13,9 @@ const Header = () => {
         </button>
       </section>
       <section>
-        <button type={'button'}>{'로그인'}</button>
+        <Button $color={'transparent'} $shape={'circle'}>
+          {'로그인'}
+        </Button>
       </section>
     </WrapHeader>
   )

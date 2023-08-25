@@ -8,6 +8,8 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     border: 0;
     font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
     color: white;
     strong {
       font-weight: 600;

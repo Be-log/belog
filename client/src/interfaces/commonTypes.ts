@@ -1,0 +1,17 @@
+// Image.tsx
+export interface ImgProps {
+  width?: number
+  height?: number
+  $border?: number
+  src: string
+  alt?: string
+}
+
+// Button.tsx
+export interface BtnProps {
+  children: string
+  $color?: 'white' | 'mint' | 'transparent'
+  $shape?: 'circle'
+  onclick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  disabled?: boolean
+}
