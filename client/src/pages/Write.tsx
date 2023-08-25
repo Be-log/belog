@@ -27,7 +27,7 @@ const WrapWrite = styled.main`
 `
 
 const EditorSection = styled.section`
-  margin-top: 70px;
+  margin-top: 50px;
 `
 
 const WriteIpt = styled.input`
