@@ -20,6 +20,22 @@ export const GlobalStyle = createGlobalStyle`
   *:after {
     box-sizing: border-box;
   }
+  html {
+    overflow-y: auto;
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 125px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: ${({ theme }) => theme.darkGray};
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: ${({ theme }) => theme.black};
+    }
+  }
   article,
   aside,
   details,
