@@ -1,3 +1,4 @@
 import Main from './Main'
+import Post from './Post'
 
-export { Main }
+export { Main, Post }

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Main } from './pages'
+import { Main, Post } from './pages'
 import { Layout } from './components/common'
 
 const App = () => {
@@ -8,6 +8,7 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route path={''} element={<Main />} />
+          <Route path={'post'} element={<Post />} />
         </Route>
       </Routes>
     </BrowserRouter>
