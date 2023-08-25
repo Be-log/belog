@@ -1,9 +1,15 @@
+import { useState } from 'react'
 import { styled } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import Button from './Button'
+import Portal from './Portal'
 
 const Header = () => {
+  const [toggleLogin, setToggleLogin] = useState(false)
+
   const navigate = useNavigate()
+
+  const toggleLoginHandler = () => setToggleLogin((prev) => !prev)
 
   return (
     <WrapHeader>
@@ -13,10 +19,11 @@ const Header = () => {
         </button>
       </section>
       <section>
-        <Button $color={'transparent'} $shape={'circle'}>
+        <Button $color={'transparent'} $shape={'circle'} onclick={toggleLoginHandler}>
           {'로그인'}
         </Button>
       </section>
+      {toggleLogin && <Portal type={'SignUp'} />}
     </WrapHeader>
   )
 }
