@@ -13,38 +13,38 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
 <table>
   <tr>
     <th></th>
-    <th>Version 1</th>
-    <th>Version 2</th>
+    <th>Version 2️⃣</th>
+    <th>Version 1️⃣</th>
   </tr>
   <tr>
     <td>팀원 구성</td>
-    <td>FE 2, BE 4</td>
     <td>FE 1</td>
+    <td>FE 2, BE 4</td>
   </tr>
   <tr>
     <td>구현 기간</td>
-    <td>23.05.05 ~ 23.05.11</td>
-    <td><strong style="color: red; font-weight: 900;">23.08.26 ~ 진행 중</strong></td>
+    <td><b>23.08.26 ~ 진행 중</b></td>
+    <td>23.05.05 ~ 23.05.11 (7일)</td>
   </tr>
   <tr>
     <td>담당 기능</td>
     <td>
-      - 프론트엔드 리딩 및 전반적인 UI 개발 전담<br/>
-      - JWT Token을 이용한 회원가입/로그인<br/>
+      - <b>클라이언트 + 서버 1인 프로젝트로 구현</b><br>
+      - 회원가입/로그인<br/>
       - 메인페이지/헤더<br/>
-      - 상세페이지 및 마이페이지 조회, 댓글 CRUD
+      - 게시글 CRUD
     </td>
     <td>
-      - <strong style="color: red; font-weight: 900;">클라이언트 + 서버 1인 프로젝트로 구현</strong><br>
+      - 프론트엔드 리딩 및 전반적인 UI 구현 전담<br/>
+      - JWT Token을 이용한 회원가입/로그인<br/>
       - 메인페이지/헤더<br/>
-      - 회원가입/로그인<br/>
-      - 게시글 CRUD
+      - 댓글 CRUD
     </td>
   </tr>
   <tr>
     <td>관련 링크</td>
-    <td><a href="https://github.com/hansololiviakim/velog_clone_FE/tree/before_main">before_main branch</a> <i style="color: gray;">(← click!)</i></td>
-    <td><a href="https://github.com/hansololiviakim/velog_clone_FE/tree/refactoring">refactoring branch</a> <i style="color: gray;">(← click!)</i></td>
+    <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim/velog_clone_FE/tree/refactoring">refactoring branch</a> <i style="color: gray;">(← click!)</i></td>
+    <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim/velog_clone_FE/tree/before_main">before_main branch</a> <i style="color: gray;">(← click!)</i></td>
   </tr>
 </table>
 
@@ -59,8 +59,8 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
 <table>
   <tr>
     <th>구분</th>
-    <th>Version 1</th>
-    <th>Version 2</th>
+    <th>Version 2️⃣</th>
+    <th>Version 1️⃣</th>
   </tr>
   <tr>
     <td>Library</td>
@@ -69,8 +69,8 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
   </tr>
   <tr>
     <td>Programming Language</td>
-    <td><img src="https://img.shields.io/badge/JavaScript-F7E025.svg?style=for-the-badge&logo=JavaScript&logoColor=white" alt="JavaScript"></td>
     <td><img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white" alt="TypeScript"></td>
+    <td><img src="https://img.shields.io/badge/JavaScript-F7E025.svg?style=for-the-badge&logo=JavaScript&logoColor=white" alt="JavaScript"></td>
   </tr>
   <tr>
     <td>Styling</td>
@@ -79,18 +79,18 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
   </tr>
   <tr>
     <td>State Management</td>
-    <td><img src="https://img.shields.io/badge/Redux--Toolkit-7B51BE?style=for-the-badge&logo=Redux&logoColor=white" alt="Redux Toolkit"> <img src="https://img.shields.io/badge/tanstack--query-FF4759?style=for-the-badge&logo=react-query&logoColor=white" alt="Tanstack-Query"></td>
     <td><img src="https://img.shields.io/badge/recoil-5D4EFF?style=for-the-badge&logo=Recoil&logoColor=white" alt="Recoil"> <img src="https://img.shields.io/badge/tanstack--query-FF4759?style=for-the-badge&logo=react-query&logoColor=white" alt="Tanstack-Query"></td>
+    <td><img src="https://img.shields.io/badge/Redux--Toolkit-7B51BE?style=for-the-badge&logo=Redux&logoColor=white" alt="Redux Toolkit"> <img src="https://img.shields.io/badge/tanstack--query-FF4759?style=for-the-badge&logo=react-query&logoColor=white" alt="Tanstack-Query"></td>
   </tr>
   <tr>
     <td>Server & DataBase</td>
-    <td><img src="https://img.shields.io/badge/Node--js-468C45?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"> <img src="https://img.shields.io/badge/My--SQL-08668F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"></td>
     <td><img src="https://img.shields.io/badge/Flask-080808?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"> <img src="https://img.shields.io/badge/Mongo--DB-17AD55?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"></td>
+    <td><img src="https://img.shields.io/badge/Node--js-468C45?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"> <img src="https://img.shields.io/badge/My--SQL-08668F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"></td>
   </tr>
   <tr>
     <td>Formatting</td>
-    <td><img src="https://img.shields.io/badge/Not--used-FFF.svg?style=for-the-badge" alt="Not used"></td>
     <td><img src="https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white" alt="ESLint"> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white" alt="Prettier"></td>
+    <td><img src="https://img.shields.io/badge/Not--used-FFF.svg?style=for-the-badge" alt="Not used"></td>
   </tr>
   <tr>
     <td>Version Control</td>
