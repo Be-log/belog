@@ -59,17 +59,6 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
 
 <br/><br/>
 
-## 🖥️ 화면 구성
-### 🔸 메인 페이지
-![메인화면](https://github.com/hansololiviakim/velog_clone_FE/assets/84097192/46d50b9b-5c1e-471f-8690-a3da2e5d91df)
-
-<br/>
-
-### 🔸 게시글 상세 페이지
-![상세페이지](https://github.com/hansololiviakim/velog_clone_FE/assets/84097192/e0c971ed-28c1-477b-8774-a48dcb9fe855)
-
-<br/><br/>
-
 ## **✨ 팀원 소개**
 
 <table>
@@ -102,3 +91,16 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
      <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://gyghks0378.tistory.com/"><img src="https://img.shields.io/badge/gyghks0378-C65200?style=for-the-badge&logo=tistory&logoColor=white" alt="Styled-Components"></a></td>
   </tr>
 </table>
+
+<br/><br/>
+
+## 🖥️ 화면 구성
+### 🔸 메인 페이지
+![메인화면](https://github.com/hansololiviakim/velog_clone_FE/assets/84097192/46d50b9b-5c1e-471f-8690-a3da2e5d91df)
+
+<br/>
+
+### 🔸 게시글 상세 페이지
+![상세페이지](https://github.com/hansololiviakim/velog_clone_FE/assets/84097192/e0c971ed-28c1-477b-8774-a48dcb9fe855)
+
+<br/><br/>
