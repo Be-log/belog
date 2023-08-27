@@ -8,14 +8,14 @@ const SignLayout = ({ children }: SignLayoutProps) => {
     <BackgroundDiv>
       <WrapSign>
         <WelcomeSection>
-          <Image $width={200} $height={150} src={welcome} />
+          <Image $width={150} $height={100} src={welcome} />
           <p>{'환영합니다!'}</p>
         </WelcomeSection>
         <ChildrenSection>
           <CloseDiv>
             <button type={'button'}>{'×'}</button>
           </CloseDiv>
-          <ChildrenDiv>{children}</ChildrenDiv>
+          <ChildrenForm>{children}</ChildrenForm>
         </ChildrenSection>
       </WrapSign>
     </BackgroundDiv>
@@ -38,13 +38,13 @@ const BackgroundDiv = styled.div`
 `
 
 const WrapSign = styled.div`
-  width: 800px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
   display: flex;
 `
 
 const WelcomeSection = styled.section`
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -52,7 +52,7 @@ const WelcomeSection = styled.section`
   background: ${({ theme }) => theme.deepGray};
   p {
     margin-top: 15px;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
   }
 `
@@ -73,7 +73,6 @@ const CloseDiv = styled.div`
   }
 `
 
-const ChildrenDiv = styled.div`
-  /* border: 1px solid white; */
-  padding-top: 20px;
+const ChildrenForm = styled.form`
+  //
 `

@@ -8,7 +8,7 @@ const Portal = ({ type, onclick }: PortalProps) => {
   let componentToRender = null
 
   if (type === 'SignUp') {
-    componentToRender = <SignUp />
+    componentToRender = <SignUp onclick={onclick} />
   }
 
   return portalRoot ? ReactDOM.createPortal(componentToRender, portalRoot) : null

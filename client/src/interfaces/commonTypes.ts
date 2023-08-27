@@ -22,3 +22,11 @@ export interface BtnProps {
 export interface SignLayoutProps {
   children: ReactNode
 }
+
+// Input.tsx
+export interface IptProps {
+  type: string
+  id: string
+  $label: string
+  placeholder?: string
+}

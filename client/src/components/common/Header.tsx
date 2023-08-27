@@ -23,7 +23,7 @@ const Header = () => {
           {'로그인'}
         </Button>
       </section>
-      {toggleLogin && <Portal type={'SignUp'} />}
+      {toggleLogin && <Portal type={'SignUp'} onclick={toggleLoginHandler} />}
     </WrapHeader>
   )
 }
