@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 // Image.tsx
 export interface ImgProps {
   $width?: number
@@ -16,11 +14,6 @@ export interface BtnProps {
   $shape?: 'circle'
   onclick?: (event: React.MouseEvent<HTMLButtonElement>) => void
   disabled?: boolean
-}
-
-// SignLayout.tsx
-export interface SignLayoutProps {
-  children: ReactNode
 }
 
 // Input.tsx

@@ -5,11 +5,11 @@ import Button from './Button'
 import Portal from './Portal'
 
 const Header = () => {
-  const [toggleLogin, setToggleLogin] = useState(false)
+  const [toggleAuth, setToggleAuth] = useState(false)
 
   const navigate = useNavigate()
 
-  const toggleLoginHandler = () => setToggleLogin((prev) => !prev)
+  const toggleAuthHandler = () => setToggleAuth((prev) => !prev)
 
   return (
     <WrapHeader>
@@ -19,11 +19,11 @@ const Header = () => {
         </button>
       </section>
       <section>
-        <Button $color={'transparent'} $shape={'circle'} onclick={toggleLoginHandler}>
+        <Button $color={'transparent'} $shape={'circle'} onclick={toggleAuthHandler}>
           {'로그인'}
         </Button>
       </section>
-      {toggleLogin && <Portal type={'SignUp'} onclick={toggleLoginHandler} />}
+      {toggleAuth && <Portal type={'Authentication'} onclick={toggleAuthHandler} />}
     </WrapHeader>
   )
 }

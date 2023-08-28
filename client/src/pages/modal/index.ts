@@ -1,3 +1,3 @@
-import SignUp from './SignUp'
+import Authentication from './Authentication'
 
-export { SignUp }
+export { Authentication }

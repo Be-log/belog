@@ -48,7 +48,7 @@ const CommonLabel = styled.label`
 const CommonInput = styled.input`
   width: 270px;
   height: 40px;
-  margin: 8px 0 15px 0;
+  margin: 10px 0;
   padding: 10px;
   background: ${({ theme }) => theme.darkGray};
   border: 1px solid #4d4d4d;
