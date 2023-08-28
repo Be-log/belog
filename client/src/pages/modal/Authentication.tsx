@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
+import { useRecoilValue, useRecoilState } from 'recoil'
+import { AuthState } from '../../recoil/AuthAtom'
 import { AuthenticationProps } from '../../interfaces/portalTypes'
 import { Image, Input, Button } from '../../components/common'
 import { welcome } from '../../assets'
@@ -9,12 +11,41 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
     signIn: true,
     signUp: false,
   })
+  const [iptValue, setIptValue] = useRecoilState(AuthState)
+  const authValue = useRecoilValue(AuthState)
 
+  // * toggleSign false의 ipt 초기화
+  useEffect(() => {
+    let cleanValue = {}
+    if (toggleSign.signIn) {
+      cleanValue = {
+        id: '',
+        pwd: '',
+        nickname: '',
+      }
+    } else if (toggleSign.signUp) {
+      cleanValue = {
+        loginId: '',
+        loginPwd: '',
+      }
+    }
+    setIptValue((prev) => ({
+      ...prev,
+      ...cleanValue,
+    }))
+  }, [toggleSign])
+
+  // * 회원가입/로그인 구분 toggleSign
   const toggleSignHandler = (category: string) => {
     setToggleSign({
       signIn: category === 'signIn',
       signUp: category === 'signUp',
     })
+  }
+
+  // * submitHandler
+  const onAuthSubmitHandler = (category: string) => {
+    console.log(authValue)
   }
 
   return (
@@ -36,7 +67,9 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
               <Input type={'text'} id={'loginId'} $label={'아이디'} placeholder={'아이디를 입력해주세요.'} />
               <Input type={'password'} id={'loginPwd'} $label={'비밀번호'} placeholder={'비밀번호를 입력해주세요.'} />
               <SignInBtnWrapDiv>
-                <Button $color={'mint'}>{'로그인'}</Button>
+                <Button $color={'mint'} onclick={() => onAuthSubmitHandler('signIn')}>
+                  {'로그인'}
+                </Button>
                 <div>
                   <span>{'아직 회원이 아니신가요?'}</span>
                   <button type={'button'} onClick={() => toggleSignHandler('signUp')}>
@@ -55,7 +88,9 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
                 <Button $color={'white'} onclick={() => toggleSignHandler('signIn')}>
                   {'뒤로가기'}
                 </Button>
-                <Button $color={'mint'}>{'회원가입'}</Button>
+                <Button $color={'mint'} onclick={() => onAuthSubmitHandler('signUp')}>
+                  {'회원가입'}
+                </Button>
               </SignUpBtnWrapDiv>
             </>
           )}

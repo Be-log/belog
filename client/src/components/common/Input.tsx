@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
+import { useRecoilState } from 'recoil'
+import { AuthState } from '../../recoil/AuthAtom'
 import { IptProps, IptChangeType, errorMsgType, regexType } from '../../interfaces/commonTypes'
+import { AuthStateType } from '../../interfaces/atomTypes'
 
 const Input = ({ type, id, $label, placeholder }: IptProps) => {
-  const [iptValue, setIptValue] = useState('')
+  const [iptValue, setIptValue] = useRecoilState(AuthState)
   const [errorMsg, setErrorMsg] = useState({
     status: false,
     msg: '',
@@ -11,18 +14,21 @@ const Input = ({ type, id, $label, placeholder }: IptProps) => {
 
   // * 입력값의 길이가 0이면 errorMsg 초기화
   useEffect(() => {
-    if (iptValue.length === 0) {
+    if (iptValue[id as keyof AuthStateType]?.length === 0) {
       setErrorMsg({
         status: false,
         msg: '',
       })
     }
-  }, [iptValue])
+  }, [iptValue, id])
 
   // * Input onChange
   const onIptChangeHandler = ({ e, id }: IptChangeType) => {
     const newValue = e.target.value
-    setIptValue(newValue)
+    setIptValue((prev) => ({
+      ...prev,
+      [id]: newValue,
+    }))
     regexHandler({ id, newValue })
   }
 
@@ -67,7 +73,8 @@ const Input = ({ type, id, $label, placeholder }: IptProps) => {
         type={type}
         id={id}
         name={id}
-        value={iptValue}
+        // ? AuthState가 아니라 AuthStateType으로 체크해야 하는 이유 정리하기
+        value={iptValue[id as keyof AuthStateType] || ''}
         onChange={(e) => onIptChangeHandler({ e, id })}
         placeholder={placeholder}
       />
