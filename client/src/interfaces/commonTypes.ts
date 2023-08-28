@@ -23,3 +23,18 @@ export interface IptProps {
   $label: string
   placeholder?: string
 }
+
+export interface IptChangeType {
+  e: React.ChangeEvent<HTMLInputElement>
+  id: string
+}
+
+export interface errorMsgType {
+  status: boolean
+  msg: string
+}
+
+export interface regexType {
+  id: string
+  newValue: string
+}

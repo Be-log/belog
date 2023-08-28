@@ -1,24 +1,74 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
-import { IptProps } from '../../interfaces/commonTypes'
+import { IptProps, IptChangeType, errorMsgType, regexType } from '../../interfaces/commonTypes'
 
 const Input = ({ type, id, $label, placeholder }: IptProps) => {
-  // TODO recoil로 관리, 정규식은 상위컴포넌트에서 진행 후 error 여부 props로 처리
   const [iptValue, setIptValue] = useState('')
+  const [errorMsg, setErrorMsg] = useState({
+    status: false,
+    msg: '',
+  })
+
+  // * 입력값의 길이가 0이면 errorMsg 초기화
+  useEffect(() => {
+    if (iptValue.length === 0) {
+      setErrorMsg({
+        status: false,
+        msg: '',
+      })
+    }
+  }, [iptValue])
+
+  // * Input onChange
+  const onIptChangeHandler = ({ e, id }: IptChangeType) => {
+    const newValue = e.target.value
+    setIptValue(newValue)
+    regexHandler({ id, newValue })
+  }
+
+  // * setErrorMsg
+  const errorMsgHandler = ({ status, msg }: errorMsgType) => {
+    setErrorMsg({
+      status,
+      msg,
+    })
+  }
+
+  // * 유효성 검사
+  const regexHandler = ({ id, newValue }: regexType) => {
+    if (id === 'id') {
+      if (/^[a-z]{3,12}$/g.test(newValue)) {
+        errorMsgHandler({ status: true, msg: '유효한 아이디입니다.' })
+      } else {
+        errorMsgHandler({ status: false, msg: '3~12자의 영어 소문자만 가능합니다.' })
+      }
+    } else if (id === 'pwd') {
+      if (/^(?=.*[a-z])(?=.*\d)[a-z\d]{8,12}$/g.test(newValue)) {
+        errorMsgHandler({ status: true, msg: '유효한 비밀번호입니다.' })
+      } else {
+        errorMsgHandler({ status: false, msg: '8~12자의 영어 소문자 및 숫자만 가능합니다.' })
+      }
+    } else if (id === 'nickname') {
+      if (/^[가-힣a-zA-Z0-9]{4,8}$/g.test(newValue)) {
+        errorMsgHandler({ status: true, msg: '유효한 닉네임입니다.' })
+      } else {
+        errorMsgHandler({ status: false, msg: '4~8자의 한글, 영문, 숫자만 가능합니다.' })
+      }
+    }
+  }
 
   return (
     <InputDiv>
       <div>
         <CommonLabel htmlFor={id}>{$label}</CommonLabel>
-        {/* // TODO erroe T/F값에 따라 color 처리 */}
-        <MessageP>{'에러 메세지'}</MessageP>
+        <MessageP $status={errorMsg.status}>{errorMsg.msg}</MessageP>
       </div>
       <CommonInput
         type={type}
         id={id}
         name={id}
         value={iptValue}
-        onChange={(e) => setIptValue(e.target.value)}
+        onChange={(e) => onIptChangeHandler({ e, id })}
         placeholder={placeholder}
       />
     </InputDiv>
@@ -32,12 +82,13 @@ const InputDiv = styled.div`
   div {
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
 `
 
-const MessageP = styled.p`
-  font-size: 12px;
+const MessageP = styled.p<{ $status: boolean }>`
+  padding-top: 5px;
+  font-size: 10px;
+  color: ${({ $status }) => ($status ? 'green' : 'red')};
 `
 
 const CommonLabel = styled.label`
