@@ -37,6 +37,6 @@ const WrapHeader = styled.header`
   justify-content: space-between;
   section:nth-child(1) button {
     font-size: 26px;
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'source-code-pro', monospace;
   }
 `

@@ -59,15 +59,16 @@ const BoxDiv = styled.div`
   }
   h1 {
     font-size: 17px;
+    font-weight: 600;
   }
   h2 {
     height: 100px;
     margin-bottom: 10px;
     padding: 10px 0;
     font-size: 14px;
-    font-weight: 400;
     white-space: pre-line;
-    line-height: 1.5;
+    text-align: justify;
+    line-height: 1.6;
   }
   span,
   h3 {
