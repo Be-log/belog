@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
+import { useMutation } from '@tanstack/react-query'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { authState, signUpIptState } from '../../recoil/AuthAtom'
 import { AuthenticationProps } from '../../interfaces/portalTypes'
 import { Image, Input, Button } from '../../components/common'
 import { welcome } from '../../assets'
+import { setSignUp } from '../../api/Auth'
 
 const Authentication = ({ onclick }: AuthenticationProps) => {
   const [toggleSign, setToggleSign] = useState({
@@ -50,6 +52,10 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
   useEffect(() => {
     const isEveryTrue = Object.values(iptErrorValue).every((value) => value)
     setIsSignUpDisabled(!isEveryTrue)
+    setIsErrMsg({
+      status: false,
+      msg: '',
+    })
   }, [iptErrorValue])
 
   // * 회원가입/로그인 구분 toggleSign
@@ -59,6 +65,25 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
       signUp: category === 'signUp',
     })
   }
+
+  // * [회원가입] useMutation
+  const setSignUpMutation = useMutation(setSignUp, {
+    onSuccess: (response) => {
+      if (response.result) {
+        alert(response.msg)
+      } else {
+        // id 중복 확인
+        setIsErrMsg({
+          status: false,
+          msg: response.msg,
+        })
+        setIptValue((prev) => ({
+          ...prev,
+          id: '',
+        }))
+      }
+    },
+  })
 
   // * submitHandler
   const onAuthSubmitHandler = (category: string) => {
@@ -85,6 +110,13 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
         status: false,
         msg: '입력되지 않은 값이 있습니다.',
       })
+      return
+    }
+
+    if (category === 'signIn') {
+      //
+    } else if (category === 'signUp') {
+      setSignUpMutation.mutate(authData)
     }
   }
 
