@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { useRecoilState } from 'recoil'
-import { AuthState } from '../../recoil/AuthAtom'
+import { authState, signUpIptState } from '../../recoil/AuthAtom'
 import { IptProps, IptChangeType, errorMsgType, regexType } from '../../interfaces/commonTypes'
 import { AuthStateType } from '../../interfaces/atomTypes'
 
 const Input = ({ type, id, $label, placeholder }: IptProps) => {
-  const [iptValue, setIptValue] = useRecoilState(AuthState)
+  const [iptValue, setIptValue] = useRecoilState(authState)
+  const [isIptError, setIptError] = useRecoilState(signUpIptState)
   const [errorMsg, setErrorMsg] = useState({
     status: false,
     msg: '',
@@ -32,33 +33,39 @@ const Input = ({ type, id, $label, placeholder }: IptProps) => {
     regexHandler({ id, newValue })
   }
 
-  // * setErrorMsg
-  const errorMsgHandler = ({ status, msg }: errorMsgType) => {
-    setErrorMsg({
-      status,
-      msg,
-    })
+  // * setErrorMsg, setIptError
+  const errorMsgHandler = ({ status, msg, id }: errorMsgType) => {
+    if (!id.includes('login')) {
+      setErrorMsg({
+        status,
+        msg,
+      })
+      setIptError((prev) => ({
+        ...prev,
+        [id]: status,
+      }))
+    }
   }
 
   // * 유효성 검사
   const regexHandler = ({ id, newValue }: regexType) => {
     if (id === 'id') {
       if (/^[a-z]{3,12}$/g.test(newValue)) {
-        errorMsgHandler({ status: true, msg: '유효한 아이디입니다.' })
+        errorMsgHandler({ status: true, msg: '유효한 아이디입니다.', id })
       } else {
-        errorMsgHandler({ status: false, msg: '3~12자의 영어 소문자만 가능합니다.' })
+        errorMsgHandler({ status: false, msg: '3~12자의 영어 소문자만 가능합니다.', id })
       }
     } else if (id === 'pwd') {
       if (/^(?=.*[a-z])(?=.*\d)[a-z\d]{8,12}$/g.test(newValue)) {
-        errorMsgHandler({ status: true, msg: '유효한 비밀번호입니다.' })
+        errorMsgHandler({ status: true, msg: '유효한 비밀번호입니다.', id })
       } else {
-        errorMsgHandler({ status: false, msg: '8~12자의 영어 소문자 및 숫자만 가능합니다.' })
+        errorMsgHandler({ status: false, msg: '8~12자의 영어 소문자 및 숫자만 가능합니다.', id })
       }
     } else if (id === 'nickname') {
       if (/^[가-힣a-zA-Z0-9]{4,8}$/g.test(newValue)) {
-        errorMsgHandler({ status: true, msg: '유효한 닉네임입니다.' })
+        errorMsgHandler({ status: true, msg: '유효한 닉네임입니다.', id })
       } else {
-        errorMsgHandler({ status: false, msg: '4~8자의 한글, 영문, 숫자만 가능합니다.' })
+        errorMsgHandler({ status: false, msg: '4~8자의 한글, 영문, 숫자만 가능합니다.', id })
       }
     }
   }

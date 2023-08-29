@@ -1,13 +1,22 @@
 import { atom } from 'recoil'
-import { AuthStateType } from '../interfaces/atomTypes'
+import { AuthStateType, SignUpIptType } from '../interfaces/atomTypes'
 
-export const AuthState = atom<AuthStateType>({
-  key: 'auth',
+export const authState = atom<AuthStateType>({
+  key: 'authValue',
   default: {
     loginId: '',
     loginPwd: '',
     id: '',
     pwd: '',
     nickname: '',
+  },
+})
+
+export const signUpIptState = atom<SignUpIptType>({
+  key: 'iptErrorValue',
+  default: {
+    id: false,
+    pwd: false,
+    nickname: false,
   },
 })

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { AuthState } from '../../recoil/AuthAtom'
+import { authState, signUpIptState } from '../../recoil/AuthAtom'
 import { AuthenticationProps } from '../../interfaces/portalTypes'
 import { Image, Input, Button } from '../../components/common'
 import { welcome } from '../../assets'
@@ -11,10 +11,16 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
     signIn: true,
     signUp: false,
   })
-  const [iptValue, setIptValue] = useRecoilState(AuthState)
-  const authValue = useRecoilValue(AuthState)
+  const [iptValue, setIptValue] = useRecoilState(authState)
+  const [iserrMsg, setIsErrMsg] = useState({
+    status: false,
+    msg: '',
+  })
+  const [isSignUpDisabled, setIsSignUpDisabled] = useState(true)
+  const authValue = useRecoilValue(authState)
+  const iptErrorValue = useRecoilValue(signUpIptState)
 
-  // * toggleSign false의 ipt 초기화
+  // * toggleSign false의 iptValue, isErrMsg초기화
   useEffect(() => {
     let cleanValue = {}
     if (toggleSign.signIn) {
@@ -33,7 +39,18 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
       ...prev,
       ...cleanValue,
     }))
+    setIsErrMsg({
+      status: false,
+      msg: '',
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toggleSign])
+
+  // * 회원가입 모든 입력값 true인지 검증하여 회원가입 버튼 setIsSignUpDisabled
+  useEffect(() => {
+    const isEveryTrue = Object.values(iptErrorValue).every((value) => value)
+    setIsSignUpDisabled(!isEveryTrue)
+  }, [iptErrorValue])
 
   // * 회원가입/로그인 구분 toggleSign
   const toggleSignHandler = (category: string) => {
@@ -45,7 +62,30 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
 
   // * submitHandler
   const onAuthSubmitHandler = (category: string) => {
-    console.log(authValue)
+    let authData = {}
+
+    if (category === 'signIn') {
+      authData = {
+        ...authData,
+        id: authValue.loginId,
+        pwd: authValue.loginPwd,
+      }
+    } else if (category === 'signUp') {
+      authData = {
+        ...authData,
+        id: authValue.id,
+        pwd: authValue.pwd,
+        nickname: authValue.nickname,
+      }
+    }
+
+    const isEveryFill = Object.values<string>(authData).every((value) => value)
+    if (!isEveryFill) {
+      setIsErrMsg({
+        status: false,
+        msg: '입력되지 않은 값이 있습니다.',
+      })
+    }
   }
 
   return (
@@ -70,6 +110,7 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
                 <Button $color={'mint'} onclick={() => onAuthSubmitHandler('signIn')}>
                   {'로그인'}
                 </Button>
+                <SubmitErrP>{iserrMsg.msg}</SubmitErrP>
                 <div>
                   <span>{'아직 회원이 아니신가요?'}</span>
                   <button type={'button'} onClick={() => toggleSignHandler('signUp')}>
@@ -88,10 +129,11 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
                 <Button $color={'white'} onclick={() => toggleSignHandler('signIn')}>
                   {'뒤로가기'}
                 </Button>
-                <Button $color={'mint'} onclick={() => onAuthSubmitHandler('signUp')}>
+                <Button $color={'mint'} onclick={() => onAuthSubmitHandler('signUp')} disabled={isSignUpDisabled}>
                   {'회원가입'}
                 </Button>
               </SignUpBtnWrapDiv>
+              <SubmitErrP>{iserrMsg.msg}</SubmitErrP>
             </>
           )}
         </ChildrenForm>
@@ -164,7 +206,9 @@ const SignInBtnWrapDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 120px;
+  p {
+    margin-bottom: 90px;
+  }
   div {
     display: flex;
     gap: 5px;
@@ -181,4 +225,11 @@ const SignUpBtnWrapDiv = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
+`
+
+const SubmitErrP = styled.p`
+  margin-top: 20px;
+  font-size: 14px;
+  color: red;
+  text-align: center;
 `

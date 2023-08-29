@@ -32,6 +32,7 @@ export interface IptChangeType {
 export interface errorMsgType {
   status: boolean
   msg: string
+  id: string
 }
 
 export interface regexType {
