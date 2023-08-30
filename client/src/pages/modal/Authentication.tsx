@@ -12,6 +12,8 @@ import { setSignUp, setSignIn } from '../../api/Auth'
 import { axiosErrorType } from '../../interfaces/apiTypes'
 
 const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
+  const cookies = new Cookies()
+
   const [toggleSign, setToggleSign] = useState({
     signIn: true,
     signUp: false,
@@ -22,9 +24,9 @@ const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
     msg: '',
   })
   const [isSignUpDisabled, setIsSignUpDisabled] = useState(true)
+
   const authValue = useRecoilValue(authState)
   const iptErrorValue = useRecoilValue(signUpIptState)
-  const cookies = new Cookies()
 
   // * setIptValue
   const iptValueStateHandler = ({ value }: IptValueStateType) => {
@@ -86,7 +88,7 @@ const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
       alert(response.msg)
       cookies.set('token', response.accessToken)
       localStorage.setItem('id', response.userId)
-      localStorage.setItem('nickname', response.nickname)
+      iptValueStateHandler({ value: { loginId: '', loginPwd: '' } })
       isErrMsgStateHandler(false, '')
       if (afteraction) afteraction()
     },

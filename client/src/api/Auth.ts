@@ -1,5 +1,5 @@
 import { objType } from '../interfaces/apiTypes'
-import { postRequest } from './interceptor'
+import { postRequest, deleteRequest } from './interceptor'
 
 export const setSignUp = async (authData: objType) => {
   return postRequest({ url: `/api/users/signup`, params: authData })
@@ -7,4 +7,8 @@ export const setSignUp = async (authData: objType) => {
 
 export const setSignIn = async (authData: objType) => {
   return postRequest({ url: `/api/users/signin`, params: authData })
+}
+
+export const setSignOut = async () => {
+  return deleteRequest({ url: `/api/users/signout` })
 }
