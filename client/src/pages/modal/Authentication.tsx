@@ -2,22 +2,22 @@ import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { AxiosError } from 'axios'
 import { useMutation } from '@tanstack/react-query'
-import { useRecoilValue, useRecoilState } from 'recoil'
 import { Cookies } from 'react-cookie'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { authState, signUpIptState } from '../../recoil/AuthAtom'
-import { AuthenticationProps } from '../../interfaces/portalTypes'
+import { AuthenticationProps, IptValueStateType } from '../../interfaces/portalTypes'
 import { Image, Input, Button } from '../../components/common'
 import { welcome } from '../../assets'
 import { setSignUp, setSignIn } from '../../api/Auth'
 import { axiosErrorType } from '../../interfaces/apiTypes'
 
-const Authentication = ({ onclick }: AuthenticationProps) => {
+const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
   const [toggleSign, setToggleSign] = useState({
     signIn: true,
     signUp: false,
   })
   const [iptValue, setIptValue] = useRecoilState(authState)
-  const [iserrMsg, setIsErrMsg] = useState({
+  const [isErrMsg, setIsErrMsg] = useState({
     status: false,
     msg: '',
   })
@@ -26,29 +26,30 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
   const iptErrorValue = useRecoilValue(signUpIptState)
   const cookies = new Cookies()
 
-  // * toggleSign false의 iptValue, isErrMsg초기화
-  useEffect(() => {
-    let cleanValue = {}
-    if (toggleSign.signIn) {
-      cleanValue = {
-        id: '',
-        pwd: '',
-        nickname: '',
-      }
-    } else if (toggleSign.signUp) {
-      cleanValue = {
-        loginId: '',
-        loginPwd: '',
-      }
-    }
+  // * setIptValue
+  const iptValueStateHandler = ({ value }: IptValueStateType) => {
     setIptValue((prev) => ({
       ...prev,
-      ...cleanValue,
+      ...value,
     }))
+  }
+
+  // * setIsErrMsg
+  const isErrMsgStateHandler = (status: boolean, msg: string) => {
     setIsErrMsg({
-      status: false,
-      msg: '',
+      status,
+      msg,
     })
+  }
+
+  // * toggleSign false의 iptValue, isErrMsg초기화
+  useEffect(() => {
+    if (toggleSign.signIn) {
+      iptValueStateHandler({ value: { id: '', pwd: '', nickname: '' } })
+    } else if (toggleSign.signUp) {
+      iptValueStateHandler({ value: { loginId: '', loginPwd: '' } })
+    }
+    isErrMsgStateHandler(false, '')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toggleSign])
 
@@ -56,10 +57,7 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
   useEffect(() => {
     const isEveryTrue = Object.values(iptErrorValue).every((value) => value)
     setIsSignUpDisabled(!isEveryTrue)
-    setIsErrMsg({
-      status: false,
-      msg: '',
-    })
+    isErrMsgStateHandler(false, '')
   }, [iptErrorValue])
 
   // * 회원가입/로그인 구분 toggleSign
@@ -77,14 +75,8 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
       toggleSignHandler('signIn')
     },
     onError: (error: AxiosError<axiosErrorType>) => {
-      setIsErrMsg({
-        status: false,
-        msg: error.response?.data.msg || '',
-      })
-      setIptValue((prev) => ({
-        ...prev,
-        id: '',
-      }))
+      isErrMsgStateHandler(false, error.response?.data.msg || '')
+      iptValueStateHandler({ value: { id: '' } })
     },
   })
 
@@ -95,16 +87,12 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
       cookies.set('token', response.accessToken)
       localStorage.setItem('id', response.userId)
       localStorage.setItem('nickname', response.nickname)
+      isErrMsgStateHandler(false, '')
+      if (afteraction) afteraction()
     },
     onError: (error: AxiosError<axiosErrorType>) => {
-      setIsErrMsg({
-        status: false,
-        msg: error.response?.data.msg || '',
-      })
-      setIptValue((prev) => ({
-        ...prev,
-        [error.response?.data.falseData || '']: '',
-      }))
+      isErrMsgStateHandler(false, error.response?.data.msg || '')
+      iptValueStateHandler({ value: { [error.response?.data.falseData || '']: '' } })
     },
   })
 
@@ -126,15 +114,14 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
       }
     }
 
+    // 입력값 검증
     const isEveryFill = Object.values<string>(authData).every((value) => value)
     if (!isEveryFill) {
-      setIsErrMsg({
-        status: false,
-        msg: '입력되지 않은 값이 있습니다.',
-      })
+      isErrMsgStateHandler(false, '입력되지 않은 값이 있습니다.')
       return
     }
 
+    // mutation 호출
     if (category === 'signIn') {
       setSignInMutation.mutate(authData)
     } else if (category === 'signUp') {
@@ -164,7 +151,7 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
                 <Button $color={'mint'} onclick={() => onAuthSubmitHandler('signIn')}>
                   {'로그인'}
                 </Button>
-                <SubmitErrP>{iserrMsg.msg}</SubmitErrP>
+                <SubmitErrP>{isErrMsg.msg}</SubmitErrP>
                 <div>
                   <span>{'아직 회원이 아니신가요?'}</span>
                   <button type={'button'} onClick={() => toggleSignHandler('signUp')}>
@@ -187,7 +174,7 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
                   {'회원가입'}
                 </Button>
               </SignUpBtnWrapDiv>
-              <SubmitErrP>{iserrMsg.msg}</SubmitErrP>
+              <SubmitErrP>{isErrMsg.msg}</SubmitErrP>
             </>
           )}
         </ChildrenForm>
