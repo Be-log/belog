@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { CookiesProvider } from 'react-cookie'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle, Color } from './styles'
 import App from './App'
@@ -18,10 +19,12 @@ const queryClient = new QueryClient({
 root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={Color}>
-        <GlobalStyle />
-        <App />
-      </ThemeProvider>
+      <CookiesProvider>
+        <ThemeProvider theme={Color}>
+          <GlobalStyle />
+          <App />
+        </ThemeProvider>
+      </CookiesProvider>
     </QueryClientProvider>
   </RecoilRoot>,
 )

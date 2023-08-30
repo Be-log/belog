@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
+import { AxiosError } from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { useRecoilValue, useRecoilState } from 'recoil'
+import { Cookies } from 'react-cookie'
 import { authState, signUpIptState } from '../../recoil/AuthAtom'
 import { AuthenticationProps } from '../../interfaces/portalTypes'
 import { Image, Input, Button } from '../../components/common'
 import { welcome } from '../../assets'
-import { setSignUp } from '../../api/Auth'
+import { setSignUp, setSignIn } from '../../api/Auth'
+import { axiosErrorType } from '../../interfaces/apiTypes'
 
 const Authentication = ({ onclick }: AuthenticationProps) => {
   const [toggleSign, setToggleSign] = useState({
@@ -21,6 +24,7 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
   const [isSignUpDisabled, setIsSignUpDisabled] = useState(true)
   const authValue = useRecoilValue(authState)
   const iptErrorValue = useRecoilValue(signUpIptState)
+  const cookies = new Cookies()
 
   // * toggleSign false의 iptValue, isErrMsg초기화
   useEffect(() => {
@@ -71,24 +75,44 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
     onSuccess: (response) => {
       if (response.result) {
         alert(response.msg)
-      } else {
-        // id 중복 확인
-        setIsErrMsg({
-          status: false,
-          msg: response.msg,
-        })
-        setIptValue((prev) => ({
-          ...prev,
-          id: '',
-        }))
+        toggleSignHandler('signIn')
       }
+    },
+    onError: (error: AxiosError<axiosErrorType>) => {
+      setIsErrMsg({
+        status: false,
+        msg: error.response?.data.msg || '',
+      })
+      setIptValue((prev) => ({
+        ...prev,
+        id: '',
+      }))
+    },
+  })
+
+  // * [로그인] useMutation
+  const setSignInMutation = useMutation(setSignIn, {
+    onSuccess: (response) => {
+      alert(response.msg)
+      cookies.set('token', response.accessToken)
+      localStorage.setItem('id', response.userId)
+      localStorage.setItem('nickname', response.nickname)
+    },
+    onError: (error: AxiosError<axiosErrorType>) => {
+      setIsErrMsg({
+        status: false,
+        msg: error.response?.data.msg || '',
+      })
+      setIptValue((prev) => ({
+        ...prev,
+        [error.response?.data.falseData || '']: '',
+      }))
     },
   })
 
   // * submitHandler
   const onAuthSubmitHandler = (category: string) => {
     let authData = {}
-
     if (category === 'signIn') {
       authData = {
         ...authData,
@@ -114,7 +138,7 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
     }
 
     if (category === 'signIn') {
-      //
+      setSignInMutation.mutate(authData)
     } else if (category === 'signUp') {
       setSignUpMutation.mutate(authData)
     }

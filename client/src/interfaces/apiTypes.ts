@@ -1,13 +1,15 @@
 // * interceptor.ts
-export interface paramsType {
+export interface requestType {
   url: string
   params?: {
     [key: string]: string | number | boolean
   }
 }
 
-export interface urlType {
-  url: string
+// * axios error response type
+export interface axiosErrorType {
+  falseData?: string
+  msg: string
 }
 
 // * Auth.ts
