@@ -73,10 +73,8 @@ const Authentication = ({ onclick }: AuthenticationProps) => {
   // * [회원가입] useMutation
   const setSignUpMutation = useMutation(setSignUp, {
     onSuccess: (response) => {
-      if (response.result) {
-        alert(response.msg)
-        toggleSignHandler('signIn')
-      }
+      alert(response.msg)
+      toggleSignHandler('signIn')
     },
     onError: (error: AxiosError<axiosErrorType>) => {
       setIsErrMsg({
