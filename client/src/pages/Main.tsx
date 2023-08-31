@@ -4,23 +4,29 @@ import { useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import { styled } from 'styled-components'
 import { Image } from '../components/common'
-import { profile, thumbnail } from '../assets'
+import { profile } from '../assets'
 import { getBoardList } from '../api/board'
 import { axiosErrorType, objType } from '../interfaces/apiTypes'
+import { Loading } from './status'
 
 const Main = () => {
   const navigate = useNavigate()
 
   const [boardList, setBoardList] = useState<objType[] | null>(null)
 
-  useQuery(['getBoardList'], () => getBoardList(), {
+  const { isLoading, error } = useQuery(['getBoardList'], () => getBoardList(), {
     onSuccess: (response) => setBoardList(response.receiveObj),
     onError: (error: AxiosError<axiosErrorType>) => alert(error.response?.data.msg),
   })
 
   return (
     <WrapMain>
-      {boardList &&
+      {isLoading ? (
+        <Loading page={'main'} type={'loading'} />
+      ) : error ? (
+        <Loading page={'main'} type={'error'} />
+      ) : (
+        boardList &&
         boardList.map((post) => (
           <BoxDiv key={String(post.board_seq)} onClick={() => navigate(`/post/${post.board_seq}`)}>
             <Image $height={150} $border={3} src={String(post.thumbnail)} />
@@ -29,7 +35,7 @@ const Main = () => {
               <h2>
                 {String(post.content)
                   .slice(0, 200)
-                  .replaceAll(/\n|_|#*/g, '')}
+                  .replaceAll(/[\n_#*\\/]/g, '')}
               </h2>
               <span>
                 {`${String(post.create_date).slice(0, 4)}년
@@ -43,7 +49,8 @@ const Main = () => {
               <h3>{post.nickname}</h3>
             </NicknameDiv>
           </BoxDiv>
-        ))}
+        ))
+      )}
     </WrapMain>
   )
 }
@@ -51,7 +58,7 @@ const Main = () => {
 export default Main
 
 const WrapMain = styled.main`
-  padding-top: 40px;
+  padding: 40px 0;
   display: grid;
   grid-template-columns: repeat(5, 270px);
   gap: 60px;
@@ -98,7 +105,7 @@ const BoxDiv = styled.div`
   }
   & > img {
     width: 100%;
-    object-fit: fill;
+    object-fit: cover;
   }
   &:hover {
     transform: translateY(-10px);

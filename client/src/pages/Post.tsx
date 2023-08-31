@@ -8,6 +8,7 @@ import { Image, Button } from '../components/common'
 import { profile } from '../assets'
 import { getBoard, deleteBoard } from '../api/board'
 import { axiosErrorType, objType } from '../interfaces/apiTypes'
+import { Loading } from './status'
 
 const Post = () => {
   const postId = useParams().id
@@ -17,9 +18,14 @@ const Post = () => {
 
   const [boardData, setBoardData] = useState<objType | null>(null)
 
-  useQuery(['getBoard'], () => getBoard(postId), {
-    onSuccess: (response) => setBoardData(response.receiveObj),
-    onError: (error: AxiosError<axiosErrorType>) => alert(error.response?.data.msg),
+  const { isLoading, error } = useQuery(['getBoard'], () => getBoard(postId), {
+    onSuccess: (response) => {
+      setBoardData(response.receiveObj)
+    },
+    onError: (error: AxiosError<axiosErrorType>) => {
+      alert(error.response?.data.msg)
+      navigate('/')
+    },
   })
 
   // * [수정] btn click
@@ -56,34 +62,43 @@ const Post = () => {
 
   return (
     <WrapPost>
-      {boardData && (
-        <>
-          <h1>{boardData.title}</h1>
-          <PostInfoDiv>
-            <UserInfoDiv>
-              <span>{boardData.nickname}</span>
-              <span>{'·'}</span>
-              <span>{boardData.date}</span>
-            </UserInfoDiv>
-            {loginId === boardData.userId && (
-              <PostEditDiv>
-                <Button onclick={onEditClickHandler}>{'수정'}</Button>
-                <Button onclick={onDeleteClickHandler}>{'삭제'}</Button>
-              </PostEditDiv>
-            )}
-          </PostInfoDiv>
-          <PostDataDiv>
-            <Image $width={1000} $height={500} src={String(boardData.thumbnail)} />
-            <MDEditor.Markdown source={String(boardData.content)} />
-          </PostDataDiv>
-          <PostUserDiv>
-            <Image $width={80} $height={80} $border={100} src={profile} />
-            <div>
-              <h2>{boardData.nickname}</h2>
-              <h3>{`@${boardData.userId}`}</h3>
-            </div>
-          </PostUserDiv>
-        </>
+      {isLoading ? (
+        <Loading page={'post'} type={'loading'} />
+      ) : error ? (
+        <Loading page={'post'} type={'error'} />
+      ) : (
+        boardData && (
+          <>
+            <h1>{boardData.title}</h1>
+            <PostInfoDiv>
+              <UserInfoDiv>
+                <span>{boardData.nickname}</span>
+                <span>{'·'}</span>
+                <span>{boardData.date}</span>
+              </UserInfoDiv>
+              {loginId === boardData.userId && (
+                <PostEditDiv>
+                  <Button onclick={onEditClickHandler}>{'수정'}</Button>
+                  <Button onclick={onDeleteClickHandler}>{'삭제'}</Button>
+                </PostEditDiv>
+              )}
+            </PostInfoDiv>
+            <PostDataDiv>
+              <Image $width={1000} $height={500} src={String(boardData.thumbnail)} />
+              <MDEditor.Markdown source={String(boardData.content)} />
+            </PostDataDiv>
+            <PostUserDiv>
+              <Image $width={80} $height={80} $border={100} src={profile} />
+              <div>
+                <h2>{boardData.nickname}</h2>
+                <h3>{`@${boardData.userId}`}</h3>
+              </div>
+              <BackBtnWrapDiv>
+                <Button onclick={() => navigate('/')}>{'목록'}</Button>
+              </BackBtnWrapDiv>
+            </PostUserDiv>
+          </>
+        )
       )}
     </WrapPost>
   )
@@ -153,6 +168,9 @@ const PostUserDiv = styled.section`
   align-items: center;
   border-top: 1px solid ${({ theme }) => theme.deepGray};
   border-bottom: 1px solid ${({ theme }) => theme.deepGray};
+  div {
+    width: 50%;
+  }
   img {
     margin-right: 20px;
   }
@@ -162,5 +180,11 @@ const PostUserDiv = styled.section`
   }
   h3 {
     margin-top: 3px;
+  }
+`
+
+const BackBtnWrapDiv = styled.div`
+  button {
+    float: right;
   }
 `
