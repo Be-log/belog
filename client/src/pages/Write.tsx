@@ -45,7 +45,9 @@ const Write = () => {
 
   // * submitHandler
   const onBoardSubmitHandler = () => {
-    if (!title.length || !content) {
+    const nickname = localStorage.getItem('nickname') || ''
+
+    if (!title.length || !content || !thumbnail) {
       alert('입력되지 않은 값이 있습니다.')
       return
     }
@@ -55,6 +57,7 @@ const Write = () => {
     }
 
     const boardData = {
+      nickname,
       title,
       thumbnail,
       content,

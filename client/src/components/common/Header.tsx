@@ -53,7 +53,7 @@ const Header = () => {
   const setSignOutMutation = useMutation(setSignOut, {
     onSuccess: (response) => {
       alert(response.msg)
-      cookies.remove('token')
+      cookies.remove('token', { path: '/' })
       localStorage.clear()
       setIsLoggedIn(false)
     },

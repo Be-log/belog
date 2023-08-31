@@ -29,13 +29,14 @@ def postSignUp():
     get_params = request.get_json()
     receive_id = get_params['id']
     receive_pwd = bcrypt.generate_password_hash(get_params['pwd'])
+    receive_nickname = get_params['nickname']
 
     # id 중복 확인
     find_id = users_collection.find_one({ 'user_id': receive_id })
     if find_id is not None:
       return jsonify({ 'msg': '이미 존재하는 아이디입니다.' }), 422
     else:
-      users_collection.insert_one({ 'user_id': receive_id, 'user_pwd': receive_pwd })
+      users_collection.insert_one({ 'user_id': receive_id, 'user_pwd': receive_pwd, 'nickname': receive_nickname })
       return jsonify({ 'msg': '회원가입이 완료되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'error': str(e) })
@@ -59,7 +60,7 @@ def postSignIn():
           identity = str(user_data['_id']),
           additional_claims = {'user_id': user_data['user_id']},
         )
-        return jsonify({ 'accessToken': access_token, 'userId': user_data['user_id'],
+        return jsonify({ 'accessToken': access_token, 'userId': user_data['user_id'], 'nickname': user_data['nickname'],
                         'msg': '로그인이 완료되었습니다.' }), 201
       else:
         return jsonify({ 'receiveData': 'loginPwd', 'msg': '비밀번호가 일치하지 않습니다.' }), 422

@@ -86,8 +86,9 @@ const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
   const setSignInMutation = useMutation(setSignIn, {
     onSuccess: (response) => {
       alert(response.msg)
-      cookies.set('token', response.accessToken)
+      cookies.set('token', response.accessToken, { path: '/' })
       localStorage.setItem('id', response.userId)
+      localStorage.setItem('nickname', response.nickname)
       iptValueStateHandler({ value: { loginId: '', loginPwd: '' } })
       isErrMsgStateHandler(false, '')
       if (afteraction) afteraction()
