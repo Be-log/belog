@@ -10,5 +10,5 @@ export const setSignIn = async (authData: objType) => {
 }
 
 export const setSignOut = async () => {
-  return deleteRequest({ url: `/api/users/signout` })
+  return deleteRequest(`/api/users/signout`)
 }

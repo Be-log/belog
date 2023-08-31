@@ -44,7 +44,7 @@ api.interceptors.response.use(
 )
 
 // * [HTTP Req Method] get
-export const getRequest = async ({ url }: requestType) => {
+export const getRequest = async (url: string) => {
   const response = await api.get(url)
   return response.data
 }
@@ -62,7 +62,7 @@ export const putRequest = async ({ url, params }: requestType) => {
 }
 
 // * [HTTP Req Method] delete
-export const deleteRequest = async ({ url }: requestType) => {
+export const deleteRequest = async (url: string) => {
   const response = await api.delete(url)
   return response.data
 }

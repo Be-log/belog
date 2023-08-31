@@ -72,7 +72,7 @@ const Write = () => {
             name={'title'}
             value={title}
             onChange={onTitleChangeHandler}
-            maxLength={50}
+            maxLength={80}
             placeholder={'제목을 입력하세요.'}
           />
         </WriteLabel>
@@ -94,7 +94,7 @@ const Write = () => {
             placeholder: '간단한 마크다운 문법을 이용해 게시글을 작성할 수 있습니다!',
           }}
           previewOptions={{
-            allowedElements: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'span', 'br', 'ul', 'li', 'ol', 'img'],
+            allowedElements: ['h1', 'h2', 'h3', 'p', 'a', 'span', 'br', 'ul', 'li', 'ol', 'img', 'b', 'i'],
           }}
         />
       </EditorSection>

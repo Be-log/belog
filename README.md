@@ -4,7 +4,7 @@
 
 <p align="center"><img src="https://github.com/hansololiviakim/velog_clone_FE/assets/84097192/8fcdd6e7-1fd8-4e42-aaf7-69769d9e600c" alt="Introduction picture of belog"></p>
 
-_<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 코딩 ver.2</p>_
+_<p align="center"><b>벨로그</b> (개발자를 위한 블로그 서비스) 클론 코딩 ver.2</p>_
 
 <br/>
 
@@ -13,7 +13,7 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
 <table>
   <tr>
     <th></th>
-    <th>Version 2️⃣</th>
+    <th>✨ Version 2️⃣ ✨</th>
     <th>Version 1️⃣</th>
   </tr>
   <tr>
@@ -23,14 +23,14 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
   </tr>
   <tr>
     <td>구현 기간</td>
-    <td><b>23.08.26 ~ 진행 중</b></td>
+    <td><b>23.08.26 ~ 23.08.31 (5일)</b></td>
     <td>23.05.05 ~ 23.05.11 (7일)</td>
   </tr>
   <tr>
     <td>담당 기능</td>
     <td>
-      - <b>클라이언트 + 서버 1인 프로젝트로 구현</b><br>
-      - 회원가입/로그인<br/>
+      - <b>클라이언트&서버 1인 프로젝트로 구현</b><br>
+      - JWT Token을 이용한 회원가입/로그인<br/>
       - 메인페이지/헤더<br/>
       - 게시글 CRUD
     </td>
@@ -43,8 +43,14 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
   </tr>
   <tr>
     <td>관련 링크</td>
-    <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim/velog_clone_FE/tree/refactoring">refactoring branch</a> <i style="color: gray;">(← click!)</i></td>
-    <td><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim/velog_clone_FE/tree/before_main">before_main branch</a> <i style="color: gray;">(← click!)</i></td>
+    <td>
+      <a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim/velog_clone_FE/tree/refactoring">refactoring branch</a>
+      <i style="color: gray;">(← click!)</i>
+    </td>
+    <td>
+      <a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim/velog_clone_FE/tree/before_main">before_main branch</a>
+      <i style="color: gray;">(← click!)</i>
+    </td>
   </tr>
 </table>
 
@@ -59,7 +65,7 @@ _<p align="center">개발자를 위한 블로그 서비스인 벨로그 클론 �
 <table>
   <tr>
     <th>구분</th>
-    <th>Version 2️⃣</th>
+    <th>✨ Version 2️⃣ ✨</th>
     <th>Version 1️⃣</th>
   </tr>
   <tr>
