@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 import json
 from pymongo import MongoClient
+from pymongo.collection import Collection
 import certifi
 from . import users_bp
 
@@ -14,6 +15,7 @@ with open('config.json', 'r', encoding='utf-8') as f:
 ca = certifi.where()
 client = MongoClient(config['DB_URI'], tlsCAFile=ca)
 db = client.belog
+users_collection: Collection = db.users
 
 bcrypt = Bcrypt()
 jwt = JWTManager()
@@ -29,11 +31,11 @@ def postSignUp():
     receive_pwd = bcrypt.generate_password_hash(get_params['pwd'])
 
     # id 중복 확인
-    find_id = db.users.find_one({ 'user_id': receive_id })
+    find_id = users_collection.find_one({ 'user_id': receive_id })
     if find_id is not None:
       return jsonify({ 'msg': '이미 존재하는 아이디입니다.' }), 422
     else:
-      db.users.insert_one({ 'user_id': receive_id, 'user_pwd': receive_pwd })
+      users_collection.insert_one({ 'user_id': receive_id, 'user_pwd': receive_pwd })
       return jsonify({ 'msg': '회원가입이 완료되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'error': str(e) })
@@ -48,7 +50,7 @@ def postSignIn():
     receive_id = get_params['id']
     receive_pwd = get_params['pwd']
 
-    user_data = db.users.find_one({ 'user_id': receive_id })
+    user_data = users_collection.find_one({ 'user_id': receive_id })
 
     if user_data is not None:
       is_pwd_same = bcrypt.check_password_hash(user_data['user_pwd'], receive_pwd)
@@ -57,12 +59,12 @@ def postSignIn():
           identity = str(user_data['_id']),
           additional_claims = {'user_id': user_data['user_id']},
         )
-        return jsonify({ 'accessToken': access_token, 'userId': user_data['user_id'], 'nickname': user_data['nickname'],
+        return jsonify({ 'accessToken': access_token, 'userId': user_data['user_id'],
                         'msg': '로그인이 완료되었습니다.' }), 201
       else:
-        return jsonify({ 'falseData': 'loginPwd', 'msg': '비밀번호가 일치하지 않습니다.' }), 422
+        return jsonify({ 'receiveData': 'loginPwd', 'msg': '비밀번호가 일치하지 않습니다.' }), 422
     else:
-      return jsonify({ 'falseData': 'loginId', 'msg': '일치하는 아이디가 없습니다.' }), 422
+      return jsonify({ 'receiveData': 'loginId', 'msg': '일치하는 아이디가 없습니다.' }), 422
   except Exception as e:
     return jsonify({ 'error': str(e) })
 
