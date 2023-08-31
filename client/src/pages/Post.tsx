@@ -11,7 +11,7 @@ import { axiosErrorType, objType } from '../interfaces/apiTypes'
 
 const Post = () => {
   const postId = useParams().id
-  const writerId = localStorage.getItem('id')
+  const loginId = localStorage.getItem('id')
 
   const [boardData, setBoardData] = useState<objType | null>(null)
 
@@ -31,7 +31,7 @@ const Post = () => {
               <span>{'·'}</span>
               <span>{boardData.date}</span>
             </UserInfoDiv>
-            {writerId === boardData.userId && (
+            {loginId === boardData.userId && (
               <PostEditDiv>
                 <Button>{'수정'}</Button>
                 <Button>{'삭제'}</Button>

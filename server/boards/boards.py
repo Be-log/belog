@@ -59,7 +59,7 @@ def createBoard():
       'create_date': current_datetime, 'update_date': current_datetime,
     })
 
-    return jsonify({ 'receiveData': board_seq, 'msg': '게시글이 등록되었습니다.' })
+    return jsonify({ 'receiveData': board_seq, 'msg': '게시글이 등록되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
   
