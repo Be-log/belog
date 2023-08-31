@@ -116,7 +116,7 @@ const Write = () => {
             placeholder={'이미지 URL을 입력하세요.'}
           />
         </WriteLabel>
-        <MDEditor
+        <CustomEditor
           value={content}
           onChange={setContent}
           height={510}
@@ -141,6 +141,14 @@ const Write = () => {
 }
 
 export default Write
+
+const CustomEditor = styled(MDEditor)`
+  .w-md-editor-text * {
+    font-size: 20px;
+    line-height: 40px;
+    text-align: justify;
+  }
+`
 
 const WrapWrite = styled.main`
   margin: auto;
