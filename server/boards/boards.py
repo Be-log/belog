@@ -61,6 +61,8 @@ def createBoard():
     })
 
     return jsonify({ 'receiveData': board_seq, 'msg': '게시글이 등록되었습니다.' }), 201
+  except KeyError:
+    return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
   except Exception as e:
     return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
 
@@ -94,6 +96,8 @@ def updateBoard():
     }})
 
     return jsonify({ 'receiveData': receive_seq, 'msg': '게시글이 수정되었습니다.' }), 201
+  except KeyError:
+    return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
   except Exception as e:
     return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
   
@@ -153,7 +157,10 @@ def deleteBoard(id):
     elif find_board['user_obj_id'] == token_obj_id:
       print('444')
       boards_collection.delete_one({'user_obj_id': token_obj_id, 'board_seq': int(id)})
-
+    
     return jsonify({ 'msg': '게시글이 삭제되었습니다.' }), 201
+  
+  except KeyError:
+    return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
   except Exception as e:
     return jsonify({ 'msg': '게시글 삭제 중 오류가 발생했습니다.', 'error': str(e) }), 500
