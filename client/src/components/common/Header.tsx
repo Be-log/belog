@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Cookies } from 'react-cookie'
 import { useMutation } from '@tanstack/react-query'
-import { setSignOut } from '../../api/Auth'
+import { setSignOut } from '../../api/auth'
 import Button from './Button'
 import Portal from './Portal'
 
@@ -70,16 +70,18 @@ const Header = () => {
         </button>
       </section>
       <section>
-        {isLoggedIn && (
-          <LoggedInDiv>
+        <LoggedInDiv>
+          {isLoggedIn && pathname !== '/write' && (
             <Button $color={'white'} $shape={'circle'} onclick={() => navigate('/write')}>
               {'새 글 작성'}
             </Button>
+          )}
+          {isLoggedIn && (
             <Button $color={'transparent'} $shape={'circle'} onclick={signOutHandler}>
               {'로그아웃'}
             </Button>
-          </LoggedInDiv>
-        )}
+          )}
+        </LoggedInDiv>
         {!isLoggedIn && (
           <Button $color={'white'} $shape={'circle'} onclick={toggleAuthHandler}>
             {'로그인'}

@@ -8,7 +8,7 @@ import { authState, signUpIptState } from '../../recoil/AuthAtom'
 import { AuthenticationProps, IptValueStateType } from '../../interfaces/portalTypes'
 import { Image, Input, Button } from '../../components/common'
 import { welcome } from '../../assets'
-import { setSignUp, setSignIn } from '../../api/Auth'
+import { setSignUp, setSignIn } from '../../api/auth'
 import { axiosErrorType } from '../../interfaces/apiTypes'
 
 const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
@@ -94,7 +94,7 @@ const Authentication = ({ onclick, afteraction }: AuthenticationProps) => {
     },
     onError: (error: AxiosError<axiosErrorType>) => {
       isErrMsgStateHandler(false, error.response?.data.msg || '')
-      iptValueStateHandler({ value: { [error.response?.data.falseData || '']: '' } })
+      iptValueStateHandler({ value: { [error.response?.data.receiveData || '']: '' } })
     },
   })
 
