@@ -8,3 +8,7 @@ export const setBoard = async (boardData: objType) => {
 export const getBoard = async (postId: string | undefined) => {
   return getRequest(`/api/boards/${postId}`)
 }
+
+export const getBoardList = async () => {
+  return getRequest(`/api/boards`)
+}

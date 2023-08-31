@@ -64,7 +64,7 @@ def createBoard():
     return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
   
 ####################
-# [board] read
+# [board] read_one
 ####################
 @boards_bp.route('<string:id>', methods=['GET'])
 def getBoard(id):
@@ -83,5 +83,16 @@ def getBoard(id):
       'title': find_board['title'], 'thumbnail': find_board['thumbnail'], 'content': find_board['content']
     }
     return jsonify({ 'receiveObj': give_board, 'msg': '게시글이 조회되었습니다.' }), 201
+  except Exception as e:
+    return jsonify({ 'msg': '게시글 조회 중 오류가 발생했습니다.', 'error': str(e) }), 500
+  
+####################
+# [board] read_all
+####################
+@boards_bp.route('', methods=['GET'])
+def getBoardList():
+  try:
+    find_boards = list(boards_collection.find({}, {'_id': False, 'user_obj_id': False, 'update_date': False}))
+    return jsonify({ 'receiveObj': find_boards, 'msg': '게시글이 조회되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'msg': '게시글 조회 중 오류가 발생했습니다.', 'error': str(e) }), 500

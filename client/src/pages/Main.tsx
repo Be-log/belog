@@ -1,30 +1,49 @@
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { AxiosError } from 'axios'
 import { styled } from 'styled-components'
 import { Image } from '../components/common'
 import { profile, thumbnail } from '../assets'
+import { getBoardList } from '../api/board'
+import { axiosErrorType, objType } from '../interfaces/apiTypes'
 
 const Main = () => {
   const navigate = useNavigate()
 
+  const [boardList, setBoardList] = useState<objType[] | null>(null)
+
+  useQuery(['getBoardList'], () => getBoardList(), {
+    onSuccess: (response) => setBoardList(response.receiveObj),
+    onError: (error: AxiosError<axiosErrorType>) => alert(error.response?.data.msg),
+  })
+
   return (
     <WrapMain>
-      <BoxDiv onClick={() => navigate('/post')}>
-        <Image $height={150} $border={3} src={thumbnail} />
-        <BoardDiv>
-          <h1>{'한글 Lorem Ipsum'}</h1>
-          <h2>
-            {
-              '재의의 요구가 있을 때에는 국회는 재의에 붙이고, 재적의원과반수의 출석과 출석의원 3분의 2 이상의 찬성으로 전과 같은 의결을 하면 그 법률안은 법률로서 확정된다.'
-            }
-          </h2>
-          <span>{'2023년 8월 17일'}</span>
-        </BoardDiv>
-        <NicknameDiv>
-          <Image $width={24} $height={24} $border={50} src={profile} />
-          <span>{'by'}</span>
-          <h3>{'olivia-kim'}</h3>
-        </NicknameDiv>
-      </BoxDiv>
+      {boardList &&
+        boardList.map((post) => (
+          <BoxDiv key={String(post.board_seq)} onClick={() => navigate(`/post/${post.board_seq}`)}>
+            <Image $height={150} $border={3} src={String(post.thumbnail)} />
+            <BoardDiv>
+              <h1>{post.title}</h1>
+              <h2>
+                {String(post.content)
+                  .slice(0, 200)
+                  .replaceAll(/\n|_|#*/g, '')}
+              </h2>
+              <span>
+                {`${String(post.create_date).slice(0, 4)}년
+                 ${String(post.create_date).slice(5, 7)}월
+                 ${String(post.create_date).slice(8, 10)}일`}
+              </span>
+            </BoardDiv>
+            <NicknameDiv>
+              <Image $width={24} $height={24} $border={50} src={profile} />
+              <span>{'by'}</span>
+              <h3>{post.nickname}</h3>
+            </NicknameDiv>
+          </BoxDiv>
+        ))}
     </WrapMain>
   )
 }
@@ -76,6 +95,10 @@ const BoxDiv = styled.div`
   }
   & > div {
     padding: 15px;
+  }
+  & > img {
+    width: 100%;
+    object-fit: fill;
   }
   &:hover {
     transform: translateY(-10px);
