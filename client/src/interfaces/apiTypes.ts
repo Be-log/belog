@@ -9,6 +9,9 @@ export interface requestType {
 // * axios error response type
 export interface axiosErrorType {
   receiveData?: string
+  receiveObj?: {
+    [key: string]: string | number | boolean
+  }
   msg: string
 }
 

@@ -1,57 +1,105 @@
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
+import { AxiosError } from 'axios'
+import MDEditor from '@uiw/react-md-editor'
 import { styled } from 'styled-components'
-import { Image } from '../components/common'
+import { Image, Button } from '../components/common'
 import { profile } from '../assets'
+import { getBoard } from '../api/board'
+import { axiosErrorType, objType } from '../interfaces/apiTypes'
 
-const Detail = () => {
+const Post = () => {
+  const postId = useParams().id
+  const writerId = localStorage.getItem('id')
+
+  const [boardData, setBoardData] = useState<objType | null>(null)
+
+  useQuery(['getBoard'], () => getBoard(postId), {
+    onSuccess: (response) => setBoardData(response.receiveObj),
+    onError: (error: AxiosError<axiosErrorType>) => alert(error.response?.data.msg),
+  })
+
   return (
     <WrapPost>
-      <PostInfoDiv>
-        <h1>{'한글 Lorem Ipsum'}</h1>
-        <span>{'olivia-kim'}</span>
-        <span>{'·'}</span>
-        <span>{'2023년 8월 17일'}</span>
-      </PostInfoDiv>
-      <PostDataDiv>
-        {
-          '재의의 요구가 있을 때에는 국회는 재의에 붙이고, 재적의원과반수의 출석과 출석의원 3분의 2 이상의 찬성으로 전과 같은 의결을 하면 그 법률안은 법률로서 확정된다.'
-        }
-      </PostDataDiv>
-      <PostUserDiv>
-        <Image $width={128} $height={128} $border={100} src={profile} />
-        <div>
-          <h2>{'닉네임'}</h2>
-          <h3>{'소개글'}</h3>
-        </div>
-      </PostUserDiv>
+      {boardData && (
+        <>
+          <h1>{boardData.title}</h1>
+          <PostInfoDiv>
+            <UserInfoDiv>
+              <span>{boardData.nickname}</span>
+              <span>{'·'}</span>
+              <span>{boardData.date}</span>
+            </UserInfoDiv>
+            {writerId === boardData.userId && (
+              <PostEditDiv>
+                <Button>{'수정'}</Button>
+                <Button>{'삭제'}</Button>
+              </PostEditDiv>
+            )}
+          </PostInfoDiv>
+          <PostDataDiv>
+            <Image $width={1000} $height={500} src={String(boardData.thumbnail)} />
+            <MDEditor.Markdown source={String(boardData.content)} />
+          </PostDataDiv>
+          <PostUserDiv>
+            <Image $width={80} $height={80} $border={100} src={profile} />
+            <div>
+              <h2>{boardData.nickname}</h2>
+              <h3>{`@${boardData.userId}`}</h3>
+            </div>
+          </PostUserDiv>
+        </>
+      )}
     </WrapPost>
   )
 }
 
-export default Detail
+export default Post
 
 const WrapPost = styled.main`
   width: 1000px;
   margin: auto;
+  padding-bottom: 50px;
   * {
     color: ${({ theme }) => theme.darkWhite};
+  }
+  h1 {
+    padding-top: 70px;
+    font-size: 50px;
+    font-weight: 600;
   }
 `
 
 const PostInfoDiv = styled.section`
   padding-top: 30px;
-  h1 {
-    padding: 40px 0;
-    font-size: 50px;
-    font-weight: 600;
-  }
+  display: flex;
+  justify-content: space-between;
+`
+
+const UserInfoDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   span {
     font-size: 18px;
   }
-  span:nth-child(3) {
-    margin: 0 5px;
+  span:nth-child(1) {
+    font-weight: 600;
   }
-  span:nth-child(4) {
+  span:nth-child(3) {
+    font-size: 16px;
     color: ${({ theme }) => theme.gray};
+  }
+`
+
+const PostEditDiv = styled.section`
+  display: flex;
+  gap: 15px;
+  justify-content: end;
+  button {
+    font-weight: 400;
+    padding: 0;
   }
 `
 
@@ -60,6 +108,9 @@ const PostDataDiv = styled.section`
   padding: 30px 0 100px 0;
   border-top: 1px solid ${({ theme }) => theme.deepGray};
   font-size: 18px;
+  img {
+    margin-bottom: 20px;
+  }
 `
 
 const PostUserDiv = styled.section`
@@ -76,7 +127,6 @@ const PostUserDiv = styled.section`
     font-weight: 600;
   }
   h3 {
-    margin-top: 5px;
-    font-size: 18px;
+    margin-top: 3px;
   }
 `

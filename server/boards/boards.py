@@ -4,6 +4,7 @@ import json
 from pymongo import MongoClient
 from pymongo.collection import Collection
 from bson import ObjectId
+from datetime import datetime
 import certifi
 from . import boards_bp
 
@@ -50,11 +51,37 @@ def createBoard():
     )
     board_seq = sequence_doc['sequence_value']
 
+    current_datetime = str(datetime.now())[0:10]
+
     boards_collection.insert_one({
-      'board_seq': board_seq, 'user_obj_id': user_data['_id'],
-      'title': receive_title, 'thumbnail': receive_thumbnail, 'content': receive_content
+      'board_seq': board_seq, 'user_obj_id': user_data['_id'], 'user_id': user_data['user_id'], 'nickname': user_data['nickname'],
+      'title': receive_title, 'thumbnail': receive_thumbnail, 'content': receive_content,
+      'create_date': current_datetime, 'update_date': current_datetime,
     })
 
     return jsonify({ 'receiveData': board_seq, 'msg': '게시글이 등록되었습니다.' })
   except Exception as e:
     return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
+  
+####################
+# [board] read
+####################
+@boards_bp.route('<string:id>', methods=['GET'])
+def getBoard(id):
+  try:
+    receive_id = int(id)
+
+    find_board = boards_collection.find_one({ 'board_seq': receive_id })
+    if find_board is None:
+      return jsonify({ 'msg': '해당 게시글이 존재하지 않습니다.' }), 404
+    
+    set_date_str = datetime.strptime(find_board['create_date'], '%Y-%m-%d').strftime('%Y년 %m월 %d일')
+
+    give_board = {
+      'boardId': find_board['board_seq'], 'writer': str(find_board['user_obj_id']),
+      'userId': find_board['user_id'], 'nickname': find_board['nickname'], 'date': set_date_str,
+      'title': find_board['title'], 'thumbnail': find_board['thumbnail'], 'content': find_board['content']
+    }
+    return jsonify({ 'receiveObj': give_board, 'msg': '게시글이 조회되었습니다.' }), 201
+  except Exception as e:
+    return jsonify({ 'msg': '게시글 조회 중 오류가 발생했습니다.', 'error': str(e) }), 500
