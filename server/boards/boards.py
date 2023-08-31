@@ -63,6 +63,39 @@ def createBoard():
     return jsonify({ 'receiveData': board_seq, 'msg': '게시글이 등록되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
+
+####################
+# [board] update
+####################
+@boards_bp.route('', methods=['PUT'])
+@jwt_required()
+def updateBoard():
+  try:
+    receive_toekn = get_jwt_identity()
+    token_obj_id = ObjectId(receive_toekn)
+    get_params = request.get_json()
+    receive_title = get_params['title']
+    receive_thumbnail = get_params['thumbnail']
+    receive_content = get_params['content']
+    receive_seq = get_params['postId']
+    user_data = users_collection.find_one({ '_id': token_obj_id })
+
+
+    if not all(key in get_params for key in ['title', 'thumbnail', 'content']):
+      return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
+
+    if user_data is None:
+      return jsonify({ 'msg': '사용자 정보를 찾을 수 없습니다.' }), 404
+    
+    current_datetime = str(datetime.now())[0:10]
+
+    boards_collection.update_one({'board_seq': int(receive_seq)}, {'$set': {
+      'title': receive_title, 'thumbnail': receive_thumbnail, 'content': receive_content, 'update_date': current_datetime,
+    }})
+
+    return jsonify({ 'receiveData': receive_seq, 'msg': '게시글이 수정되었습니다.' }), 201
+  except Exception as e:
+    return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
   
 ####################
 # [board] read_one

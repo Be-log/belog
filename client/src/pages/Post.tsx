@@ -22,6 +22,18 @@ const Post = () => {
     onError: (error: AxiosError<axiosErrorType>) => alert(error.response?.data.msg),
   })
 
+  // * [수정] btn click
+  const onEditClickHandler = () => {
+    navigate(`/write`, {
+      state: {
+        title: boardData && boardData.title,
+        thumbnail: boardData && boardData.thumbnail,
+        content: boardData && boardData.content,
+        postId,
+      },
+    })
+  }
+
   // * [삭제] useMutation
   const setDeleteBoardMutation = useMutation(deleteBoard, {
     onSuccess: (response) => {
@@ -55,7 +67,7 @@ const Post = () => {
             </UserInfoDiv>
             {loginId === boardData.userId && (
               <PostEditDiv>
-                <Button>{'수정'}</Button>
+                <Button onclick={onEditClickHandler}>{'수정'}</Button>
                 <Button onclick={onDeleteClickHandler}>{'삭제'}</Button>
               </PostEditDiv>
             )}

@@ -1,8 +1,11 @@
 import { objType } from '../interfaces/apiTypes'
-import { getRequest, postRequest, deleteRequest } from './interceptor'
+import { getRequest, postRequest, deleteRequest, putRequest } from './interceptor'
 
-export const setBoard = async (boardData: objType) => {
-  return postRequest({ url: `/api/boards`, params: boardData })
+export const setBoard = async (newData: objType) => {
+  const { type, ...boardData } = newData
+  return type === 'post'
+    ? postRequest({ url: `/api/boards`, params: boardData })
+    : putRequest({ url: `/api/boards`, params: boardData })
 }
 
 export const getBoard = async (postId: string | undefined) => {

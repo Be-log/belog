@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import MDEditor from '@uiw/react-md-editor'
 import { useMutation } from '@tanstack/react-query'
@@ -10,11 +10,23 @@ import { axiosErrorType } from '../interfaces/apiTypes'
 
 const Write = () => {
   const navigate = useNavigate()
+  const beforeValue = useLocation().state
 
   const [title, setTitle] = useState('')
   const [thumbnail, setThumbnail] = useState('')
   const [isValidImg, setIsValidImg] = useState(false)
   const [content, setContent] = useState<string | undefined>('')
+  const [postId, setPostId] = useState<number | null>(null)
+
+  // * [수정] 초기 데이터 세팅
+  useEffect(() => {
+    if (beforeValue) {
+      setTitle(beforeValue.title)
+      setThumbnail(beforeValue.thumbnail)
+      setContent(beforeValue.content)
+      setPostId(beforeValue.postId)
+    }
+  }, [])
 
   // * Input onChange
   const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
@@ -32,7 +44,7 @@ const Write = () => {
     img.src = url
   }
 
-  // * 게시글 작성 useMutation
+  // * [작성] useMutation
   const setBoardMutation = useMutation(setBoard, {
     onSuccess: (response) => {
       alert(response.msg)
@@ -46,6 +58,8 @@ const Write = () => {
   // * submitHandler
   const onBoardSubmitHandler = () => {
     const nickname = localStorage.getItem('nickname') || ''
+    const type = beforeValue ? 'put' : 'post'
+    let newData = {}
 
     if (!title.length || !content || !thumbnail) {
       alert('입력되지 않은 값이 있습니다.')
@@ -56,13 +70,26 @@ const Write = () => {
       return
     }
 
-    const boardData = {
-      nickname,
-      title,
-      thumbnail,
-      content,
+    if (type === 'put' && postId) {
+      newData = {
+        type,
+        nickname,
+        title,
+        thumbnail,
+        content,
+        postId,
+      }
+    } else {
+      newData = {
+        type,
+        nickname,
+        title,
+        thumbnail,
+        content,
+      }
     }
-    setBoardMutation.mutate(boardData)
+
+    setBoardMutation.mutate(newData)
   }
 
   return (
