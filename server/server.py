@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 import json
 from users.users import users_bp
+from boards.boards import boards_bp
 
 app = Flask(__name__)
 
@@ -25,6 +26,7 @@ jwt = JWTManager(app)
 
 # Blueprint
 app.register_blueprint(users_bp, url_prefix='/api/users')
+app.register_blueprint(boards_bp, url_prefix='/api/boards')
 
 if __name__ == '__main__':
   app.run(debug=True)

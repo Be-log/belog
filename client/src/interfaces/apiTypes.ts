@@ -8,7 +8,7 @@ export interface requestType {
 
 // * axios error response type
 export interface axiosErrorType {
-  falseData?: string
+  receiveData?: string
   msg: string
 }
 
