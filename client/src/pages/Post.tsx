@@ -1,17 +1,19 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import MDEditor from '@uiw/react-md-editor'
 import { styled } from 'styled-components'
 import { Image, Button } from '../components/common'
 import { profile } from '../assets'
-import { getBoard } from '../api/board'
+import { getBoard, deleteBoard } from '../api/board'
 import { axiosErrorType, objType } from '../interfaces/apiTypes'
 
 const Post = () => {
   const postId = useParams().id
   const loginId = localStorage.getItem('id')
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const [boardData, setBoardData] = useState<objType | null>(null)
 
@@ -19,6 +21,26 @@ const Post = () => {
     onSuccess: (response) => setBoardData(response.receiveObj),
     onError: (error: AxiosError<axiosErrorType>) => alert(error.response?.data.msg),
   })
+
+  // * [삭제] useMutation
+  const setDeleteBoardMutation = useMutation(deleteBoard, {
+    onSuccess: (response) => {
+      alert(response.msg)
+      navigate('/')
+      queryClient.invalidateQueries({ queryKey: ['getBoardList'] })
+    },
+    onError: (error: AxiosError<axiosErrorType>) => {
+      alert(error.response?.data.msg)
+    },
+  })
+
+  // * [삭제] btn click
+  const onDeleteClickHandler = () => {
+    const isDeleteChk = window.confirm('게시글을 삭제하시겠습니까?')
+    if (isDeleteChk) {
+      setDeleteBoardMutation.mutate(postId)
+    }
+  }
 
   return (
     <WrapPost>
@@ -34,7 +56,7 @@ const Post = () => {
             {loginId === boardData.userId && (
               <PostEditDiv>
                 <Button>{'수정'}</Button>
-                <Button>{'삭제'}</Button>
+                <Button onclick={onDeleteClickHandler}>{'삭제'}</Button>
               </PostEditDiv>
             )}
           </PostInfoDiv>

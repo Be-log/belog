@@ -29,17 +29,18 @@ jwt = JWTManager()
 @jwt_required()
 def createBoard():
   try:
+    receive_toekn = get_jwt_identity()
+    token_obj_id = ObjectId(receive_toekn)
     get_params = request.get_json()
     receive_title = get_params['title']
     receive_thumbnail = get_params['thumbnail']
     receive_content = get_params['content']
-    receive_toekn = get_jwt_identity()
-    token_obj_id = ObjectId(receive_toekn)
     user_data = users_collection.find_one({ '_id': token_obj_id })
+
 
     if not all(key in get_params for key in ['title', 'thumbnail', 'content']):
       return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
-        
+
     if user_data is None:
       return jsonify({ 'msg': '사용자 정보를 찾을 수 없습니다.' }), 404
 
@@ -96,3 +97,30 @@ def getBoardList():
     return jsonify({ 'receiveObj': find_boards, 'msg': '게시글이 조회되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'msg': '게시글 조회 중 오류가 발생했습니다.', 'error': str(e) }), 500
+  
+####################
+# [board] delete
+####################
+@boards_bp.route('<string:id>', methods=['DELETE'])
+@jwt_required()
+def deleteBoard(id):
+  try:
+    receive_token = get_jwt_identity()
+    token_obj_id = ObjectId(receive_token)
+
+    find_board = boards_collection.find_one({ 'board_seq': int(id) })
+    print('111')
+
+    if find_board is None:
+      print('222')
+      return jsonify({ 'msg': '해당 게시글을 찾을 수 없습니다.' }), 404
+    elif find_board['user_obj_id'] != token_obj_id:
+      print('333')
+      return jsonify({ 'msg': '작성자의 정보가 일치하지 않습니다.' }), 403
+    elif find_board['user_obj_id'] == token_obj_id:
+      print('444')
+      boards_collection.delete_one({'user_obj_id': token_obj_id, 'board_seq': int(id)})
+
+    return jsonify({ 'msg': '게시글이 삭제되었습니다.' }), 201
+  except Exception as e:
+    return jsonify({ 'msg': '게시글 삭제 중 오류가 발생했습니다.', 'error': str(e) }), 500
