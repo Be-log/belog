@@ -27,10 +27,9 @@ jwt = JWTManager()
 ####################
 @boards_bp.route('', methods=['POST'])
 @jwt_required()
-def createBoard():
+def create_board():
   try:
-    receive_toekn = get_jwt_identity()
-    token_obj_id = ObjectId(receive_toekn)
+    token_obj_id = ObjectId(get_jwt_identity())
     get_params = request.get_json()
     receive_title = get_params['title']
     receive_thumbnail = get_params['thumbnail']
@@ -52,7 +51,7 @@ def createBoard():
     )
     board_seq = sequence_doc['sequence_value']
 
-    current_datetime = str(datetime.now())[0:10]
+    current_datetime = datetime.now().strftime('%Y-%m-%d')
 
     boards_collection.insert_one({
       'board_seq': board_seq, 'user_obj_id': user_data['_id'], 'user_id': user_data['user_id'], 'nickname': user_data['nickname'],
@@ -71,10 +70,9 @@ def createBoard():
 ####################
 @boards_bp.route('', methods=['PUT'])
 @jwt_required()
-def updateBoard():
+def update_board():
   try:
-    receive_toekn = get_jwt_identity()
-    token_obj_id = ObjectId(receive_toekn)
+    token_obj_id = ObjectId(get_jwt_identity())
     get_params = request.get_json()
     receive_title = get_params['title']
     receive_thumbnail = get_params['thumbnail']
@@ -86,10 +84,10 @@ def updateBoard():
     if not all(key in get_params for key in ['title', 'thumbnail', 'content']):
       return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
 
-    if user_data is None:
+    if not user_data:
       return jsonify({ 'msg': '사용자 정보를 찾을 수 없습니다.' }), 404
     
-    current_datetime = str(datetime.now())[0:10]
+    current_datetime = datetime.now().strftime('%Y-%m-%d')
 
     boards_collection.update_one({'board_seq': int(receive_seq)}, {'$set': {
       'title': receive_title, 'thumbnail': receive_thumbnail, 'content': receive_content, 'update_date': current_datetime,
@@ -99,18 +97,18 @@ def updateBoard():
   except KeyError:
     return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
   except Exception as e:
-    return jsonify({ 'msg': '게시글 등록 중 오류가 발생했습니다.', 'error': str(e) }), 500
+    return jsonify({ 'msg': '게시글 수정 중 오류가 발생했습니다.', 'error': str(e) }), 500
   
 ####################
 # [board] read_one
 ####################
 @boards_bp.route('<string:id>', methods=['GET'])
-def getBoard(id):
+def get_board(id):
   try:
     receive_id = int(id)
-
     find_board = boards_collection.find_one({ 'board_seq': receive_id })
-    if find_board is None:
+
+    if not find_board:
       return jsonify({ 'msg': '해당 게시글이 존재하지 않습니다.' }), 404
     
     set_date_str = datetime.strptime(find_board['create_date'], '%Y-%m-%d').strftime('%Y년 %m월 %d일')
@@ -128,9 +126,11 @@ def getBoard(id):
 # [board] read_all
 ####################
 @boards_bp.route('', methods=['GET'])
-def getBoardList():
+def get_board_list():
   try:
-    find_boards = list(boards_collection.find({}, {'_id': False, 'user_obj_id': False, 'update_date': False}))
+    find_boards = list(boards_collection.find(
+      {}, {'_id': False, 'user_obj_id': False, 'update_date': False}
+      ).sort([('board_seq', -1)]))
     return jsonify({ 'receiveObj': find_boards, 'msg': '게시글이 조회되었습니다.' }), 201
   except Exception as e:
     return jsonify({ 'msg': '게시글 조회 중 오류가 발생했습니다.', 'error': str(e) }), 500
@@ -140,26 +140,18 @@ def getBoardList():
 ####################
 @boards_bp.route('<string:id>', methods=['DELETE'])
 @jwt_required()
-def deleteBoard(id):
+def delete_board(id):
   try:
-    receive_token = get_jwt_identity()
-    token_obj_id = ObjectId(receive_token)
-
+    token_obj_id = ObjectId(get_jwt_identity())
     find_board = boards_collection.find_one({ 'board_seq': int(id) })
-    print('111')
 
-    if find_board is None:
-      print('222')
+    if not find_board:
       return jsonify({ 'msg': '해당 게시글을 찾을 수 없습니다.' }), 404
     elif find_board['user_obj_id'] != token_obj_id:
-      print('333')
       return jsonify({ 'msg': '작성자의 정보가 일치하지 않습니다.' }), 403
-    elif find_board['user_obj_id'] == token_obj_id:
-      print('444')
+    else:
       boards_collection.delete_one({'user_obj_id': token_obj_id, 'board_seq': int(id)})
-    
-    return jsonify({ 'msg': '게시글이 삭제되었습니다.' }), 201
-  
+      return jsonify({ 'msg': '게시글이 삭제되었습니다.' }), 200
   except KeyError:
     return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
   except Exception as e:
