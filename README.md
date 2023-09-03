@@ -345,7 +345,7 @@
   <br/>로그아웃 될 수 있도록 구현하였습니다.
 
 - 게시글 작성 시에는 모든 토큰과 저장된 값이 유효한지 먼저 체크했고,
-<br/>작성 도중 로그아웃하거나 정보을 임의 삭제할 때도 해당 인가가 유효하지 않도록 처리했습니다.
+<br/>작성 도중 로그아웃하거나 정보를 임의 삭제할 때도 해당 인가가 유효하지 않도록 처리했습니다.
 
   <br/>
 </details>
@@ -459,10 +459,10 @@
 
 <br/>
 
-<div style="color: gray; text-align: center">
-  <i>
+<p align="center">
+  <i style="color: gray; text-align: center">
     Hansol Olivia Kim
     | <a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/hansololiviakim">@GitHub</a>
     | <a target="_blank" rel="noopener noreferrer nofollow" href="https://oliviakim.tistory.com/">@Blog</a>
   </i>
-</div>
+</p>
