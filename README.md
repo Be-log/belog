@@ -2,7 +2,7 @@
 
 ---
 
-<p align="center"><img src="https://github.com/Be-log/be-log/assets/84097192/1be305d2-52ec-4926-86f0-fb38f67a7969" alt="main" /></p>
+<p align="center"><img src="https://www.hansololiviakim.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbelog.c8a08c1a.png&w=640&q=75" alt="main" /></p>
 
 <br/><br/>
 
