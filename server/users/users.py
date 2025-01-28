@@ -40,7 +40,7 @@ def post_signup():
   except KeyError:
     return jsonify({ 'msg': '필수 정보가 누락되었습니다.' }), 400
   except Exception as e:
-    return jsonify({'msg': '회원가입 중 오류가 발생했습니다.', 'error': str(e)}), 50
+    return jsonify({'msg': '회원가입 중 오류가 발생했습니다.', 'error': str(e)}), 500
 
 ####################
 # [user] SignIn
